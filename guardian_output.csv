@@ -1,0 +1,83 @@
+case_id,name,age_years,gender,height_in,weight_lbs,last_seen_location,last_seen_lat,last_seen_lon,last_seen_ts,case_status,incident_summary
+GRD-2025-000001,,16.0,female,61.0,135.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000002,,16.0,male,61.0,137.5,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000003,,16.0,male,72,160.0,"Seven Corners, Virginia 22044",38.8659197,-77.1441138,2023-04-21T00:00:00-04:00,ongoing,
+GRD-2025-000004,,15.0,male,64,125.0,"Falls Church, Virginia 22042",38.882334,-77.1710914,2022-05-01T00:00:00-04:00,ongoing,
+GRD-2025-000005,,16.0,female,63,120.0,"Front Royal, Virginia 22630",38.9178538,-78.1917718,,ongoing,
+GRD-2025-000006,,16.0,male,61.0,145.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000007,,14.0,female,60,100.0,"Goode, Virginia 24556",37.3587528,-79.391696,,ongoing,
+GRD-2025-000008,,16.0,male,63,120.0,"Woodlawn, Virginia 24381",38.7309415,-77.1127241,2023-12-31T00:00:00-05:00,ongoing,
+GRD-2025-000009,,16.0,female,58.5,115.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000010,,14.0,male,63.5,135.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000011,,16.0,female,65,120.0,"Dumfries, Virginia 22026",38.5674096,-77.3267652,,ongoing,
+GRD-2025-000012,,15.0,male,69,197.0,"Lynchburg, Virginia 24501",37.4137536,-79.1422464,,ongoing,
+GRD-2025-000013,,15.0,female,61.0,100.0,"Woodstock, Virginia 22664",38.8817784,-78.5058429,2023-12-08T00:00:00-05:00,ongoing,
+GRD-2025-000014,,14.0,male,69.0,140.0,"North Chesterfield, Virginia 23235",37.5056125,-77.6087021,2017-06-28T00:00:00-04:00,ongoing,
+GRD-2025-000015,,15.0,female,53,103.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,2022-09-13T00:00:00-04:00,ongoing,
+GRD-2025-000016,,15.0,male,60,118.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000017,,17.0,male,62,140.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000018,,15.0,female,62.0,110.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000019,,16.0,male,60,90.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000020,,16.0,male,64,120.0,"Culpeper, Virginia 22701",38.4733823,-77.9961275,,ongoing,
+GRD-2025-000021,,16.0,female,,,"Newport News, VA",36.9775016,-76.42977,2025-09-08T00:00:00-04:00,ongoing,A BEIGE HOODIE. SHE HAS BRACES AND ALSO HAS A NOSE RING.
+GRD-2025-000022,,16.0,female,,,"Danville, VA",36.5879877,-79.3916713,2025-07-27T00:00:00-04:00,ongoing,
+GRD-2025-000023,,16.0,male,,,"County, VA",37.2611268,-76.6345651,2025-02-25T00:00:00-05:00,ongoing,"DARK PANTS, A BLACK HOODIE"
+GRD-2025-000024,,2.0,female,,,"Fairfax County, VA",38.8156356,-77.2836849,2025-06-23T00:00:00-04:00,ongoing,
+GRD-2025-000025,,14.0,female,,,"Norfolk, VA",36.8493695,-76.2899539,2025-07-13T00:00:00-04:00,ongoing,
+GRD-2025-000026,,13.0,female,,,"Portsmouth, VA",36.8320081,-76.297699,2025-07-11T00:00:00-04:00,ongoing,"PINK PANTS, PURPLE TOP, AND PURPLE CROCS."
+GRD-2025-000027,,17.0,male,,,"Orange, VA",38.2490349,-78.013983,2025-08-09T00:00:00-04:00,ongoing,A WHITE T-SHIRT AND GRAY PANTS.
+GRD-2025-000028,,17.0,male,,,"Bristol, VA",36.5959685,-82.1885009,2025-08-20T00:00:00-04:00,ongoing,
+GRD-2025-000029,,5.0,female,,,"Chesapeake, VA",36.7168315,-76.2494453,2025-06-21T00:00:00-04:00,ongoing,
+GRD-2025-000030,,9.0,male,,,"Chesapeake, VA",36.7168315,-76.2494453,2025-06-21T00:00:00-04:00,ongoing,
+GRD-2025-000031,,17.0,female,,,"Alexandria, VA",38.8051095,-77.0470229,2025-08-25T00:00:00-04:00,ongoing,
+GRD-2025-000032,,16.0,male,,,"Henrico County, VA",37.5131191,-77.3465081,2025-08-26T00:00:00-04:00,ongoing,A NAVY SHIRT WITH A PUMA ON THE FRONT AND BLACK SWEATPANTS. HE
+GRD-2025-000033,,17.0,male,,,"Loudoun County, VA",39.0984586,-77.6705008,2025-08-27T00:00:00-04:00,ongoing,BLUE
+GRD-2025-000034,,17.0,male,,,"Hopewell, VA",37.3043154,-77.2872001,2025-08-30T00:00:00-04:00,ongoing,
+GRD-2025-000035,,15.0,female,,,"Portsmouth, VA",36.8320081,-76.297699,2025-08-28T00:00:00-04:00,ongoing,"A BLACK T-SHIRT, BLACK PANTS, AND BLACK CROCS. HER HAIR IS STYLED IN"
+GRD-2025-000036,,15.0,female,,,"Virginia Beach, VA",36.8496579,-75.9760751,2025-09-01T00:00:00-04:00,ongoing,A BLACK SHIRT AND BLACK PANTS. SHE HAS MEDICAL CONDITIONS AND
+GRD-2025-000037,,16.0,male,,,"Chesapeake, VA",36.7168315,-76.2494453,2025-09-02T00:00:00-04:00,ongoing,"A BLACK SKULL CAP, BLACK HOODIE, RED WINDBREAKER PANTS W"
+GRD-2025-000038,,17.0,male,,,"Isle Of Wight County, VA",36.8953677,-76.7248143,2025-09-01T00:00:00-04:00,ongoing,
+GRD-2025-000039,,17.0,female,,,"Prince William County, VA",38.7389846,-77.5536743,2025-09-03T00:00:00-04:00,ongoing,A RED HOODIE WITH CLOUDS AND BLACK LEGGINGS. SHE MAY BE
+GRD-2025-000040,,17.0,female,,,"Dinwiddie County, VA",37.0712818,-77.6480714,2025-09-04T00:00:00-04:00,ongoing,
+GRD-2025-000041,,16.0,male,,,"Fairfax County, VA",38.8156356,-77.2836849,2025-09-04T00:00:00-04:00,ongoing,"A BLACK SWEATSHIRT WITH RED WRITING, BLACK JOGGERS AND BLACK"
+GRD-2025-000042,,16.0,female,,,"Suffolk, VA",36.7281341,-76.5834683,2025-09-04T00:00:00-04:00,ongoing,
+GRD-2025-000043,,14.0,female,,,"Portsmouth, VA",36.8320081,-76.297699,2025-09-04T00:00:00-04:00,ongoing,"BLACK ED HARDY SWEATPANTS, WHITE HOODIE W"
+GRD-2025-000044,,17.0,female,,,"Leesburg, VA",39.1154506,-77.5645607,2025-09-04T00:00:00-04:00,ongoing,"A BLACK HOODIE, BLACK LONG SLEEVE SHIRT, GRAY SWEATPANTS, BLACK"
+GRD-2025-000045,,16.0,male,,,"Richmond City, VA",37.5433591,-77.4353135,2025-09-04T00:00:00-04:00,ongoing,
+GRD-2025-000046,,16.0,female,,,"Norfolk, VA",36.8493695,-76.2899539,2025-09-03T00:00:00-04:00,ongoing,"A CREAM SWEATER WITH DOGS ON IT, BLACK LEGGINGS, AND"
+GRD-2025-000047,,17.0,female,,,"Richmond City, VA",37.5433591,-77.4353135,2025-09-05T00:00:00-04:00,ongoing,A WHITE JUICY COUTURE OUTFIT WITH WHITE
+GRD-2025-000048,,15.0,female,,,"Hampton, VA",37.0264414,-76.3442846,2025-09-05T00:00:00-04:00,ongoing,RED PAJAMAS AND A RED HOODIE. SHE HAS MEDICAL CONDITIONS
+GRD-2025-000049,,14.0,male,,,"Alexandria, VA",38.8051095,-77.0470229,2025-09-04T00:00:00-04:00,ongoing,
+GRD-2025-000050,,17.0,male,,,"Prince William County, VA",38.7389846,-77.5536743,2025-09-05T00:00:00-04:00,ongoing,A BLACK HOODIE AND PANTS.
+GRD-2025-000051,,16.0,male,,,"Roanoke City, VA",37.2656425,-79.925442,2025-09-06T00:00:00-04:00,ongoing,BLACK SHORTS.
+GRD-2025-000052,,14.0,male,,,"Richmond City, VA",37.5433591,-77.4353135,2025-09-06T00:00:00-04:00,ongoing,
+GRD-2025-000053,,14.0,female,,,"Norfolk, VA",36.8493695,-76.2899539,2025-09-07T00:00:00-04:00,ongoing,ALL BLACK AND WHITE SHOES. SHE HAS A MEDICAL CONDITION THAT
+GRD-2025-000054,,14.0,female,,,"Suffolk, VA",36.7281341,-76.5834683,2025-09-06T00:00:00-04:00,ongoing,
+GRD-2025-000055,,15.0,female,,,"Fairfax County, VA",38.8156356,-77.2836849,2025-09-05T00:00:00-04:00,ongoing,
+GRD-2025-000056,,16.0,female,,,"Arlington County, VA",38.8769326,-77.0893094,2025-09-02T00:00:00-04:00,ongoing,A BLACK
+GRD-2025-000057,,,female,,100.0,,0.0,0.0,1977-02-07,ongoing,
+GRD-2025-000058,,,male,,150.0,,0.0,0.0,1993-08-31,ongoing,
+GRD-2025-000059,,,female,,135.0,,0.0,0.0,1974-03-04,ongoing,
+GRD-2025-000060,,,female,,65.0,,0.0,0.0,2000-08-18,ongoing,
+GRD-2025-000061,The Charley Project,,male,36,60.0,"Hampton, Virginia",37.0264414,-76.3442846,2022-01-31T00:00:00-05:00,ongoing,"Codi was last seen asleep at the Buckroe Pointe town homes in the 100 block of Ranalet Drive in Hampton, Virginia at 2:00 a.m. on January 31, 2022. He lived with his father and three brothers, a five-year-old and two-year-old twins. His father, Cory Jamar Bigsby, said he woke up to find his son missing. He notified police at 9:00 a.m. that same day. A photo of Cory is posted with this case summary. In addition to his four children who lived with him on Ranalet Drive, he and his estranged wife ha"
+GRD-2025-000062,The Charley Project,,female,68.5,115.0,"West Point, Virginia",37.5315303,-76.7963566,1957-05-20T00:00:00-04:00,ongoing,"Elsie was last seen by a police officer in West Point, Virginia at 11:00 p.m. on May 20, 1957. She was walking down the street, carrying two suitcases, at the time. She has never been heard from again. Elsie was finishing her sophomore year at West Point High School when she went missing; she was an above-average student. At the time of her disappearance, she lived with her adoptive father on Fifth Street; her mother had died two years previously. Her father didn't realize she was missing for so"
+GRD-2025-000063,The Charley Project,,male,51,45.0,"Charlottesville, Virginia",38.029306,-78.4766781,2013-09-28T00:00:00-04:00,ongoing,"Ethan and his brother, Jeremy, were abducted by their non-custodial father from Charlottesville, Virginia on September 28, 2013. Information and photos for the boys' father are unavailable. They were last seen in India in December 2014, and may still be there. Few details are available in the children's cases."
+GRD-2025-000064,The Charley Project,,male,74,170.0,"South Boston, Virginia",36.6987494,-78.9013987,2010-12-04T00:00:00-05:00,ongoing,"Forest disappeared from South Boston, Virginia on December 4, 2010. He was a student at Carlbrook School, a boarding school for teenagers with academic and behavioral problems. He had previously attended Diamond Ranch Academy, a residential treatment facility in Utah. Forest left the Carlbook campus at 7:30 p.m., taking some clothing. He may have been en route to Danville, Virginia or Durham, North Carolina. Authorities believe he left of his own accord. Few details are available in his case."
+GRD-2025-000065,,,male,,38.0,,0.0,0.0,,ongoing,
+GRD-2025-000066,,,male,,60.0,,0.0,0.0,2009-08-22,ongoing,
+GRD-2025-000067,The Charley Project,,male,30,35.0,"Fairfax, Virginia",38.8462236,-77.3063733,,ongoing,"Haydn disappeared from Fairfax, Virginia on January 28, 2010. He was abducted by his non-custodial mother, Lin Lan. A felony warrant for kidnapping was issued for her on February 17, 2010. A photo of Lan is posted with this case summary. Her date of birth is May 1, 1972, making her 37 years old at the time of Haydn's abduction. She's described as Asian, 5'4 and 135 pounds, with black hair and brown eyes. Lan may use the alias date of birth May 7, 1972 and the alias first names Maggie and/or Pepp"
+GRD-2025-000068,,,female,,115.0,,0.0,0.0,1972-05-11,ongoing,
+GRD-2025-000069,,,female,,84.0,,0.0,0.0,,ongoing,
+GRD-2025-000070,The Charley Project,,male,53,47.0,"Richmond, Virginia",37.5385087,-77.43428,1990-04-16T00:00:00-04:00,ongoing,"Jamal's stepmother dropped him and his eight-year-old brother, Basil, off at their mother's apartment in the 1700 block Clarkson Road on April 16, 1990. The boys went outside to play in the front yard at 2:30 p.m. while their mother, Tambra Ellis, went to sleep inside. She had worked the night shift the day before. Ellis woke up after a nap and searched for her sons, but couldn't find them. After forty-five minutes of searching, she contacted the police. The boys never returned to their apartmen"
+GRD-2025-000071,,,female,,100.0,,0.0,0.0,1987-02-10,ongoing,
+GRD-2025-000072,The Charley Project,,male,57,58.0,"Charlottesville, Virginia",38.029306,-78.4766781,2013-09-28T00:00:00-04:00,ongoing,"Jeremy and his brother, Ethan, were abducted by their non-custodial father from Charlottesville, Virginia on September 28, 2013. Information and photos for the boys' father are unavailable. They were last seen in India in December 2014, and may still be there. Few details are available in the children's cases."
+GRD-2025-000073,The Charley Project,,female,58,90.0,"Charlottesville, Virginia",38.029306,-78.4766781,,ongoing,"Katie was last seen at the home of a friend, Tammy Gates, in the 2700 block of McElroy Drive in Charlottesville, Virginia on July 12, 1982. She was spending the night with her Tammy; her own family lived in an apartment in the Four Seasons subdivision off Rio Road. Katie's friend's mother, Carrie Gates, called Katie's parents early that morning, thinking the girl had returned to her own apartment. https://charleyproject.org/case/katherine-sybil-worsky 3/7 9/9/25, 8:50 PM Katherine Sybil Worsky -"
+GRD-2025-000074,,,male,,155.0,,0.0,0.0,1997-09-09,ongoing,
+GRD-2025-000075,The Charley Project,,female,37,40.0,"Waynesboro, Virginia",38.0686668,-78.8893999,2021-02-01T00:00:00-05:00,ongoing,"Khaleesi was last seen sometime in February 2021, but she was not reported missing until September. At the time of her disappearance, she was in the care of Candi Jo Royer and lived with her in Waynesboro, Virginia. Khaleesi's mother, Amanda G. Arey, had placed her daughter in Royer's care in October 2020, while Arey was incarcerated in the Middle River Regional Jail for parole violation. Royer was reported missing on September 3 and was believed to be with her boyfriend, Travis Brown, who had b"
+GRD-2025-000076,,,female,,60.0,,0.0,0.0,2009-08-22,ongoing,
+GRD-2025-000077,The Charley Project,,female,36,38.0,,0.0,0.0,1989-12-03T00:00:00-05:00,ongoing,"Melissa was last seen at a holiday party in the Woodside Apartment Clubhouse, at approximately 10:00 p.m. on December 3, 1989 in Lorton, Virginia. Her family resided in the apartment complex. Melissa and her mother were about to leave the party but Melissa went to get some more potato chips before they left, and was never seen again. There were approximately eighty guests present at the party at the time. https://charleyproject.org/case/melissa-lee-brannen 5/9 9/9/25, 8:40 PM Melissa Lee Brannen"
+GRD-2025-000078,The Charley Project,,male,57,89.0,"Charlottesville, Virginia",38.029306,-78.4766781,1998-07-04T00:00:00-04:00,ongoing,"Quinn was last seen on Friendship Court in his hometown of Charlottesville, Virginia on July 4, 1998. He was at home by himself that day, and when his father came home he was gone. There was no note, and he left all his belongings behind. He has never been heard from again. Authorities initially thought Quinn left of his own accord, and after he went missing they got tips that could be in the company of drug dealers in the Harlem, New York or Detroit, Michigan areas. However, he never resurfaced"
+GRD-2025-000079,,,female,,139.0,,0.0,0.0,1997-02-18,ongoing,
+GRD-2025-000080,The Charley Project,,female,64,82.0,"Roanoke, Virginia",37.270973,-79.9414313,1977-02-07T00:00:00-05:00,ongoing,"Tammy and her friend, Angela Rader, were dropped off at William Ruffner Junior High School by one of the girls' relatives on February 7, 1977 in Roanoke, Virginia. The girls did not attend classes that day and were last seen hitchhiking in the city. Neither girl has been heard from again. Angela and Tammy had run away together several times before their disappearances in 1977. The police originally did not take their disappearances seriously as a result. Several months after their disappearances"
+GRD-2025-000081,The Charley Project,,female,52,45.0,"Virginia Beach, Virginia",36.8496579,-75.9760751,2019-04-08T00:00:00-04:00,ongoing,"Vitaliya was last seen in Virginia Beach, Virginia on April 8, 2019. She has never been heard from again. Authorities believe she was abducted by her non-custodial mother, Galina Yarovitskaya. Galina's date of birth is February 29, 1988, making her 31 years old at the time. Photos and further information about her are unavailable. Vitaliya's whereabouts are unknown and her case remains unsolved. California police are investigating the case."
+GRD-2025-000082,The Charley Project,,female,66,118.0,"Lincolnia, Virginia",38.8243605,-77.1561878,1998-10-21T00:00:00-04:00,ongoing,"Yuan was smuggled into Washington D.C. from China, via Bangkok and Paris, on August 25, 1998. She used a genuine Thai passport to get into the country and posed as the niece of her smuggler, Chaichana Klaharn, a Thai citizen. They were caught at Dulles International Airport. Yuan could not speak English or Thai. Through a Mandarin Chinese translator, she told immigration authorities she was from Fuzhou in the Chinese province of Fujian, and her parents had paid Klaharn a significant sum of money"

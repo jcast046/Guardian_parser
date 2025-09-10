@@ -1,0 +1,9 @@
+pdfminer.six
+PyPDF2
+python-dateutil
+jsonschema
+pandas
+pytesseract
+pillow
+
+geopy
