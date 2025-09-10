@@ -1,6 +1,6 @@
-# Guardian Parser Pack
+# Guardian Parser 
 
-The **Guardian Parser Pack** is a pipeline for converting unstructured missing person case PDFs (from **NamUs**, **NCMEC**, and **The Charley Project**) into a unified, structured format based on the **Guardian JSON Schema**. It extracts demographic, spatial, temporal, outcome, and narrative/OSINT fields, normalizes them, and outputs both JSONL and CSV files for downstream analysis and synthetic data generation. 
+The **Guardian Parser* is a pipeline for converting unstructured missing person case PDFs (from **NamUs**, **NCMEC**, and **The Charley Project**) into a unified, structured format based on the **Guardian JSON Schema**. It extracts demographic, spatial, temporal, outcome, and narrative/OSINT fields, normalizes them, and outputs both JSONL and CSV files for downstream analysis and synthetic data generation. 
 
 All data mined will be used for model training in the project  -> [Guardian](https://github.com/jcast046/Guardian) <-
 
