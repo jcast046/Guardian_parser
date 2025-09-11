@@ -36,7 +36,7 @@ for name in [
     "pdfminer.pdfinterp",
     "pdfminer.psparser",
     "pdfminer.pdffont",
-    "fitz",              # PyMuPDF, if you use it anywhere
+    "fitz",              # PyMuPDF, if  used it anywhere
     "pymupdf",           # alternate name
     "pdfplumber"         # if you route through pdfplumber
 ]:
@@ -76,6 +76,21 @@ GUARDIAN_SCHEMA_PATH: str = os.path.join(os.path.dirname(__file__), "guardian_sc
 # Default timezone for date parsing when no timezone is specified
 DEFAULT_TZ: str = "America/New_York"
 
+# ---------- Canonical Key Mappings ----------
+
+CANON_MAP = {
+    # demographic mappings
+    ('demographic', 'age'): ('demographic', 'age_years'),
+    ('demographic', 'eyes'): ('demographic', 'eye_color'),
+    ('demographic', 'eyes_color'): ('demographic', 'eye_color'),
+    ('demographic', 'hair'): ('demographic', 'hair_color'),
+    ('demographic', 'height'): ('demographic', 'height_in'),
+    ('demographic', 'weight'): ('demographic', 'weight_lb'),
+    # spatial
+    ('spatial', 'lat'): ('spatial', 'latitude'),
+    ('spatial', 'lon'): ('spatial', 'longitude'),
+}
+
 # ---------- Helpers: safe regex ----------
 
 def safe_search(pattern: str, text: str, flags: int = 0) -> Optional[re.Match[str]]:
@@ -103,6 +118,314 @@ def safe_search(pattern: str, text: str, flags: int = 0) -> Optional[re.Match[st
         return re.search(pattern, text, flags)
     except re.error:
         return None
+
+def _canonize_keys(rec: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Move values from non-canonical keys to canonical ones without overwriting populated canonical fields.
+    
+    This function ensures consistent field naming across different sources by mapping
+    synonymous field names to canonical versions (e.g., 'gender' -> 'sex').
+    
+    Args:
+        rec (Dict[str, Any]): The record to canonicalize
+        
+    Returns:
+        Dict[str, Any]: Record with canonicalized field names
+    """
+    for (outer, inner), (c_outer, c_inner) in CANON_MAP.items():
+        if outer in rec and inner in rec[outer]:
+            v = rec[outer].get(inner)
+            if v is not None and str(v).strip() != '':
+                rec.setdefault(c_outer, {})
+                rec[c_outer].setdefault(c_inner, v)
+            rec[outer].pop(inner, None)
+    return rec
+
+def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]:
+    """
+    Lightweight source-agnostic enrichment pass that pulls common attributes
+    (height, weight, hair/eye color, DOB, nicknames, phones, case numbers, etc.)
+    from raw PDF text and fills gaps in the parsed record.
+    
+    This function performs a comprehensive text analysis to extract missing
+    demographic and case information that may not have been captured by
+    source-specific parsers.
+    
+    Args:
+        rec (Dict[str, Any]): The parsed record to enrich
+        full_text (str): The raw text from the PDF
+        
+    Returns:
+        Dict[str, Any]: Enriched record with additional extracted fields
+        
+    Note:
+        Never overwrites a non-empty existing value. Only fills gaps.
+    """
+    txt = full_text or ''
+    norm = ' '.join(txt.split())  # normalize whitespace
+
+    def set_if_missing(cat: str, key: str, value: Any) -> None:
+        """Set a value only if the target field is missing or empty."""
+        if value is None or str(value).strip() == '':
+            return
+        rec.setdefault(cat, {})
+        if rec[cat].get(key) in (None, ''):
+            rec[cat][key] = value
+
+    # Sex/Gender
+    m = re.search(r"\b(?:Sex|Gender)\s*[:\-]?\s*(Male|Female)\b", norm, re.I)
+    if m: 
+        set_if_missing("demographic", "sex", m.group(1).title())
+
+    # Age (years)
+    m = re.search(r"\bAge(?:\s+at\s+(?:time\s+of\s+disappearance|missing))?\s*[:\-]?\s*(\d{1,2})\b", norm, re.I)
+    if m: 
+        set_if_missing("demographic", "age_years", int(m.group(1)))
+
+    # Height (ft/in or inches). Accepts ft/feet/' and in/inches/" (also handles curly ' " if present)
+    ft_in = re.search(
+        r"\b(\d)\s*(?:ft|feet|['\u2019])\s*([0-9]{1,2})\s*(?:in|inches|[\"\u201D])?\b",
+        norm, re.I
+    )
+    inches_only = re.search(r"\bHeight\s*[:\-]?\s*(\d{2,3})\s*(?:in|inches)\b", norm, re.I)
+    if ft_in:
+        h = int(ft_in.group(1)) * 12 + int(ft_in.group(2))
+        set_if_missing("demographic", "height_in", h)
+    elif inches_only:
+        set_if_missing("demographic", "height_in", int(inches_only.group(1)))
+
+    # Weight (lb)
+    m = re.search(r"\bWeight\s*[:\-]?\s*(\d{2,3})\s*(?:lb|lbs|pounds)\b", norm, re.I)
+    if m: 
+        set_if_missing("demographic", "weight_lb", int(m.group(1)))
+
+    # Hair color
+    m = re.search(
+        r"\bHair(?:\s*Color)?\s*[:\-]?\s*([A-Za-z /-]+?)\b(?:Eyes?|Eye|Eye\s*Color|Height|Weight|DOB|Date\b)",
+        norm, re.I
+    )
+    if m: 
+        set_if_missing("demographic", "hair_color", m.group(1).strip().title())
+
+    # Eye color
+    m = re.search(
+        r"\bEyes?(?:\s*Color)?\s*[:\-]?\s*([A-Za-z /-]+?)\b(?:Hair|Height|Weight|DOB|Date\b)",
+        norm, re.I
+    )
+    if m: 
+        set_if_missing("demographic", "eye_color", m.group(1).strip().title())
+
+    # DOB (normalize several common formats)
+    m = re.search(
+        r"\b(?:DOB|Date of Birth)\s*[:\-]?\s*([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})",
+        norm, re.I
+    )
+    if m:
+        dob_raw = m.group(1)
+        for fmt in ("%B %d, %Y", "%b %d, %Y", "%m/%d/%Y", "%m-%d-%Y", "%m/%d/%y", "%m-%d-%y"):
+            try:
+                set_if_missing("demographic", "dob", datetime.strptime(dob_raw, fmt).date().isoformat())
+                break
+            except Exception:
+                pass
+
+    # Missing From (city, state)
+    m = re.search(r'\b(?:Missing\s+From|Location)\s*[:\-]?\s*([A-Za-z .-]+?),\s*([A-Z]{2})\b', norm, re.I)
+    if m:
+        set_if_missing('spatial', 'city', m.group(1).strip().title())
+        set_if_missing('spatial', 'state', m.group(2).upper())
+
+    # Date of last contact / Missing since
+    m = re.search(r'\b(?:Date of Last Contact|Missing Since|Date Missing)\s*[:\-]?\s*([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', norm, re.I)
+    if m:
+        set_if_missing('temporal', 'last_seen_date', m.group(1))
+
+    # Case numbers
+    m = re.search(r'\b(?:Case|NamUs|NCMEC)\s*(?:ID|#|Number)\s*[:\-]?\s*([A-Z0-9-]+)\b', norm, re.I)
+    if m: 
+        set_if_missing('provenance', 'case_number', m.group(1).strip())
+
+    # AKA / Nicknames
+    aka = re.findall(r'\b(?:AKA|Alias|Nicknames?)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+)', norm, re.I)
+    if aka:
+        rec.setdefault('demographic', {})
+        if not rec['demographic'].get('aka'):
+            rec['demographic']['aka'] = ' | '.join(sorted(set(x.strip() for x in aka if x.strip())))
+
+    # Agency / phone
+    m = re.search(r'\b(?:Investigating Agency|Contact)\s*[:\-]?\s*([A-Za-z0-9 .,&\'-]+)', norm, re.I)
+    if m: 
+        set_if_missing('provenance', 'agency', m.group(1).strip())
+    phone = re.search(r'(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})', norm)
+    if phone: 
+        set_if_missing('provenance', 'agency_phone', phone.group(1))
+
+    return _canonize_keys(rec)
+
+def parse_date_to_iso_utc(s: str) -> Optional[str]:
+    """
+    Parse a date string to ISO 8601 UTC format.
+    
+    This function provides a fallback date parser that converts various
+    date formats to ISO 8601 UTC format for temporal field harmonization.
+    
+    Args:
+        s (str): Date string to parse
+        
+    Returns:
+        Optional[str]: ISO 8601 UTC formatted date string or None if parsing fails
+        
+    Example:
+        >>> parse_date_to_iso_utc("12/25/2023")
+        "2023-12-25T00:00:00Z"
+    """
+    try:
+        s = (s or "").strip()
+        if not s:
+            return None
+        # VERY tolerant fallback; rely on your robust parser if available.
+        for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%b %d, %Y", "%B %d, %Y"):
+            try:
+                dt = datetime.strptime(s, fmt)
+                return dt.strftime("%Y-%m-%dT00:00:00Z")
+            except ValueError:
+                pass
+    except Exception:
+        pass
+    return None
+
+def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Normalize synonymous keys to the schema's canonical names and clean duplicates.
+    
+    This function ensures consistent field naming across different sources by
+    mapping synonymous field names to canonical versions and cleaning up
+    duplicate or inconsistent data structures. Always converts to canonical keys.
+    
+    Args:
+        rec (Dict[str, Any]): The record to harmonize
+        
+    Returns:
+        Dict[str, Any]: Harmonized record with canonical field names
+        
+    Note:
+        This function modifies the input record in place and also returns it
+        for convenience.
+    """
+    if not rec:
+        return rec
+
+    demo = rec.setdefault("demographic", {})
+    temp = rec.setdefault("temporal", {})
+    spat = rec.setdefault("spatial", {})
+    meta = rec.setdefault("case", {})
+    narr = rec.setdefault("narrative", {})
+
+    # === NEW: bridge writer-style names to canonical names used by CSV ===
+    # name
+    if "name" in demo and not get_nested(rec, "name.full"):
+        rec.setdefault("name", {})["full"] = demo["name"]
+
+    # spatial: last_seen_* → city/state/country
+    if "last_seen_city" in spat and "city" not in spat:
+        spat["city"] = spat.pop("last_seen_city")
+    if "last_seen_state" in spat and "state" not in spat:
+        spat["state"] = spat.pop("last_seen_state")
+    if "last_seen_country" in spat and "country" not in spat:
+        spat["country"] = spat.pop("last_seen_country")
+
+    # temporal: reported_missing_ts → reported_ts
+    if "reported_missing_ts" in temp and "reported_ts" not in temp:
+        temp["reported_ts"] = temp.pop("reported_missing_ts")
+
+    # case/meta: lift top-level ids and statuses
+    # (parsers set case_id at top-level; outcome.case_status)
+    if "case_id" in rec and "case_id" not in meta:
+        meta["case_id"] = rec.pop("case_id")
+    if "outcome" in rec:
+        cs = rec["outcome"].get("case_status")
+        if cs and "status" not in meta:
+            meta["status"] = cs
+    # provenance → case.source
+    srcs = get_nested(rec, "provenance.sources") or []
+    if srcs and "source" not in meta:
+        meta["source"] = srcs[0]
+
+    # ---- demographic synonyms (force canonical) ----
+    # sex -> gender (always)
+    if "sex" in demo:
+        val = demo.get("gender") or normalize_gender(demo.get("sex"))
+        if val:
+            demo["gender"] = val
+        demo.pop("sex", None)
+
+    # weight_lb -> weight_lbs (always)
+    if "weight_lb" in demo:
+        if "weight_lbs" not in demo and demo["weight_lb"] not in (None, ""):
+            demo["weight_lbs"] = demo["weight_lb"]
+        demo.pop("weight_lb", None)
+
+    # height_inches -> height_in (always)
+    if "height_inches" in demo:
+        if "height_in" not in demo and demo["height_inches"] not in (None, ""):
+            demo["height_in"] = demo["height_inches"]
+        demo.pop("height_inches", None)
+
+    # ---- temporal synonyms ----
+    if "last_seen_date" in temp:
+        val = (temp.pop("last_seen_date") or "").strip()
+        ts = parse_date_to_iso_utc(val)
+        if ts:
+            temp["last_seen_ts"] = ts
+
+    if "reported_date" in temp:
+        val = (temp.pop("reported_date") or "").strip()
+        ts = parse_date_to_iso_utc(val)
+        if ts:
+            temp["reported_ts"] = ts
+
+    # ---- spatial normalization ----
+    # Accept either last_seen_city/state or city/state; keep both canonical keys available
+    city = spat.get("last_seen_city") or spat.get("city")
+    state = spat.get("last_seen_state") or spat.get("state")
+    country = spat.get("last_seen_country") or spat.get("country")
+    if city:  spat["last_seen_city"]  = city
+    if state: spat["last_seen_state"] = state
+    if country: spat["last_seen_country"] = country
+
+    # lat/lon synonyms
+    if "lat" in spat and "last_seen_lat" not in spat:
+        spat["last_seen_lat"] = spat.pop("lat")
+    if "lon" in spat and "last_seen_lon" not in spat:
+        spat["last_seen_lon"] = spat.pop("lon")
+    if "lng" in spat and "last_seen_lon" not in spat:
+        spat["last_seen_lon"] = spat.pop("lng")
+
+    # ---- case/meta synonyms ----
+    if "status" in rec and "status" not in meta:
+        meta["status"] = rec.pop("status")
+    if "source" in rec and "source" not in meta:
+        meta["source"] = rec.pop("source")
+    if "case_id" in rec and "case_id" not in meta:
+        meta["case_id"] = rec.pop("case_id")
+
+    # ---- narrative normalization ----
+    # prefer narrative.incident_summary; if empty, pull from narrative_osint.incident_summary
+    osint = rec.get("narrative_osint", {})
+    if not narr.get("incident_summary") and osint.get("incident_summary"):
+        narr["incident_summary"] = osint.get("incident_summary")
+
+    # If incident_summary is list, coalesce
+    if isinstance(narr.get("incident_summary"), list):
+        narr["incident_summary"] = " ".join([str(x) for x in narr["incident_summary"] if x])
+
+    # ---- de-dupe list-y fields ----
+    for path in [("demographic", "aka"), ("case", "categories")]:
+        d, key = path
+        if isinstance(rec.get(d, {}).get(key), list):
+            rec[d][key] = sorted(set(x for x in rec[d][key] if x))
+
+    return rec
 
 # ---------- Hardened Extractors ----------
 
@@ -786,23 +1109,171 @@ def geocode_city_state(city: Optional[str], state: Optional[str], cache_key_extr
 
 # ---------- CSV/JSON emit ----------
 
+def get_nested(d: Dict[str, Any], path: str, default: str = "") -> Any:
+    """
+    Get a nested value from a dictionary using dot notation.
+    
+    Args:
+        d (Dict[str, Any]): The dictionary to search
+        path (str): Dot-separated path to the value
+        default (str): Default value if path not found
+        
+    Returns:
+        Any: The value at the path or default if not found
+        
+    Example:
+        >>> get_nested({"a": {"b": "value"}}, "a.b")
+        "value"
+    """
+    cur = d or {}
+    for p in path.split("."):
+        if isinstance(cur, dict):
+            cur = cur.get(p)
+        else:
+            return default
+    return cur if cur is not None else default
+
 def flatten_for_csv(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """Minimal flattener for core fields commonly present"""
-    out = {
-        "case_id": rec.get("case_id", ""),
-        "name": rec.get("demographic",{}).get("name",""),
-        "age_years": rec.get("demographic",{}).get("age_years",""),
-        "gender": rec.get("demographic",{}).get("gender",""),
-        "height_in": rec.get("demographic",{}).get("height_in",""),
-        "weight_lbs": rec.get("demographic",{}).get("weight_lbs",""),
-        "last_seen_location": rec.get("spatial",{}).get("last_seen_location",""),
-        "last_seen_lat": rec.get("spatial",{}).get("last_seen_lat",""),
-        "last_seen_lon": rec.get("spatial",{}).get("last_seen_lon",""),
-        "last_seen_ts": rec.get("temporal",{}).get("last_seen_ts",""),
-        "case_status": rec.get("outcome",{}).get("case_status",""),
-        "incident_summary": rec.get("narrative_osint",{}).get("incident_summary","")[:500]
+    """
+    Flatten a record into a comprehensive CSV row with all commonly requested fields.
+    
+    This function creates a rich CSV representation with both canonical columns
+    and expanded fields, ensuring comprehensive data coverage for analysis.
+    Uses tolerant fallback logic to read from both writer-style and canonical locations.
+    
+    Args:
+        rec (Dict[str, Any]): The record to flatten
+        
+    Returns:
+        Dict[str, Any]: Flattened record with comprehensive field coverage
+    """
+    rec = harmonize_record_fields(rec)
+
+    # Person / name
+    full_name = (
+        get_nested(rec, "name.full")
+        or get_nested(rec, "demographic.name")
+    )
+
+    # Gender (already harmonized to demographic.gender)
+    gender = get_nested(rec, "demographic.gender")
+
+    # Location (city/state)
+    city = (
+        get_nested(rec, "spatial.city")
+        or get_nested(rec, "spatial.last_seen_city")
+    )
+    state = (
+        get_nested(rec, "spatial.state")
+        or get_nested(rec, "spatial.last_seen_state")
+    )
+    country = (
+        get_nested(rec, "spatial.country")
+        or get_nested(rec, "spatial.last_seen_country")
+    )
+
+    last_seen_location = ", ".join([p for p in [city, state] if p]) or (country or "")
+
+    # Times
+    last_seen_ts = get_nested(rec, "temporal.last_seen_ts")
+    reported_ts  = (
+        get_nested(rec, "temporal.reported_ts")
+        or get_nested(rec, "temporal.reported_missing_ts")
+    )
+
+    # Case/meta
+    source   = get_nested(rec, "case.source") or get_nested(rec, "provenance.sources", [""])[0]
+    case_id  = get_nested(rec, "case.case_id") or get_nested(rec, "case_id")
+    status   = get_nested(rec, "case.status")  or get_nested(rec, "outcome.case_status")
+
+    row = {
+        "source": source,
+        "case_id": case_id,
+        "case_status": status,
+
+        "full_name": full_name,
+        "aka": ( "; ".join(get_nested(rec, "demographic.aka", []))
+                 if isinstance(get_nested(rec, "demographic.aka"), list)
+                 else get_nested(rec, "demographic.aka") ),
+        "dob": get_nested(rec, "demographic.dob"),
+        "age_years": get_nested(rec, "demographic.age_years"),
+        "gender": gender,
+        "hair_color": get_nested(rec, "demographic.hair_color"),
+        "eye_color": get_nested(rec, "demographic.eye_color"),
+
+        "height_in": get_nested(rec, "demographic.height_in"),
+        "height_cm": get_nested(rec, "demographic.height_cm"),
+        "weight_lbs": get_nested(rec, "demographic.weight_lbs") or get_nested(rec, "demographic.weight_lb"),
+        "weight_kg": get_nested(rec, "demographic.weight_kg"),
+
+        "last_seen_location": last_seen_location,
+        "last_seen_city": city,
+        "last_seen_state": state,
+        "last_seen_country": country,
+        "last_seen_lat": get_nested(rec, "spatial.last_seen_lat"),
+        "last_seen_lon": get_nested(rec, "spatial.last_seen_lon"),
+
+        "last_seen_ts": last_seen_ts,
+        "reported_ts": reported_ts,
+
+        "incident_summary": get_nested(rec, "narrative.incident_summary") or get_nested(rec, "narrative_osint.incident_summary"),
+        "notes": get_nested(rec, "narrative.notes"),
+
+        "categories": (
+            "; ".join(get_nested(rec, "case.categories", []))
+            if isinstance(get_nested(rec, "case.categories"), list)
+            else get_nested(rec, "case.categories")
+        ),
     }
-    return out
+    return row
+
+def write_csv(records: List[Dict[str, Any]], output_csv_path: str) -> None:
+    """
+    Writes all records with a comprehensive set of columns in a stable order.
+    
+    This function creates a CSV file with a fixed order of commonly requested
+    columns plus any additional fields that appear in the data.
+    
+    Args:
+        records (List[Dict[str, Any]]): List of records to write
+        output_csv_path (str): Path to the output CSV file
+    """
+    # Flatten once to find all header keys
+    flat = [flatten_for_csv(r) for r in records]
+    
+    # Fixed order subset (optional) + any extras that appeared
+    base_order = [
+        "source", "case_id", "case_status",
+        "full_name", "aka", "dob", "age_years", "gender", "hair_color", "eye_color",
+        "height_in", "height_cm", "weight_lbs", "weight_kg",
+        "last_seen_location", "last_seen_city", "last_seen_state", "last_seen_country",
+        "last_seen_lat", "last_seen_lon",
+        "last_seen_ts", "reported_ts",
+        "incident_summary", "notes", "categories",
+    ]
+    
+    # Include any new keys we didn't anticipate (stable order)
+    extra = [k for k in sorted(set().union(*[set(d.keys()) for d in flat])) if k not in base_order]
+    fieldnames = base_order + extra
+
+    try:
+        with open(output_csv_path, "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            w.writeheader()
+            for row in flat:
+                w.writerow(row)
+    except PermissionError:
+        # Fallback if Excel is locking the file
+        import time
+        import os
+        ts = time.strftime("%Y%m%d_%H%M%S")
+        alt = os.path.splitext(output_csv_path)[0] + f".{ts}.csv"
+        with open(alt, "w", newline="", encoding="utf-8") as f:
+            w = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
+            w.writeheader()
+            for row in flat:
+                w.writerow(row)
+        print(f"[WARN] Could not write {output_csv_path} (locked?). Wrote {alt} instead.")
 
 # ---------- Runner ----------
 
@@ -904,6 +1375,12 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
     # Store raw text for backfill processing
     rec["_fulltext"] = text
 
+    # Apply source-agnostic enrichment to fill gaps
+    rec = _enrich_common_fields(rec, text)
+
+    # Harmonize record fields to canonical names
+    rec = harmonize_record_fields(rec)
+
     # Normalize critical fields into schema before validation
     rec["temporal"] = rec.get("temporal") or {}
     if not rec["temporal"].get("last_seen_ts"):
@@ -972,8 +1449,7 @@ def main(argv=None):
     # Safety backfill pass to catch anything missed
     records = backfill(records)
     
-    # Write outputs
-    csv_rows = []
+    # Write JSONL output
     with open(args.jsonl, "w", encoding="utf-8") as jf:
         for rec in records:
             errs = validate_guardian(rec, schema)
@@ -982,18 +1458,12 @@ def main(argv=None):
             # Remove _fulltext before writing to JSONL
             rec_clean = {k: v for k, v in rec.items() if k != "_fulltext"}
             jf.write(json.dumps(rec_clean, ensure_ascii=False) + "\n")
-            csv_rows.append(flatten_for_csv(rec_clean))
 
     if args.geocode:
         save_geocode_cache(args.geocode_cache)
 
-    # Write CSV
-    fieldnames = list(csv_rows[0].keys()) if csv_rows else ["case_id"]
-    with open(args.csv, "w", newline="", encoding="utf-8") as cf:
-        w = csv.DictWriter(cf, fieldnames=fieldnames)
-        w.writeheader()
-        for r in csv_rows:
-            w.writerow(r)
+    # Write CSV using the new dynamic flattener
+    write_csv(records, args.csv)
 
     print(f"Wrote {args.jsonl} and {args.csv}")
 
