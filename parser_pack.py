@@ -38,11 +38,11 @@ for name in [
     "pdfminer.pdffont",
     "fitz",              # PyMuPDF, if  used it anywhere
     "pymupdf",           # alternate name
-    "pdfplumber"         # if you route through pdfplumber
+    "pdfplumber"         # if  routed through pdfplumber
 ]:
     logging.getLogger(name).setLevel(logging.ERROR)
 
-# Also: default root logger if you see any remaining noise
+# Also: default root logger if any remaining noise
 logging.getLogger().setLevel(logging.WARNING)
 
 # Graceful imports
@@ -321,7 +321,7 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
     meta = rec.setdefault("case", {})
     narr = rec.setdefault("narrative", {})
 
-    # === NEW: bridge writer-style names to canonical names used by CSV ===
+    # === bridge writer-style names to canonical names used by CSV ===
     # name
     if "name" in demo and not get_nested(rec, "name.full"):
         rec.setdefault("name", {})["full"] = demo["name"]
@@ -408,6 +408,22 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
         meta["source"] = rec.pop("source")
     if "case_id" in rec and "case_id" not in meta:
         meta["case_id"] = rec.pop("case_id")
+
+    # If source lives under provenance.sources, surface first value to case.source
+    prov_sources = rec.get("provenance", {}).get("sources")
+    if isinstance(prov_sources, list) and prov_sources and not meta.get("source"):
+        meta["source"] = prov_sources[0]
+
+    # If a simple name was stored in demographic.name, surface to name.full
+    if rec.get("demographic", {}).get("name"):
+        rec.setdefault("name", {})
+        if not rec["name"].get("full"):
+            rec["name"]["full"] = rec["demographic"]["name"]
+
+    # Move narrative_osint.incident_summary into narrative.incident_summary if present
+    if rec.get("narrative_osint", {}).get("incident_summary"):
+        if not narr.get("incident_summary"):
+            narr["incident_summary"] = rec["narrative_osint"]["incident_summary"]
 
     # ---- narrative normalization ----
     # prefer narrative.incident_summary; if empty, pull from narrative_osint.incident_summary
@@ -842,6 +858,17 @@ def parse_namus(text: str, case_id: str) -> Dict[str, Any]:
         # Keep placeholders; geocoder may fill these later
         data["spatial"]["last_seen_lat"] = 0.0
         data["spatial"]["last_seen_lon"] = 0.0
+
+    # Circumstances of Disappearance (capture block until next section header)
+    # Works on NamUs pages where the heading appears exactly as shown in file.
+    m = safe_search(
+        r"(?is)Circumstances\s+of\s+Disappearance\s*([\s\S]*?)(?:\n\s*(?:Physical\s+Description|Clothing\s+and\s+Accessories|ADDITIONAL\s+CASE\s+INFO|Transportation|CASE\s+INFORMATION)\b)"
+        , text
+    )
+    if m:
+        desc = re.sub(r"\s+", " ", m.group(1)).strip(" :\u00A0")
+        if desc:
+            data["narrative_osint"]["incident_summary"] = desc
 
     return data
 
