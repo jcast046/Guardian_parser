@@ -22,17 +22,20 @@ All data mined will be used for model training in the project  -> [Guardian](htt
 
 ```
 guardian_parser_pack/
-├── parser_pack.py        # Core parser
+├── parser_pack.py        # Core parser with enhanced data extraction
 ├── fix_dates.py          # Post-processor for missing dates
 ├── sample_run.py         # Batch runner / discovery script
 ├── guardian_schema.json  # Unified Guardian schema
 ├── requirements.txt      # Python dependencies
-├── guardian_output.jsonl # Structured JSONL output (created on run)
-├── guardian_output.csv   # Flattened CSV output (created on run)
-├── geocode_cache.json    # Geocode cache for speed/reproducibility
-└── evidence/
-    ├── namus/            # NamUs PDFs
-    ├── ncmec/            # NCMEC PDFs
+├── .gitignore           # Git ignore rules for clean repository
+├── output/              # Generated output files
+│   ├── guardian_output.jsonl # Structured JSONL output (readable format)
+│   ├── guardian_output.csv   # Flattened CSV output
+│   ├── geocode_cache.json    # Geocode cache for speed/reproducibility
+│   └── README.md        # Output directory documentation
+└── evidence/            # Input PDF files (not included in repo)
+    ├── namus/           # NamUs PDFs
+    ├── ncmec/           # NCMEC PDFs
     └── the_charley_project/  # Charley Project PDFs
 ```
 
@@ -68,18 +71,25 @@ This will:
 
 * Discover PDFs under `evidence/namus`, `evidence/ncmec`, `evidence/the_charley_project`
 * Parse and normalize all cases
-* Write outputs:
+* Write outputs to `output/` directory:
 
-  * `guardian_output.jsonl`
-  * `guardian_output.csv`
-  * `geocode_cache.json`
+  * `output/guardian_output.jsonl` - Structured JSONL with readable formatting
+  * `output/guardian_output.csv` - Flattened CSV for analysis
+  * `output/geocode_cache.json` - Cached geocoding results
 
 
 ## Output Formats
 
-* **JSONL** (`guardian_output.jsonl`): Each line is a Guardian-conformant JSON object.
-* **CSV** (`guardian_output.csv`): Flattened table for quick inspection.
-* **Geocode Cache** (`geocode_cache.json`): Stores resolved city/state → lat/lon mappings.
+* **JSONL** (`output/guardian_output.jsonl`): Each line is a Guardian-conformant JSON object with readable formatting and enhanced field extraction.
+* **CSV** (`output/guardian_output.csv`): Flattened table for quick inspection and data analysis.
+* **Geocode Cache** (`output/geocode_cache.json`): Stores resolved city/state → lat/lon mappings for performance.
+
+## Enhanced Features
+
+* **Improved Data Extraction**: Better regex patterns for distinctive features, behavioral patterns, and demographic information
+* **Age-based Estimates**: Height/weight estimation for NCMEC records using CDC growth charts
+* **Readable JSON**: Properly formatted JSON output with indentation for better readability
+* **Clean Repository**: Organized structure with output files in dedicated directory
 
 
 
