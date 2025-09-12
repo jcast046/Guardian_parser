@@ -30,7 +30,7 @@ import re, os, json, csv, sys, logging
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple
 
-# Quiet the usual suspects:
+# Quiet logging:
 for name in [
     "pdfminer",          # pdfminer.six
     "pdfminer.pdfinterp",
@@ -141,6 +141,57 @@ def _canonize_keys(rec: Dict[str, Any]) -> Dict[str, Any]:
             rec[outer].pop(inner, None)
     return rec
 
+def _estimate_height_weight_by_age(age: float, gender: str) -> tuple:
+    """
+    Estimate height and weight based on age and gender using CDC growth charts and typical ranges.
+    
+    Args:
+        age: Age in years
+        gender: "male" or "female"
+        
+    Returns:
+        tuple: (estimated_height_inches, estimated_weight_lbs) or (None, None) if no estimate available
+    """
+    # Convert age to integer for lookup
+    age_int = int(age)
+    
+    # Height estimates in inches (based on CDC growth charts 50th percentile)
+    # For children and teens
+    height_estimates = {
+        "male": {
+            2: 34.5, 3: 37.5, 4: 40.5, 5: 43.0, 6: 45.5, 7: 48.0, 8: 50.5, 9: 52.5,
+            10: 54.5, 11: 56.5, 12: 58.5, 13: 61.0, 14: 64.0, 15: 67.0, 16: 69.0, 17: 70.0, 18: 70.5
+        },
+        "female": {
+            2: 34.0, 3: 37.0, 4: 40.0, 5: 42.5, 6: 45.0, 7: 47.5, 8: 50.0, 9: 52.0,
+            10: 54.0, 11: 56.5, 12: 59.0, 13: 61.5, 14: 63.0, 15: 64.0, 16: 64.5, 17: 65.0, 18: 65.0
+        }
+    }
+    
+    # Weight estimates in pounds (based on CDC growth charts 50th percentile)
+    weight_estimates = {
+        "male": {
+            2: 28, 3: 32, 4: 36, 5: 40, 6: 45, 7: 50, 8: 56, 9: 63,
+            10: 70, 11: 78, 12: 88, 13: 100, 14: 115, 15: 130, 16: 145, 17: 160, 18: 170
+        },
+        "female": {
+            2: 26, 3: 30, 4: 34, 5: 38, 6: 42, 7: 47, 8: 53, 9: 60,
+            10: 68, 11: 78, 12: 90, 13: 105, 14: 115, 15: 120, 16: 125, 17: 130, 18: 135
+        }
+    }
+    
+    # Get estimates for the specific age and gender
+    height_est = height_estimates.get(gender, {}).get(age_int)
+    weight_est = weight_estimates.get(gender, {}).get(age_int)
+    
+    # For ages outside the range, use adult estimates
+    if not height_est and age_int >= 18:
+        height_est = 68.0 if gender == "male" else 64.0  # Average adult height
+    if not weight_est and age_int >= 18:
+        weight_est = 170.0 if gender == "male" else 140.0  # Average adult weight
+    
+    return height_est, weight_est
+
 def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]:
     """
     Lightweight source-agnostic enrichment pass that pulls common attributes
@@ -229,28 +280,100 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
             except Exception:
                 pass
 
-    # Missing From (city, state)
+    # Missing From (city, state) - enhanced to capture more details
     m = re.search(r'\b(?:Missing\s+From|Location)\s*[:\-]?\s*([A-Za-z .-]+?),\s*([A-Z]{2})\b', norm, re.I)
     if m:
         set_if_missing('spatial', 'city', m.group(1).strip().title())
         set_if_missing('spatial', 'state', m.group(2).upper())
+    
+    # Postal code extraction
+    postal = re.search(r'\b(\d{5}(?:-\d{4})?)\b', norm)
+    if postal:
+        set_if_missing('spatial', 'last_seen_postal_code', postal.group(1))
+    
+    # County extraction
+    county = re.search(r'\b(?:County|Parish)\s*[:\-]?\s*([A-Za-z .-]+?)(?:\s+County|\s+Parish|\s*$)', norm, re.I)
+    if county:
+        set_if_missing('spatial', 'last_seen_county', county.group(1).strip().title())
+    
+    # Address extraction (more specific than just city, state)
+    address = re.search(r'\b(?:Address|Last\s+Seen\s+At)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]+?)(?:,\s*[A-Z]{2}|\s*$)', norm, re.I)
+    if address:
+        set_if_missing('spatial', 'last_seen_address', address.group(1).strip())
 
     # Date of last contact / Missing since
     m = re.search(r'\b(?:Date of Last Contact|Missing Since|Date Missing)\s*[:\-]?\s*([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', norm, re.I)
     if m:
         set_if_missing('temporal', 'last_seen_date', m.group(1))
+    
+    # Reported missing date
+    reported = re.search(r'\b(?:Reported\s+Missing|Case\s+Created|Report\s+Date)\s*[:\-]?\s*([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', norm, re.I)
+    if reported:
+        set_if_missing('temporal', 'reported_missing_date', reported.group(1))
+    
+    # First police action / response
+    police_action = re.search(r'\b(?:First\s+Response|Police\s+Action|Investigation\s+Started)\s*[:\-]?\s*([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4}|\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', norm, re.I)
+    if police_action:
+        set_if_missing('temporal', 'first_police_action_date', police_action.group(1))
 
     # Case numbers
     m = re.search(r'\b(?:Case|NamUs|NCMEC)\s*(?:ID|#|Number)\s*[:\-]?\s*([A-Z0-9-]+)\b', norm, re.I)
     if m: 
         set_if_missing('provenance', 'case_number', m.group(1).strip())
 
-    # AKA / Nicknames
+    # AKA / Nicknames / Aliases
     aka = re.findall(r'\b(?:AKA|Alias|Nicknames?)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+)', norm, re.I)
     if aka:
         rec.setdefault('demographic', {})
         if not rec['demographic'].get('aka'):
             rec['demographic']['aka'] = ' | '.join(sorted(set(x.strip() for x in aka if x.strip())))
+        # Also populate aliases array for schema compliance
+        if not rec['demographic'].get('aliases'):
+            rec['demographic']['aliases'] = [x.strip() for x in aka if x.strip()]
+
+    # Distinctive features / physical characteristics
+    # Use original text for better pattern matching
+    distinctive_patterns = [
+        r'Scar/mark\s+([^\n]+?)(?=\n|$)',
+        r'Tattoo\s+([^\n]+?)(?=\n|$)',
+        r'Birthmark\s+([^\n]+?)(?=\n|$)',
+        r'Distinctive\s+Physical\s+Features.*?Description\s+([^\n]+?)(?=\n|$)',
+    ]
+    
+    distinctive_features = []
+    for pattern in distinctive_patterns:
+        matches = re.findall(pattern, txt, re.I | re.S)
+        for match in matches:
+            # Clean up the match - remove extra text and limit length
+            clean_match = match.strip()
+            # Remove common trailing text
+            clean_match = re.sub(r'\s+Clothing.*$', '', clean_match)
+            clean_match = re.sub(r'\s+Item.*$', '', clean_match)
+            clean_match = re.sub(r'\s+Description.*$', '', clean_match)
+            clean_match = clean_match.strip()
+            
+            if clean_match and len(clean_match) > 5 and len(clean_match) < 200:  # Reasonable length
+                distinctive_features.append(clean_match)
+    
+    if distinctive_features:
+        rec.setdefault('demographic', {})
+        if not rec['demographic'].get('distinctive_features'):
+            rec['demographic']['distinctive_features'] = ' | '.join(distinctive_features)
+
+    # Risk factors
+    risk_patterns = [
+        r'\b(?:At\s+Risk|Risk\s+Factors?|Vulnerable|Endangered)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]+?)(?:\s+AKA|\s+$)', 
+        r'\b(?:Mental\s+Health|Medical\s+Condition|Disability)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]+?)(?:\s+AKA|\s+$)',
+        r'\b(?:Runaway|Fugitive|Wanted)\b'
+    ]
+    risk_factors = []
+    for pattern in risk_patterns:
+        matches = re.findall(pattern, norm, re.I)
+        risk_factors.extend([m.strip() for m in matches if m.strip()])
+    if risk_factors:
+        rec.setdefault('demographic', {})
+        if not rec['demographic'].get('risk_factors'):
+            rec['demographic']['risk_factors'] = list(set(risk_factors))
 
     # Agency / phone
     m = re.search(r'\b(?:Investigating Agency|Contact)\s*[:\-]?\s*([A-Za-z0-9 .,&\'-]+)', norm, re.I)
@@ -259,6 +382,40 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
     phone = re.search(r'(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})', norm)
     if phone: 
         set_if_missing('provenance', 'agency_phone', phone.group(1))
+
+    # Behavioral patterns and movement cues
+    behavioral_patterns = []
+    movement_cues = []
+    
+    # Extract behavioral indicators - more precise patterns
+    behavior_patterns = [
+        r'\b(?:last\s+seen\s+wearing|wearing)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+traveling|\s+with|\s+$)',
+        r'\b(?:traveling|en\s+route|headed|going\s+to)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+with|\s+$)',
+        r'\b(?:with|accompanied\s+by|in\s+company\s+of)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+in|\s+$)',
+        r'\b(?:vehicle|car|truck|bus)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s*$)'
+    ]
+    
+    for pattern in behavior_patterns:
+        matches = re.findall(pattern, norm, re.I)
+        for match in matches:
+            clean_match = match.strip()
+            # Clean up common trailing text
+            clean_match = re.sub(r'\\s+(?:CASE|Physical|Description|Clothing).*$', '', clean_match)
+            clean_match = clean_match.strip()
+            if clean_match and len(clean_match) > 5 and len(clean_match) < 100:
+                behavioral_patterns.append(clean_match)
+    
+    if behavioral_patterns:
+        rec.setdefault('narrative_osint', {})
+        if not rec['narrative_osint'].get('behavioral_patterns'):
+            rec['narrative_osint']['behavioral_patterns'] = list(set(behavioral_patterns))
+    
+    # Movement cues text
+    movement_text = re.search(r'\b(?:movement|travel|route|destination|direction)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]+)', norm, re.I)
+    if movement_text:
+        rec.setdefault('narrative_osint', {})
+        if not rec['narrative_osint'].get('movement_cues_text'):
+            rec['narrative_osint']['movement_cues_text'] = movement_text.group(1).strip()
 
     return _canonize_keys(rec)
 
@@ -320,6 +477,8 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
     spat = rec.setdefault("spatial", {})
     meta = rec.setdefault("case", {})
     narr = rec.setdefault("narrative", {})
+    # Ensure a name bucket exists
+    rec.setdefault("name", {})
 
     # === bridge writer-style names to canonical names used by CSV ===
     # name
@@ -371,6 +530,14 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
             demo["height_in"] = demo["height_inches"]
         demo.pop("height_inches", None)
 
+    # ---- name normalization ----
+    #  the CSV expects name.full
+    if isinstance(demo.get("name"), str) and not rec["name"].get("full"):
+        rec["name"]["full"] = demo.pop("name").strip()
+    # Clean up accidental empties
+    if rec["name"].get("full") == "--":
+        rec["name"]["full"] = ""
+
     # ---- temporal synonyms ----
     if "last_seen_date" in temp:
         val = (temp.pop("last_seen_date") or "").strip()
@@ -383,6 +550,20 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
         ts = parse_date_to_iso_utc(val)
         if ts:
             temp["reported_ts"] = ts
+    
+    # Handle reported_missing_date -> reported_missing_ts
+    if "reported_missing_date" in temp:
+        val = (temp.pop("reported_missing_date") or "").strip()
+        ts = parse_date_to_iso_utc(val)
+        if ts:
+            temp["reported_missing_ts"] = ts
+    
+    # Handle first_police_action_date -> first_police_action_ts
+    if "first_police_action_date" in temp:
+        val = (temp.pop("first_police_action_date") or "").strip()
+        ts = parse_date_to_iso_utc(val)
+        if ts:
+            temp["first_police_action_ts"] = ts
 
     # ---- spatial normalization ----
     # Accept either last_seen_city/state or city/state; keep both canonical keys available
@@ -787,11 +968,55 @@ def parse_namus(text: str, case_id: str) -> Dict[str, Any]:
         "provenance": {"sources": ["NamUs"], "original_fields": {}}
     }
 
-    # Name fields (best-effort)
+    # Name fields (best-effort) - try multiple patterns
+    first = ""
+    middle = ""
+    last = ""
+    
+    # Pattern 1: Standard NamUs format with First, Middle, Last
     m = safe_search(r"Legal\s+First\s+Name\s*([^\r\n]+)\s+Middle\s+Name\s*([^\r\n]+)\s+Legal\s+Last\s+Name\s*([^\r\n]+)", text, re.S)
     if m:
-        name = " ".join([m.group(1).strip(), m.group(2).strip(), m.group(3).strip()]).replace("--","").strip()
-        data["demographic"]["name"] = re.sub(r"\s+", " ", name).strip()
+        first  = re.sub(r"\s+", " ", m.group(1)).strip("- ").strip()
+        middle = re.sub(r"\s+", " ", m.group(2)).strip("- ").strip()
+        last   = re.sub(r"\s+", " ", m.group(3)).strip("- ").strip()
+        # Clean up the last name (remove height info if it got captured)
+        last = re.sub(r"\s+Height.*$", "", last).strip()
+    else:
+        # Pattern 2: Alternative format with Middle Name and Legal Last Name
+        m = safe_search(r"Middle\s+Name\s*([A-Za-z\s]+?)\s+Legal\s+Last\s+Name\s*([A-Za-z\s\-]+?)(?:\s+Height|\s+$)", text, re.S)
+        if m:
+            middle = m.group(1).strip()
+            last = m.group(2).strip()
+            # Clean up the last name (remove "Height" if it got captured)
+            last = re.sub(r"\s+Height.*$", "", last).strip()
+            
+            # Try to extract first name from other parts of the text
+            first_match = safe_search(r"Legal\s+First\s+Name\s*([A-Za-z\s]+?)(?:\s+Middle|\s+$)", text, re.S)
+            first = first_match.group(1).strip() if first_match else ""
+    
+    # If we still don't have a first name, try to extract it from the incident summary
+    if not first:
+        # Look for patterns like "Griselda is believed" or "Nixon arrived"
+        # Avoid common words like "Juvenile", "The", "A", etc.
+        matches = re.findall(r"\b([A-Z][a-z]{2,})\s+(?:is\s+believed|arrived|was\s+last\s+seen|left|went|expressed|traveled)", text, re.I)
+        for candidate in matches:
+            candidate = candidate.strip()
+            # Filter out common words that aren't names
+            if candidate.lower() not in ['the', 'and', 'but', 'for', 'are', 'was', 'were', 'been', 'have', 'has', 'had', 'will', 'would', 'could', 'should', 'may', 'might', 'can', 'must', 'shall', 'juvenile', 'adult', 'person', 'individual', 'victim', 'missing', 'reported', 'investigation', 'agency', 'police', 'sheriff', 'detective', 'officer', 'she', 'he', 'they', 'it']:
+                first = candidate
+                break  # Take the first good candidate
+    
+    # If we have any name components, store them
+    if first or middle or last:
+        parts = [p for p in [first, middle if middle and middle != "--" else "", last] if p]
+        full = " ".join(parts).strip()
+        data.setdefault("name", {})
+        if first:  data["name"]["first"] = first
+        if middle and middle != "--": data["name"]["middle"] = middle
+        if last:   data["name"]["last"]  = last
+        if full:   data["name"]["full"]  = full
+        # Also set demographic.name for backward compatibility
+        if full:   data["demographic"]["name"] = full
 
         # Sex (Biological Sex or Sex)
     m = re.search(r"(?:Biological\s+Sex|Sex)\s*[:\-]?\s*(Male|Female)\b", text, re.I)
@@ -891,10 +1116,23 @@ def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
         "provenance": {"sources": ["NCMEC"], "original_fields": {}}
     }
 
-    # Name (first big line in caps before "Missing Since")
-    m = safe_search(r"\n\s*([A-Z][A-Z\s'\-]+)\n\s*Missing Since", text)
-    if m:
-        data["demographic"]["name"] = " ".join(m.group(1).title().split())
+    # Name (first big line in caps before "Missing Since" - handle NCMEC format)
+    # Look for name pattern that's all caps and appears before "Missing Since"
+    name_patterns = [
+        r"\n\s*([A-Z][A-Z\s'\-]+)\n\s*Missing Since",  # Original pattern
+        r"\n\s*([A-Z][A-Z\s'\-]+)\n\s*How you can help",  # NCMEC format
+        r"MISSING CHILD\s*\n\s*([A-Z][A-Z\s'\-]+)\n",  # NCMEC with header
+    ]
+    
+    for pattern in name_patterns:
+        m = safe_search(pattern, text)
+        if m:
+            name_text = m.group(1).strip()
+            # Clean up the name (remove extra spaces, handle special cases)
+            name_parts = [part.strip() for part in name_text.split() if part.strip()]
+            if name_parts:
+                data.setdefault("name", {})["full"] = " ".join(name_parts).title()
+                break
 
         # Missing Since -> last_seen_ts
     m = re.search(r"Missing\s+Since\s*[:\-]?\s*([A-Za-z0-9 ,/\-]{6,40})", text, re.I)
@@ -928,11 +1166,20 @@ def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
     if m:
         data["demographic"]["gender"] = normalize_gender(m.group(1))
 
-    # Short description (clothing / features)
-    m = safe_search(r"(?i)(?:last\s+seen\s+wearing|features?)[:\s]*([A-Z0-9 ,.'\-\(\)]+)", text)
-    if m:
-        desc = m.group(1).strip()
-        data["narrative_osint"]["incident_summary"] = desc
+    # Short description (clothing / features) - enhanced patterns
+    desc_patterns = [
+        r"(?i)(?:last\s+seen\s+wearing|features?)[:\s]*([A-Z0-9 ,.'\-\(\)]+)",
+        r"(?i)([A-Z][A-Z\s,.'\-\(\)]+(?:HOODIE|SHIRT|PANTS|SHOES|BRACES|RING|TATTOO|SCAR)[A-Z0-9 ,.'\-\(\)]*)",
+        r"(?i)([A-Z][A-Z\s,.'\-\(\)]+(?:WAS LAST SEEN|HAS|WEARING)[A-Z0-9 ,.'\-\(\)]*)",
+    ]
+    
+    for pattern in desc_patterns:
+        m = safe_search(pattern, text)
+        if m:
+            desc = m.group(1).strip()
+            if desc and len(desc) > 5:  # Avoid very short matches
+                data["narrative_osint"]["incident_summary"] = desc
+                break
 
     # Universal date fallback
     if "last_seen_ts" not in data["temporal"]:
@@ -961,6 +1208,76 @@ def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
             iso = to_iso8601(m.group(1))
             if iso:
                 data["temporal"]["last_seen_ts"] = iso
+
+    # Extract case number (NCMEC format: NCMEC: VA25-3587)
+    case_match = re.search(r"NCMEC:\s*([A-Z0-9\-]+)", text, re.I)
+    if case_match:
+        data["provenance"]["case_number"] = case_match.group(1).strip()
+    
+    # Extract agency phone number
+    phone_match = re.search(r"(\d{3}[-\.]\d{3}[-\.]\d{4})", text)
+    if phone_match:
+        data["provenance"]["agency_phone"] = phone_match.group(1).strip()
+    
+    # Extract agency name (usually appears before phone number)
+    agency_match = re.search(r"([A-Z\s]+(?:POLICE|SHERIFF|DEPARTMENT))\s*\d{3}[-\.]\d{3}[-\.]\d{4}", text)
+    if agency_match:
+        data["provenance"]["agency"] = agency_match.group(1).strip()
+    
+    # Extract physical descriptions from the text
+    # Look for height, weight, hair color, eye color patterns
+    height_match = re.search(r"(\d+['\"]?\s*\d*['\"]?)\s*(?:tall|height)", text, re.I)
+    if height_match:
+        data["demographic"]["height_description"] = height_match.group(1).strip()
+    
+    weight_match = re.search(r"(\d+)\s*(?:lbs?|pounds?)", text, re.I)
+    if weight_match:
+        data["demographic"]["weight_lbs"] = float(weight_match.group(1))
+    
+    # Age-based height/weight estimation for NCMEC (since explicit measurements often not available)
+    age = data["demographic"].get("age_years")
+    gender = data["demographic"].get("gender")
+    
+    if age and gender and "height_in" not in data["demographic"] and "weight_lbs" not in data["demographic"]:
+        # Use age-based estimates based on CDC growth charts and typical ranges
+        estimated_height, estimated_weight = _estimate_height_weight_by_age(age, gender)
+        if estimated_height:
+            data["demographic"]["height_in"] = estimated_height
+            data["demographic"]["height_estimate"] = True  # Flag as estimate
+        if estimated_weight:
+            data["demographic"]["weight_lbs"] = estimated_weight
+            data["demographic"]["weight_estimate"] = True  # Flag as estimate
+    
+    # Look for hair and eye color in descriptions
+    hair_colors = ["black", "brown", "blonde", "red", "gray", "white", "auburn"]
+    for color in hair_colors:
+        if re.search(rf"\b{color}\b", text, re.I):
+            data["demographic"]["hair_color"] = color.title()
+            break
+    
+    eye_colors = ["blue", "brown", "green", "hazel", "gray", "black"]
+    for color in eye_colors:
+        if re.search(rf"\b{color}\b", text, re.I):
+            data["demographic"]["eye_color"] = color.title()
+            break
+    
+    # Extract distinctive features (tattoos, scars, braces, etc.)
+    distinctive_features = []
+    feature_patterns = [
+        r"tattoo[^.]*",
+        r"scar[^.]*", 
+        r"brace[^.]*",
+        r"piercing[^.]*",
+        r"birthmark[^.]*",
+        r"mole[^.]*"
+    ]
+    
+    for pattern in feature_patterns:
+        matches = re.findall(pattern, text, re.I)
+        distinctive_features.extend(matches)
+    
+    if distinctive_features:
+        data["demographic"]["distinctive_features"] = "; ".join(distinctive_features)
 
     # Required lat/lon placeholders (NCMEC posters don't include coords)
     data["spatial"]["last_seen_lat"] = 0.0
@@ -990,7 +1307,7 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
     # Name (title-like pattern, 2-4 words capitalized)
     m = safe_search(r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*\n", text)
     if m:
-        data["demographic"]["name"] = m.group(1).strip()
+        data.setdefault("name", {})["full"] = m.group(1).strip()
 
        # Missing Since (label may be on its own line, value on the next)
     m = re.search(r"Missing\s+Since(?:\s*[:\-])?\s*(?:\n|\r\n|\s)*([A-Za-z0-9 ,/\-]{6,40})", text, re.I)
@@ -1222,11 +1539,18 @@ def flatten_for_csv(rec: Dict[str, Any]) -> Dict[str, Any]:
         "aka": ( "; ".join(get_nested(rec, "demographic.aka", []))
                  if isinstance(get_nested(rec, "demographic.aka"), list)
                  else get_nested(rec, "demographic.aka") ),
+        "aliases": ( "; ".join(get_nested(rec, "demographic.aliases", []))
+                     if isinstance(get_nested(rec, "demographic.aliases"), list)
+                     else get_nested(rec, "demographic.aliases") ),
         "dob": get_nested(rec, "demographic.dob"),
         "age_years": get_nested(rec, "demographic.age_years"),
         "gender": gender,
         "hair_color": get_nested(rec, "demographic.hair_color"),
         "eye_color": get_nested(rec, "demographic.eye_color"),
+        "distinctive_features": get_nested(rec, "demographic.distinctive_features"),
+        "risk_factors": ( "; ".join(get_nested(rec, "demographic.risk_factors", []))
+                          if isinstance(get_nested(rec, "demographic.risk_factors"), list)
+                          else get_nested(rec, "demographic.risk_factors") ),
 
         "height_in": get_nested(rec, "demographic.height_in"),
         "height_cm": get_nested(rec, "demographic.height_cm"),
@@ -1237,14 +1561,23 @@ def flatten_for_csv(rec: Dict[str, Any]) -> Dict[str, Any]:
         "last_seen_city": city,
         "last_seen_state": state,
         "last_seen_country": country,
+        "last_seen_address": get_nested(rec, "spatial.last_seen_address"),
+        "last_seen_county": get_nested(rec, "spatial.last_seen_county"),
+        "last_seen_postal_code": get_nested(rec, "spatial.last_seen_postal_code"),
         "last_seen_lat": get_nested(rec, "spatial.last_seen_lat"),
         "last_seen_lon": get_nested(rec, "spatial.last_seen_lon"),
 
         "last_seen_ts": last_seen_ts,
         "reported_ts": reported_ts,
+        "reported_missing_ts": get_nested(rec, "temporal.reported_missing_ts"),
+        "first_police_action_ts": get_nested(rec, "temporal.first_police_action_ts"),
 
         "incident_summary": get_nested(rec, "narrative.incident_summary") or get_nested(rec, "narrative_osint.incident_summary"),
         "notes": get_nested(rec, "narrative.notes"),
+        "behavioral_patterns": ( "; ".join(get_nested(rec, "narrative_osint.behavioral_patterns", []))
+                                 if isinstance(get_nested(rec, "narrative_osint.behavioral_patterns"), list)
+                                 else get_nested(rec, "narrative_osint.behavioral_patterns") ),
+        "movement_cues_text": get_nested(rec, "narrative_osint.movement_cues_text"),
 
         "categories": (
             "; ".join(get_nested(rec, "case.categories", []))
@@ -1271,12 +1604,14 @@ def write_csv(records: List[Dict[str, Any]], output_csv_path: str) -> None:
     # Fixed order subset (optional) + any extras that appeared
     base_order = [
         "source", "case_id", "case_status",
-        "full_name", "aka", "dob", "age_years", "gender", "hair_color", "eye_color",
+        "full_name", "aka", "aliases", "dob", "age_years", "gender", "hair_color", "eye_color",
+        "distinctive_features", "risk_factors",
         "height_in", "height_cm", "weight_lbs", "weight_kg",
         "last_seen_location", "last_seen_city", "last_seen_state", "last_seen_country",
+        "last_seen_address", "last_seen_county", "last_seen_postal_code",
         "last_seen_lat", "last_seen_lon",
-        "last_seen_ts", "reported_ts",
-        "incident_summary", "notes", "categories",
+        "last_seen_ts", "reported_ts", "reported_missing_ts", "first_police_action_ts",
+        "incident_summary", "notes", "behavioral_patterns", "movement_cues_text", "categories",
     ]
     
     # Include any new keys we didn't anticipate (stable order)
@@ -1484,7 +1819,7 @@ def main(argv=None):
                 print(f"[WARN] {rec.get('provenance', {}).get('source_path', 'unknown')} failed validation:", *errs, sep="\n  ")
             # Remove _fulltext before writing to JSONL
             rec_clean = {k: v for k, v in rec.items() if k != "_fulltext"}
-            jf.write(json.dumps(rec_clean, ensure_ascii=False) + "\n")
+            jf.write(json.dumps(rec_clean, ensure_ascii=False, indent=2) + "\n")
 
     if args.geocode:
         save_geocode_cache(args.geocode_cache)
