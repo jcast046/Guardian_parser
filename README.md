@@ -84,14 +84,6 @@ This will:
 * **CSV** (`output/guardian_output.csv`): Flattened table for quick inspection and data analysis.
 * **Geocode Cache** (`output/geocode_cache.json`): Stores resolved city/state → lat/lon mappings for performance.
 
-## Enhanced Features
-
-* **Improved Data Extraction**: Better regex patterns for distinctive features, behavioral patterns, and demographic information
-* **Age-based Estimates**: Height/weight estimation for NCMEC records using CDC growth charts
-* **Readable JSON**: Properly formatted JSON output with indentation for better readability
-* **Clean Repository**: Organized structure with output files in dedicated directory
-
-
 
 ## Schema
 
