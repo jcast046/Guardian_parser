@@ -19,7 +19,7 @@ Input:  guardian_output.jsonl
 Output: guardian_output.fixed.jsonl
 
 Author: Joshua Castillo
-Version: 1.0
+
 """
 
 import json

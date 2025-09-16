@@ -3,7 +3,7 @@
 Sample execution script for the Guardian Parser Pack.
 
 This script demonstrates how to run the Guardian parser on a collection of PDF files
-from multiple sources (NamUs, NCMEC, Charley Project). It automatically discovers
+from multiple sources (NamUs, NCMEC, FBI, Charley Project). It automatically discovers
 PDF files in the evidence directories and processes them with geocoding enabled.
 
 Key Features:
@@ -16,6 +16,7 @@ Directory Structure Expected:
     evidence/
     ├── namus/           # NamUs case PDFs
     ├── ncmec/           # NCMEC poster PDFs
+    ├── FBI/             # FBI missing person posters
     └── the_charley_project/  # Charley Project case PDFs
 
 Output Files:
@@ -24,7 +25,7 @@ Output Files:
     - geocode_cache.json       # Cached geocoding results
 
 Author: Joshua Castillo
-Version: 1.0
+
 """
 
 import glob
@@ -49,6 +50,7 @@ def discover_pdf_files() -> List[str]:
     Expected Directory Structure:
         evidence/namus/**/*.pdf
         evidence/ncmec/**/*.pdf
+        evidence/FBI/**/*.pdf
         evidence/the_charley_project/**/*.pdf
         
     Note:
@@ -66,6 +68,11 @@ def discover_pdf_files() -> List[str]:
     ncmec_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\ncmec\**\*.pdf", recursive=True)
     inputs.extend(ncmec_files)
     print(f"Found {len(ncmec_files)} NCMEC PDF files")
+    
+    # Discover FBI poster PDFs
+    fbi_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\FBI\**\*.pdf", recursive=True)
+    inputs.extend(fbi_files)
+    print(f"Found {len(fbi_files)} FBI PDF files")
     
     # Discover Charley Project case PDFs
     charley_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\the_charley_project\**\*.pdf", recursive=True)
@@ -88,10 +95,10 @@ def build_parser_command(pdf_files: List[str]) -> List[str]:
         str(ROOT / ".venv/Scripts/python.exe"),  # Virtual environment Python
         str(ROOT / "parser_pack.py"),            # Parser script
         "--inputs", *pdf_files,                  # Input PDF files
-        "--jsonl", str(ROOT / "guardian_output.jsonl"),  # JSONL output
-        "--csv", str(ROOT / "guardian_output.csv"),      # CSV output
+        "--jsonl", str(ROOT / "output" / "guardian_output.jsonl"),  # JSONL output
+        "--csv", str(ROOT / "output" / "guardian_output.csv"),      # CSV output
         "--geocode",                             # Enable geocoding
-        "--geocode-cache", str(ROOT / "geocode_cache.json")  # Geocoding cache
+        "--geocode-cache", str(ROOT / "output" / "geocode_cache.json")  # Geocoding cache
     ]
     return cmd
 
@@ -114,6 +121,7 @@ def main() -> None:
             print("Please ensure the following directories exist and contain PDF files:")
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\namus\\")
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\")
+            print("  - C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\")
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\")
             return
         

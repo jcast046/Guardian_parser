@@ -250,13 +250,17 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
     if m: 
         set_if_missing("demographic", "weight_lb", int(m.group(1)))
 
-    # Hair color
+    # Hair color - more specific pattern to avoid capturing descriptive text
     m = re.search(
-        r"\bHair(?:\s*Color)?\s*[:\-]?\s*([A-Za-z /-]+?)\b(?:Eyes?|Eye|Eye\s*Color|Height|Weight|DOB|Date\b)",
+        r"\bHair(?:\s*Color)?\s*[:\-]?\s*([A-Za-z]+)(?:\s|$|\n)",
         norm, re.I
     )
     if m: 
-        set_if_missing("demographic", "hair_color", m.group(1).strip().title())
+        hair_color = m.group(1).strip().title()
+        # Only set if it's a valid hair color (not descriptive text)
+        valid_hair_colors = ['Black', 'Brown', 'Blonde', 'Red', 'Gray', 'White', 'Auburn', 'Strawberry', 'Chestnut']
+        if hair_color in valid_hair_colors or hair_color.lower() in [c.lower() for c in valid_hair_colors]:
+            set_if_missing("demographic", "hair_color", hair_color)
 
     # Eye color
     m = re.search(
@@ -321,15 +325,30 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
     if m: 
         set_if_missing('provenance', 'case_number', m.group(1).strip())
 
-    # AKA / Nicknames / Aliases
-    aka = re.findall(r'\b(?:AKA|Alias|Nicknames?)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+)', norm, re.I)
+    # AKA / Nicknames / Aliases - more specific patterns to avoid capturing demographic info
+    aka_patterns = [
+        r'\b(?:AKA|Also Known As)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+?)(?:\s|$)',
+        r'\b(?:Nickname|Nicknames?)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+?)(?:\s|$)',
+        r'\b(?:Chosen Name/Nickname/Alias|Chosen Name|Alias)\s*[:\-]?\s*([A-Za-z0-9 .\'-]+?)(?:\s|$)',
+    ]
+    
+    aka = []
+    for pattern in aka_patterns:
+        matches = re.findall(pattern, norm, re.I)
+        for match in matches:
+            clean_match = match.strip()
+            # Skip if it's just a dash or empty, or if it contains demographic keywords
+            if (clean_match and clean_match not in ['--', '-', ''] and 
+                not re.search(r'\b(?:Biological|Sex|Current|Age|Years|Middle|Name|Legal|Last|Height|Weight|Race|Ethnicity)\b', clean_match, re.I)):
+                aka.append(clean_match)
+    
     if aka:
         rec.setdefault('demographic', {})
         if not rec['demographic'].get('aka'):
-            rec['demographic']['aka'] = ' | '.join(sorted(set(x.strip() for x in aka if x.strip())))
+            rec['demographic']['aka'] = ' | '.join(sorted(set(aka)))
         # Also populate aliases array for schema compliance
         if not rec['demographic'].get('aliases'):
-            rec['demographic']['aliases'] = [x.strip() for x in aka if x.strip()]
+            rec['demographic']['aliases'] = list(set(aka))
 
     # Distinctive features / physical characteristics
     # Use original text for better pattern matching
@@ -337,7 +356,10 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
         r'Scar/mark\s+([^\n]+?)(?=\n|$)',
         r'Tattoo\s+([^\n]+?)(?=\n|$)',
         r'Birthmark\s+([^\n]+?)(?=\n|$)',
-        r'Distinctive\s+Physical\s+Features.*?Description\s+([^\n]+?)(?=\n|$)',
+        # More specific pattern for NamUs distinctive features - look for actual feature descriptions
+        r'Distinctive\s+Physical\s+Features.*?Scar/mark\s+([^\n]+?)(?=\n|$)',
+        r'Distinctive\s+Physical\s+Features.*?Tattoo\s+([^\n]+?)(?=\n|$)',
+        r'Distinctive\s+Physical\s+Features.*?Birthmark\s+([^\n]+?)(?=\n|$)',
     ]
     
     distinctive_features = []
@@ -352,13 +374,22 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
             clean_match = re.sub(r'\s+Description.*$', '', clean_match)
             clean_match = clean_match.strip()
             
-            if clean_match and len(clean_match) > 5 and len(clean_match) < 200:  # Reasonable length
+            # Skip if it's just a section header or irrelevant text
+            if (clean_match and len(clean_match) > 5 and len(clean_match) < 200 and 
+                not re.search(r'\b(?:Clothing|Accessories|Item|Description|Physical|Features)\b', clean_match, re.I)):
                 distinctive_features.append(clean_match)
     
     if distinctive_features:
         rec.setdefault('demographic', {})
         if not rec['demographic'].get('distinctive_features'):
-            rec['demographic']['distinctive_features'] = ' | '.join(distinctive_features)
+            # Remove duplicates while preserving order
+            unique_features = []
+            seen = set()
+            for feature in distinctive_features:
+                if feature not in seen:
+                    unique_features.append(feature)
+                    seen.add(feature)
+            rec['demographic']['distinctive_features'] = ' | '.join(unique_features)
 
     # Risk factors
     risk_patterns = [
@@ -376,9 +407,22 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
             rec['demographic']['risk_factors'] = list(set(risk_factors))
 
     # Agency / phone
-    m = re.search(r'\b(?:Investigating Agency|Contact)\s*[:\-]?\s*([A-Za-z0-9 .,&\'-]+)', norm, re.I)
-    if m: 
-        set_if_missing('provenance', 'agency', m.group(1).strip())
+    # Look for actual law enforcement agency names, not just "Contact" in location text
+    agency_patterns = [
+        r'\bInvestigating Agency\s*[:\-]?\s*([A-Za-z0-9 .,&\'-]+?)(?:\s|$)',
+        r'\bContact\s*[:\-]?\s*([A-Za-z0-9 .,&\'-]*(?:POLICE|SHERIFF|DEPARTMENT|AGENCY)[A-Za-z0-9 .,&\'-]*?)(?:\s|$)',
+        r'\b([A-Za-z0-9 .,&\'-]*(?:POLICE|SHERIFF|DEPARTMENT|AGENCY)[A-Za-z0-9 .,&\'-]*?)\s*[:\-]?\s*Contact',
+    ]
+    
+    for pattern in agency_patterns:
+        m = re.search(pattern, norm, re.I)
+        if m: 
+            agency = m.group(1).strip()
+            # Skip if it's just administrative text or location info
+            if (agency and len(agency) > 3 and len(agency) < 100 and 
+                not re.search(r'\b(?:NamUs|Case|Created|Last|Known|Location|April|2023|Missing|From)\b', agency, re.I)):
+                set_if_missing('provenance', 'agency', agency)
+                break
     phone = re.search(r'(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})', norm)
     if phone: 
         set_if_missing('provenance', 'agency_phone', phone.group(1))
@@ -387,12 +431,16 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
     behavioral_patterns = []
     movement_cues = []
     
-    # Extract behavioral indicators - more precise patterns
+    # Extract behavioral indicators - more precise patterns that avoid clothing descriptions
     behavior_patterns = [
-        r'\b(?:last\s+seen\s+wearing|wearing)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+traveling|\s+with|\s+$)',
+        # Focus on movement and behavioral patterns, not clothing
         r'\b(?:traveling|en\s+route|headed|going\s+to)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+with|\s+$)',
         r'\b(?:with|accompanied\s+by|in\s+company\s+of)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+in|\s+$)',
-        r'\b(?:vehicle|car|truck|bus)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s*$)'
+        r'\b(?:vehicle|car|truck|bus)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s*$)',
+        # Look for behavioral context like "may stay", "believed to be", etc.
+        r'\b(?:may\s+stay|believed\s+to\s+be|suspected\s+of|known\s+to)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+with|\s+$)',
+        # Look for destination or location patterns
+        r'\b(?:destination|headed\s+to|en\s+route\s+to)\s*[:\-]?\s*([A-Za-z0-9 .,\-\/]{5,50}?)(?:\s+with|\s+$)',
     ]
     
     for pattern in behavior_patterns:
@@ -402,7 +450,9 @@ def _enrich_common_fields(rec: Dict[str, Any], full_text: str) -> Dict[str, Any]
             # Clean up common trailing text
             clean_match = re.sub(r'\\s+(?:CASE|Physical|Description|Clothing).*$', '', clean_match)
             clean_match = clean_match.strip()
-            if clean_match and len(clean_match) > 5 and len(clean_match) < 100:
+            # Skip clothing-related patterns
+            if (clean_match and len(clean_match) > 5 and len(clean_match) < 100 and 
+                not re.search(r'\b(?:wearing|shirt|pants|hoodie|shoes|clothing|outfit)\b', clean_match, re.I)):
                 behavioral_patterns.append(clean_match)
     
     if behavioral_patterns:
@@ -1166,18 +1216,34 @@ def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
     if m:
         data["demographic"]["gender"] = normalize_gender(m.group(1))
 
-    # Short description (clothing / features) - enhanced patterns
+    # Enhanced incident summary extraction for NCMEC
+    # Try to capture full incident narratives, not just clothing descriptions
     desc_patterns = [
-        r"(?i)(?:last\s+seen\s+wearing|features?)[:\s]*([A-Z0-9 ,.'\-\(\)]+)",
+        # Pattern 1: Look for any text after NCMEC case number that contains incident information (highest priority)
+        r"(?i)NCMEC:\s*[A-Z0-9\-]+\s*\n\s*([A-Z][^.]*\.(?:\s+[A-Z][^.]*\.)*)",
+        # Pattern 2: Look for narratives after "Female" or "Male" that contain contextual information (but avoid boilerplate)
+        r"(?i)(?:Female|Male)\s*\n\s*(?!Scan, View|How you can help|Report Sighting)([A-Z][^.]*\.(?:\s+[A-Z][^.]*\.)*)",
+        # Pattern 3: Look for narratives that start with the person's name (like "YENSY WAS LAST SEEN...") but avoid poster headers
+        r"(?i)(?!MISSING CHILD)([A-Z][A-Z\s]+\s+(?:WAS LAST SEEN|MAY STAY|MIGHT|WAS|IS|HAS|HAD|WILL|WOULD|CAN|COULD|SHOULD|MUST|SHALL)[^.]*\.(?:\s+[A-Z][^.]*\.)*)",
+        # Pattern 4: Look for narratives after demographic info that contain behavioral/location context
+        r"(?i)(?:Age\s+Now|Sex|Gender).*?(?:Years?\s+Old|Male|Female).*?\n\s*(?!Scan, View|How you can help|Report Sighting)([A-Z][^.]*\.(?:\s+[A-Z][^.]*\.)*)",
+        # Pattern 5: Look for clothing/feature descriptions (fallback patterns)
+        r"(?i)(?:last\s+seen\s+wearing|features?|clothing)[:\s]*([A-Z0-9 ,.'\-\(\)]+)",
         r"(?i)([A-Z][A-Z\s,.'\-\(\)]+(?:HOODIE|SHIRT|PANTS|SHOES|BRACES|RING|TATTOO|SCAR)[A-Z0-9 ,.'\-\(\)]*)",
         r"(?i)([A-Z][A-Z\s,.'\-\(\)]+(?:WAS LAST SEEN|HAS|WEARING)[A-Z0-9 ,.'\-\(\)]*)",
     ]
     
     for pattern in desc_patterns:
-        m = safe_search(pattern, text)
+        m = safe_search(pattern, text, re.S)  # Use re.S for multiline matching
         if m:
             desc = m.group(1).strip()
-            if desc and len(desc) > 5:  # Avoid very short matches
+            # Clean up the description
+            desc = re.sub(r'\s+', ' ', desc)  # Normalize whitespace
+            desc = re.sub(r'\n+', ' ', desc)  # Replace newlines with spaces
+            # Remove common trailing text that's not part of the narrative
+            desc = re.sub(r'\s+(?:How you can help|Scan, View|Report Sighting|CALL|911|NCMEC).*$', '', desc, flags=re.I)
+            # Skip if the description is just boilerplate text
+            if desc and len(desc) > 10 and not re.match(r'^(?:Scan, View|How you can help|Report Sighting|CALL|911)', desc, re.I):
                 data["narrative_osint"]["incident_summary"] = desc
                 break
 
@@ -1445,11 +1511,54 @@ def geocode_city_state(city: Optional[str], state: Optional[str], cache_key_extr
         if loc:
             lat = clamp_lat(loc.latitude)
             lon = clamp_lon(loc.longitude)
-            _GEOCODE_CACHE[key] = {"lat": lat, "lon": lon}
+            # Only cache if location is in Virginia
+            if is_location_in_virginia(lat, lon):
+                _GEOCODE_CACHE[key] = {"lat": lat, "lon": lon}
             return (lat, lon)
     except Exception:
         pass
     return (None, None)
+
+def is_location_in_virginia(lat: float, lon: float) -> bool:
+    """
+    Check if the given coordinates are within Virginia state boundaries.
+    Virginia approximate bounds: 36.5°N to 39.5°N, 75.2°W to 83.7°W
+    """
+    return (36.5 <= lat <= 39.5) and (-83.7 <= lon <= -75.2)
+
+def get_virginia_town_coordinates() -> Tuple[float, float]:
+    """
+    Return coordinates for a representative Virginia town.
+    Using Richmond, VA as the default Virginia location.
+    """
+    return (37.5407, -77.4360)  # Richmond, VA coordinates
+
+def geocode_city_state_with_va_override(city: Optional[str], state: Optional[str], cache_key_extra: str = "", cache_only: bool = False) -> Tuple[Optional[float], Optional[float], Optional[str], Optional[str]]:
+    """
+    Geocode a (city, state) pair to (lat, lon) using geopy (Nominatim).
+    If the location is not in Virginia, return Richmond, VA coordinates instead.
+    Returns (lat, lon, final_city, final_state) where final_city/state are the actual location used.
+    """
+    if not city and not state:
+        return (None, None, None, None)
+    
+    # First, try to geocode the original location
+    original_lat, original_lon = geocode_city_state(city, state, cache_key_extra, cache_only=cache_only)
+    
+    if original_lat is not None and original_lon is not None:
+        # Check if the geocoded location is in Virginia
+        if is_location_in_virginia(original_lat, original_lon):
+            # Location is in Virginia, return original coordinates
+            return (original_lat, original_lon, city, state)
+        else:
+            # Location is not in Virginia, return Richmond, VA coordinates
+            va_lat, va_lon = get_virginia_town_coordinates()
+            # Cache the Virginia coordinates with a Virginia location key instead of original key
+            va_key = f"richmond|virginia|{cache_key_extra}"
+            _GEOCODE_CACHE[va_key] = {"lat": va_lat, "lon": va_lon}
+            return (va_lat, va_lon, "Richmond", "Virginia")
+    
+    return (None, None, None, None)
 
 # ---------- CSV/JSON emit ----------
 
@@ -1650,11 +1759,12 @@ def detect_source(text: str) -> str:
         text (str): The extracted text from the PDF document
         
     Returns:
-        str: Source identifier ("NamUs", "NCMEC", "Charley", or "Unknown")
+        str: Source identifier ("NamUs", "NCMEC", "FBI", "Charley", or "Unknown")
         
     Detection Logic:
         - NamUs: Contains "NamUs", "Case Created", or "Date of Last Contact"
         - NCMEC: Contains "Have you seen this child?", "NCMEC", or "Missing Since:"
+        - FBI: Contains "FBI" and "www.fbi.gov", "Federal Bureau of Investigation", or FBI poster boilerplate
         - Charley: Contains "The Charley Project", "Details of Disappearance", or "Missing From"
         - Unknown: No characteristic markers found
         
@@ -1671,6 +1781,16 @@ def detect_source(text: str) -> str:
     # Check for NCMEC markers
     if "Have you seen this child?" in text or "NCMEC" in text or "Missing Since:" in text or "Missing Since :" in text:
         return "NCMEC"
+    
+    # Check for FBI poster markers
+    # Common strings across FBI PDFs: "FBI", site URL, poster boilerplate,
+    # "If you have any information concerning this person…"
+    if ("FBI" in text and "www.fbi.gov" in text) or \
+       re.search(r"\bFederal Bureau of Investigation\b", text, re.I) or \
+       re.search(r"\bFBI\s+\w+\s+Field\s+Office\b", text, re.I) or \
+       re.search(r"Field\s+Office\s*:\s*\w+", text, re.I) or \
+       re.search(r"If you have any information concerning this (?:child|person)", text, re.I):
+        return "FBI"
     
     # Check for Charley Project markers
     if "The Charley Project" in text or "Details of Disappearance" in text or "Missing From" in text:
@@ -1724,6 +1844,10 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
         rec = parse_ncmec(text, case_id)
         rec.setdefault("provenance", {}).update({"source_path": pdf_path})
 
+    elif source == "FBI":
+        rec = parse_fbi(text, case_id)
+        rec.setdefault("provenance", {}).update({"source_path": pdf_path})
+
     elif source == "Charley":
         rec = parse_charley(text, case_id)
         rec.setdefault("provenance", {}).update({"source_path": pdf_path})
@@ -1759,7 +1883,7 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
         if needs_geo:
             city = rec.get("spatial",{}).get("last_seen_city")
             state = rec.get("spatial",{}).get("last_seen_state")
-            glat, glon = geocode_city_state(city, state, cache_key_extra="city_state", cache_only=cache_only)
+            glat, glon, final_city, final_state = geocode_city_state_with_va_override(city, state, cache_key_extra="city_state", cache_only=cache_only)
             if glat is None or glon is None:
                 # Try free-text location if available
                 loc = rec.get("spatial",{}).get("last_seen_location")
@@ -1767,10 +1891,14 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
                     parts = [p.strip() for p in (loc.split(",") if isinstance(loc,str) else [])]
                     c2 = parts[0] if parts else city
                     s2 = parts[1] if len(parts) > 1 else state
-                    glat, glon = geocode_city_state(c2, s2, cache_key_extra="from_location", cache_only=cache_only)
+                    glat, glon, final_city, final_state = geocode_city_state_with_va_override(c2, s2, cache_key_extra="from_location", cache_only=cache_only)
             if glat is not None and glon is not None:
                 rec.setdefault("spatial", {})["last_seen_lat"] = glat
                 rec.setdefault("spatial", {})["last_seen_lon"] = glon
+                # Update city and state if they were changed to Virginia location
+                if final_city and final_state:
+                    rec.setdefault("spatial", {})["last_seen_city"] = final_city
+                    rec.setdefault("spatial", {})["last_seen_state"] = final_state
 
     return rec
 
@@ -1778,28 +1906,203 @@ def _prenormalize(s: str) -> str:
     if not s: return ""
     # normalize unicode quotes/spaces/dashes
     s = s.replace("\u00A0", " ")   # NBSP -> space
-    s = s.replace("’", "'").replace("“","\"").replace("”","\"")
+    s = s.replace("'", "'").replace(""","\"").replace(""","\"")
     s = s.replace("–","-").replace("—","-")
     # collapse multiple spaces
     s = re.sub(r"[ \t]+", " ", s)
     return s
 
+def _pick_first(*vals):
+    for v in vals:
+        if v is not None and str(v).strip() != "":
+            return v
+    return None
 
+# ---------- NEW: FBI Poster Parser ----------
 
+def parse_fbi(text: str, case_id: str) -> Dict[str, Any]:
+    """
+    Parse FBI missing (child) posters.
+    FBI posters use a narrative format with embedded information rather than structured fields.
+    Typical content:
+      - Name in title (ALL CAPS)
+      - Date and location information
+      - Narrative descriptions with embedded demographics
+      - Contact information
+    """
+    data = {
+        "case_id": case_id,
+        "demographic": {},
+        "spatial": {},
+        "temporal": {"timezone": "America/New_York"},
+        "outcome": {"case_status": "ongoing"},
+        "narrative_osint": {"incident_summary": ""},
+        "provenance": {"sources": ["FBI"], "original_fields": {}}
+    }
+
+    t = text
+
+    # ---- Name (first ALL-CAPS line, usually the title)
+    m = re.search(r"^([A-Z][A-Z\s'\-]+)\s*\n", t, re.M)
+    if m:
+        name_text = m.group(1).strip()
+        # Clean up the name and convert to title case
+        data["demographic"]["name"] = " ".join(name_text.title().split())
+
+    # ---- Date and Location (usually on lines after the name)
+    # Look for date patterns like "August 29, 2014" or "August 29, 2014"
+    date_match = re.search(r"([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})", t)
+    if date_match:
+        iso = to_iso8601(date_match.group(1))
+        if iso:
+            data["temporal"]["last_seen_ts"] = iso
+
+    # ---- Location (city, state pattern)
+    location_match = re.search(r"([A-Za-z\s]+),\s*([A-Za-z\s]+(?:Carolina|Dakota|Hampshire|Jersey|Mexico|York|Island|Virginia|Washington|California|Florida|Texas|Alaska|Hawaii|Alabama|Arizona|Arkansas|Colorado|Connecticut|Delaware|Georgia|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Utah|Vermont|West|Wisconsin|Wyoming))", t)
+    if location_match:
+        city = location_match.group(1).strip()
+        state = location_match.group(2).strip()
+        data["spatial"]["last_seen_location"] = f"{city}, {state}"
+        data["spatial"]["last_seen_city"] = city
+        data["spatial"]["last_seen_state"] = state
+
+    # ---- Extract demographics from narrative descriptions
+    # Look for patterns like "white female, with blue eyes and brown hair"
+    demo_patterns = [
+        r"(\w+)\s+(?:male|female),?\s+with\s+(\w+)\s+eyes\s+and\s+(\w+)\s+hair",
+        r"(\w+)\s+(?:male|female),?\s+(\w+)\s+eyes,?\s+(\w+)\s+hair",
+        r"(\w+)\s+(?:male|female),?\s+(\w+)\s+hair,?\s+(\w+)\s+eyes"
+    ]
+    
+    for pattern in demo_patterns:
+        matches = re.findall(pattern, t, re.I)
+        if matches:
+            # Take the first match for the primary person
+            race, eye_color, hair_color = matches[0]
+            data["demographic"]["race_ethnicity"] = race.title()
+            data["demographic"]["eye_color"] = eye_color.title()
+            data["demographic"]["hair_color"] = hair_color.title()
+            break
+
+    # ---- Gender extraction
+    if re.search(r"\bfemale\b", t, re.I):
+        data["demographic"]["gender"] = "female"
+    elif re.search(r"\bmale\b", t, re.I):
+        data["demographic"]["gender"] = "male"
+
+    # ---- Height and Weight extraction
+    # Look for patterns like "5'2\" tall and weighed approximately 82 pounds"
+    # Handle cases where height and weight might be on separate lines
+    height_weight = re.search(r"(\d+['\"]?\d*)\s*(?:tall|ft|feet).*?(\d+)\s*(?:pounds|lbs)", t, re.I)
+    if height_weight:
+        height_str = height_weight.group(1)
+        weight_str = height_weight.group(2)
+        
+        # Convert height to inches
+        hin = to_inches(height_str)
+        if hin is not None:
+            data["demographic"]["height_in"] = hin
+        
+        # Convert weight to pounds
+        try:
+            data["demographic"]["weight_lbs"] = float(weight_str)
+        except ValueError:
+            pass
+    else:
+        # Try separate height and weight patterns for cases where they're on different lines
+        height_match = re.search(r"approximately\s+(\d+['\"]?\d*)\s*(?:tall|ft|feet)", t, re.I)
+        weight_match = re.search(r"weighed\s+approximately\s+(\d+)\s*(?:pounds|lbs)", t, re.I)
+        
+        if height_match:
+            hin = to_inches(height_match.group(1))
+            if hin is not None:
+                data["demographic"]["height_in"] = hin
+        
+        if weight_match:
+            try:
+                data["demographic"]["weight_lbs"] = float(weight_match.group(1))
+            except ValueError:
+                pass
+
+    # ---- Age extraction
+    # Look for patterns like "was 10 and Belel was 8 years old"
+    age_match = re.search(r"(?:was|is)\s+(\d{1,2})\s+(?:and|\s+years?\s+old)", t, re.I)
+    if age_match:
+        try:
+            data["demographic"]["age_years"] = float(age_match.group(1))
+        except ValueError:
+            pass
+
+    # ---- Date of Birth extraction
+    # Look for patterns like "born on September 1, 2003"
+    dob_match = re.search(r"born\s+on\s+([A-Za-z]{3,9}\s+\d{1,2},\s+\d{4})", t, re.I)
+    if dob_match:
+        iso = to_iso8601(dob_match.group(1))
+        if iso:
+            data["demographic"]["dob"] = iso.split("T")[0]
+
+    # ---- Narrative/Details section
+    # Extract the main narrative content
+    details_match = re.search(r"DETAILS\s*\n(.*?)(?:\n\s*ADDITIONAL\s+INFORMATION|\n\s*Anyone\s+with\s+information|\Z)", t, re.I | re.S)
+    if details_match:
+        narrative = details_match.group(1).strip()
+        # Clean up the narrative
+        narrative = re.sub(r"\s+", " ", narrative)
+        data["narrative_osint"]["incident_summary"] = narrative
+
+    # ---- Contact information extraction
+    phone_match = re.search(r"\((\d{3})\)\s*(\d{3})-(\d{4})", t)
+    if phone_match:
+        data["provenance"]["agency_phone"] = f"({phone_match.group(1)}) {phone_match.group(2)}-{phone_match.group(3)}"
+    
+    # ---- Agency name extraction
+    # Look for FBI Field Office patterns
+    fbi_office_match = re.search(r"FBI\s+([A-Za-z\s]+)\s+Field\s+Office", t, re.I)
+    if fbi_office_match:
+        data["provenance"]["agency"] = f"FBI {fbi_office_match.group(1).strip()} Field Office"
+    else:
+        # Look for local law enforcement agency patterns
+        local_agency_patterns = [
+            r"working\s+this\s+investigation\s+jointly\s+with\s+the\s+([A-Za-z\s]+(?:Police|Sheriff|Department))",
+            r"investigation\s+jointly\s+with\s+the\s+([A-Za-z\s]+(?:Police|Sheriff|Department))",
+            r"with\s+the\s+([A-Za-z\s]+(?:Police|Sheriff|Department))",
+            r"contact\s+(?:the\s+the\s+)?([A-Za-z\s]+(?:Police|Sheriff|Department))\s+at\s+\(?\d{3}\)?\s*\d{3}[-.\s]?\d{4}",
+        ]
+        
+        for pattern in local_agency_patterns:
+            agency_match = re.search(pattern, t, re.I)
+            if agency_match:
+                agency = agency_match.group(1).strip()
+                # Clean up the agency name
+                agency = re.sub(r'\s+', ' ', agency)  # Normalize whitespace
+                agency = re.sub(r'\bthe\s+the\b', 'the', agency, flags=re.I)  # Fix duplicate "the"
+                agency = re.sub(r'^\s*the\s+', '', agency, flags=re.I)  # Remove leading "the"
+                data["provenance"]["agency"] = agency
+                break
+
+    # FBI posters generally don't have lat/lon; keep placeholders
+    data["spatial"]["last_seen_lat"] = 0.0
+    data["spatial"]["last_seen_lon"] = 0.0
+
+    return data
 
 def main(argv=None):
     import argparse
     parser = argparse.ArgumentParser(description="Guardian Parser Pack")
     parser.add_argument("--inputs", nargs="+", help="PDF files to parse", required=True)
-    parser.add_argument("--jsonl", default="guardian_output.jsonl")
-    parser.add_argument("--csv", default="guardian_output.csv")
+    parser.add_argument("--jsonl", default=os.path.join("output", "guardian_output.jsonl"))
+    parser.add_argument("--csv", default=os.path.join("output", "guardian_output.csv"))
     parser.add_argument("--geocode", action="store_true", help="Attempt to geocode missing lat/lon from city/state")
-    parser.add_argument("--geocode-cache", default=str(os.path.join(os.path.dirname(__file__), "geocode_cache.json")), help="Path to a JSON cache for geocoding results")
+    parser.add_argument("--geocode-cache", default=str(os.path.join(os.path.dirname(__file__), "output", "geocode_cache.json")), help="Path to a JSON cache for geocoding results")
     args = parser.parse_args(argv)
 
     schema = load_schema(GUARDIAN_SCHEMA_PATH)
     if args.geocode:
         load_geocode_cache(args.geocode_cache)
+    
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(args.jsonl), exist_ok=True)
+    os.makedirs(os.path.dirname(args.csv), exist_ok=True)
     
     # Parse all PDFs first
     records = []
