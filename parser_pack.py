@@ -494,7 +494,9 @@ def parse_date_to_iso_utc(s: str) -> Optional[str]:
         for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%b %d, %Y", "%B %d, %Y"):
             try:
                 dt = datetime.strptime(s, fmt)
-                return dt.strftime("%Y-%m-%dT00:00:00Z")
+                # Ensure we're working with UTC timezone
+                dt = dt.replace(tzinfo=tz.UTC)
+                return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
             except ValueError:
                 pass
     except Exception:
@@ -535,22 +537,21 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
     if "name" in demo and not get_nested(rec, "name.full"):
         rec.setdefault("name", {})["full"] = demo["name"]
 
-    # spatial: last_seen_* → city/state/country
+    # spatial: Keep canonical last_seen_* fields, but also provide city/state aliases for compatibility
     if "last_seen_city" in spat and "city" not in spat:
-        spat["city"] = spat.pop("last_seen_city")
+        spat["city"] = spat["last_seen_city"]
     if "last_seen_state" in spat and "state" not in spat:
-        spat["state"] = spat.pop("last_seen_state")
+        spat["state"] = spat["last_seen_state"]
     if "last_seen_country" in spat and "country" not in spat:
-        spat["country"] = spat.pop("last_seen_country")
+        spat["country"] = spat["last_seen_country"]
 
     # temporal: reported_missing_ts → reported_ts
     if "reported_missing_ts" in temp and "reported_ts" not in temp:
         temp["reported_ts"] = temp.pop("reported_missing_ts")
 
-    # case/meta: lift top-level ids and statuses
-    # (parsers set case_id at top-level; outcome.case_status)
+    # case/meta: Keep case_id at top level as required by schema, but also provide case.case_id alias
     if "case_id" in rec and "case_id" not in meta:
-        meta["case_id"] = rec.pop("case_id")
+        meta["case_id"] = rec["case_id"]  # Don't pop, keep at top level
     if "outcome" in rec:
         cs = rec["outcome"].get("case_status")
         if cs and "status" not in meta:
@@ -638,7 +639,7 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
     if "source" in rec and "source" not in meta:
         meta["source"] = rec.pop("source")
     if "case_id" in rec and "case_id" not in meta:
-        meta["case_id"] = rec.pop("case_id")
+        meta["case_id"] = rec["case_id"]  # Don't pop, keep at top level
 
     # If source lives under provenance.sources, surface first value to case.source
     prov_sources = rec.get("provenance", {}).get("sources")
@@ -649,7 +650,12 @@ def harmonize_record_fields(rec: Dict[str, Any]) -> Dict[str, Any]:
     if rec.get("demographic", {}).get("name"):
         rec.setdefault("name", {})
         if not rec["name"].get("full"):
-            rec["name"]["full"] = rec["demographic"]["name"]
+            # Clean up the name to remove any artifacts
+            name = rec["demographic"]["name"]
+            # Remove common artifacts like "PM" timestamps
+            name = re.sub(r'\bPM\b', '', name)
+            name = re.sub(r'\s+', ' ', name).strip()  # Normalize whitespace
+            rec["name"]["full"] = name
 
     # Move narrative_osint.incident_summary into narrative.incident_summary if present
     if rec.get("narrative_osint", {}).get("incident_summary"):
@@ -884,16 +890,32 @@ def to_iso8601(date_text: str, timezone: str = DEFAULT_TZ) -> Optional[str]:
     """
     Parse a variety of date formats to ISO 8601 with timezone.
     If time not present, set to 00:00 in provided timezone.
+    Returns consistent UTC format for all dates.
     """
     if not date_text:
         return None
     try:
+        # Clean up the date text
+        date_text = date_text.strip()
+        
+        # Handle common time patterns
+        if re.search(r'\d{1,2}:\d{2}\s*[AP]M', date_text, re.I):
+            # Convert 12-hour format to 24-hour format for better parsing
+            date_text = re.sub(r'(\d{1,2}):(\d{2})\s*([AP])M', r'\1:\2 \3M', date_text, flags=re.I)
+        
         dt = dt_parse(date_text, fuzzy=True, dayfirst=False, yearfirst=False)
+        
         # If no tzinfo, apply DEFAULT_TZ
         if not dt.tzinfo:
             tzinfo = tz.gettz(timezone)
             dt = dt.replace(tzinfo=tzinfo)
-        return dt.isoformat()
+        
+        # Convert to UTC for consistency
+        if dt.tzinfo:
+            dt = dt.astimezone(tz.UTC)
+        
+        # Return in UTC format with Z suffix
+        return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
     except Exception:
         return None
 
@@ -961,6 +983,10 @@ DATE_PATTERNS = [
     r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}",    # September 8, 2025  | Sep 8 2025
     r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}",       # 09/08/2025 or 9-8-25
     r"\d{4}[/-]\d{1,2}[/-]\d{1,2}",         # 2025-09-08
+    r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}\s+\d{1,2}:\d{2}\s*[AP]M",  # September 8, 2025 3:45 PM
+    r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\s+\d{1,2}:\d{2}\s*[AP]M",      # 09/08/2025 3:45 PM
+    r"[A-Za-z]{3,9}\s+\d{1,2},?\s+\d{4}\s+\d{1,2}:\d{2}:\d{2}",    # September 8, 2025 15:45:30
+    r"\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\s+\d{1,2}:\d{2}:\d{2}",       # 09/08/2025 15:45:30
 ]
 
 def find_date_near(text: str, label_regex: str, window: int = 160) -> Optional[str]:
@@ -1370,18 +1396,33 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
         "provenance": {"sources": ["CharleyProject"], "original_fields": {}}
     }
 
-    # Name (title-like pattern, 2-4 words capitalized)
-    m = safe_search(r"\b([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*\n", text)
-    if m:
-        data.setdefault("name", {})["full"] = m.group(1).strip()
+    # Name extraction - handle "Name - The Charley Project" format
+    # Clean up text first to remove timestamps and page numbers
+    clean_text = re.sub(r'\d{1,2}/\d{1,2}/\d{2,4},?\s*\d{1,2}:\d{2}\s*[AP]M', '', text)
+    clean_text = re.sub(r'\x0c\d+/\d+', '', clean_text)  # Remove page numbers like \x0c9/9
+    
+    name_patterns = [
+        r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*–\s*The\s+Charley\s+Project",  # "Name – The Charley Project"
+        r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*-\s*The\s+Charley\s+Project",   # "Name - The Charley Project"
+        r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*\n\s*Missing\s+Since",         # "Name\nMissing Since"
+        r"([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,3})\s*\n\s*THE\s+CHARLEY\s+PROJECT", # "Name\nTHE CHARLEY PROJECT"
+    ]
+    
+    for pattern in name_patterns:
+        m = re.search(pattern, clean_text, re.I | re.MULTILINE)
+        if m:
+            name = m.group(1).strip()
+            # Additional cleanup to remove any remaining timestamps or artifacts
+            name = re.sub(r'\s+', ' ', name)  # Normalize whitespace
+            data["demographic"]["name"] = name
+            break
 
-       # Missing Since (label may be on its own line, value on the next)
+    # Missing Since (label may be on its own line, value on the next)
     m = re.search(r"Missing\s+Since(?:\s*[:\-])?\s*(?:\n|\r\n|\s)*([A-Za-z0-9 ,/\-]{6,40})", text, re.I)
     if m:
         iso = to_iso8601(m.group(1))
         if iso:
             data["temporal"]["last_seen_ts"] = iso
-
 
     # Missing From
     m = safe_search(r"Missing\s+From\s*[:\-]?\s*(?:\n|\r\n|\s)*([A-Za-z .'\-]+),\s*([A-Za-z .'\-]+)", text, re.I)
@@ -1391,10 +1432,44 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
         data["spatial"]["last_seen_city"] = city
         data["spatial"]["last_seen_state"] = state
 
-    # Sex
+    # Sex/Gender
     m = re.search(r"Sex\s*[:\-]?\s*(?:\n|\r\n|\s)*\b(Female|Male)\b", text, re.I)
     if m:
         data["demographic"]["gender"] = normalize_gender(m.group(1))
+
+    # Race - be more precise to avoid capturing following lines
+    m = re.search(r"Race\s*[:\-]?\s*(?:\n|\r\n|\s)*([A-Za-z]+)", text, re.I)
+    if m:
+        race = m.group(1).strip()
+        if race and race.lower() not in ['unknown', 'n/a', 'not specified']:
+            data["demographic"]["race"] = race
+
+    # Age
+    age_patterns = [
+        r"Age\s*[:\-]?\s*(\d{1,2})\s*years?\s*old",
+        r"Age\s*[:\-]?\s*(\d{1,2})",
+        r"(\d{1,2})\s*years?\s*old",
+        r"Date\s+of\s+Birth\s*[:\-]?\s*[^\n]*\((\d{1,2})\)"  # "Date of Birth: 01/12/2018 (7)"
+    ]
+    
+    for pattern in age_patterns:
+        m = re.search(pattern, text, re.I)
+        if m:
+            try:
+                age = int(m.group(1))
+                if 0 <= age <= 120:  # Reasonable age range
+                    data["demographic"]["age_years"] = float(age)
+                    break
+            except ValueError:
+                continue
+
+    # Date of Birth - be more precise to avoid capturing age in parentheses
+    m = re.search(r"Date\s+of\s+Birth\s*[:\-]?\s*([0-9/]{8,10})(?:\s*\(\d+\))?", text, re.I)
+    if m:
+        dob_str = m.group(1).strip()
+        iso_dob = to_iso8601(dob_str)
+        if iso_dob:
+            data["demographic"]["dob"] = iso_dob
 
     # Height and Weight
     m = safe_search(r"Height\s+and\s+Weight\s*\n\s*([^\r\n]+)", text, re.I)
@@ -1411,6 +1486,18 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
             if m2: w = float(m2.group(1))
         if w is not None:
             data["demographic"]["weight_lbs"] = w
+
+    # Hair Color
+    m = re.search(r"Black\s+hair|Brown\s+hair|Blonde\s+hair|Red\s+hair|Gray\s+hair|White\s+hair", text, re.I)
+    if m:
+        hair_color = m.group(0).split()[0].title()
+        data["demographic"]["hair_color"] = hair_color
+
+    # Eye Color
+    m = re.search(r"Brown\s+eyes|Blue\s+eyes|Green\s+eyes|Hazel\s+eyes|Gray\s+eyes|Black\s+eyes", text, re.I)
+    if m:
+        eye_color = m.group(0).split()[0].title()
+        data["demographic"]["eye_color"] = eye_color
 
     # Details of Disappearance
     m = safe_search(r"Details\s+of\s+Disappearance\s*\n([\s\S]*?)(?:\n\s*Investigating\s+Agency|\Z)", text, re.I)
@@ -1533,6 +1620,131 @@ def get_virginia_town_coordinates() -> Tuple[float, float]:
     """
     return (37.5407, -77.4360)  # Richmond, VA coordinates
 
+def get_virginia_cities() -> Dict[str, Tuple[float, float]]:
+    """
+    Return a dictionary of major Virginia cities with their coordinates.
+    Used for validation and fallback geocoding.
+    """
+    return {
+        "richmond": (37.5407, -77.4360),
+        "virginia beach": (36.8529, -75.9780),
+        "norfolk": (36.8468, -76.2852),
+        "chesapeake": (36.7682, -76.2875),
+        "newport news": (37.0871, -76.4730),
+        "alexandria": (38.8048, -77.0469),
+        "hampton": (37.0299, -76.3452),
+        "portsmouth": (36.8354, -76.2983),
+        "suffolk": (36.7282, -76.5836),
+        "roanoke": (37.2710, -79.9414),
+        "lynchburg": (37.4138, -79.1422),
+        "harrisonburg": (38.4496, -78.8689),
+        "leesburg": (39.1157, -77.5636),
+        "charlottesville": (38.0293, -78.4767),
+        "danville": (36.5860, -79.3950),
+        "blacksburg": (37.2296, -80.4139),
+        "manassas": (38.7509, -77.4753),
+        "petersburg": (37.2279, -77.4019),
+        "fredericksburg": (38.3032, -77.4605),
+        "winchester": (39.1857, -78.1633),
+        "staunton": (38.1496, -79.0717),
+        "salem": (37.2935, -80.0548),
+        "hopewell": (37.3043, -77.2872),
+        "waynesboro": (38.0687, -78.8895),
+        "colonial heights": (37.2440, -77.4103),
+        "radford": (37.1318, -80.5764),
+        "bristol": (36.5951, -82.1887),
+        "martinsville": (36.6915, -79.8725),
+        "galax": (36.6612, -80.9239),
+        "fairfax": (38.8462, -77.3064),
+        "falls church": (38.8823, -77.1711),
+        "manassas park": (38.7840, -77.4697),
+        "vienna": (38.9012, -77.2653),
+        "herndon": (38.9696, -77.3861),
+        "sterling": (39.0067, -77.4291),
+        "reston": (38.9586, -77.3570),
+        "annandale": (38.8304, -77.1964),
+        "burke": (38.7935, -77.2717),
+        "centreville": (38.8409, -77.4289),
+        "chantilly": (38.8943, -77.4311),
+        "clifton": (38.7821, -77.3869),
+        "great falls": (38.9982, -77.2883),
+        "mclean": (38.9343, -77.1775),
+        "oakton": (38.8809, -77.3008),
+        "springfield": (38.7893, -77.1872),
+        "west springfield": (38.7726, -77.2211),
+        "woodbridge": (38.6582, -77.2497),
+        "dumfries": (38.5674, -77.3281),
+        "quantico": (38.5223, -77.2933),
+        "stafford": (38.4221, -77.4083),
+        "fredericksburg": (38.3032, -77.4605),
+        "spotsylvania": (38.2018, -77.5892),
+        "culpeper": (38.4734, -77.9961),
+        "orange": (38.2456, -78.1108),
+        "madison": (38.3804, -78.2575),
+        "rappahannock": (38.6846, -78.1594),
+        "fauquier": (38.7373, -77.8086),
+        "loudoun": (39.0897, -77.6358),
+        "prince william": (38.7380, -77.5537),
+        "fairfax county": (38.8156, -77.2837),
+        "arlington": (38.8816, -77.0910),
+        "alexandria": (38.8048, -77.0469),
+        "falls church": (38.8823, -77.1711),
+        "fairfax": (38.8462, -77.3064),
+        "vienna": (38.9012, -77.2653),
+        "herndon": (38.9696, -77.3861),
+        "sterling": (39.0067, -77.4291),
+        "reston": (38.9586, -77.3570),
+        "annandale": (38.8304, -77.1964),
+        "burke": (38.7935, -77.2717),
+        "centreville": (38.8409, -77.4289),
+        "chantilly": (38.8943, -77.4311),
+        "clifton": (38.7821, -77.3869),
+        "great falls": (38.9982, -77.2883),
+        "mclean": (38.9343, -77.1775),
+        "oakton": (38.8809, -77.3008),
+        "springfield": (38.7893, -77.1872),
+        "west springfield": (38.7726, -77.2211),
+        "woodbridge": (38.6582, -77.2497),
+        "dumfries": (38.5674, -77.3281),
+        "quantico": (38.5223, -77.2933),
+        "stafford": (38.4221, -77.4083),
+        "fredericksburg": (38.3032, -77.4605),
+        "spotsylvania": (38.2018, -77.5892),
+        "culpeper": (38.4734, -77.9961),
+        "orange": (38.2456, -78.1108),
+        "madison": (38.3804, -78.2575),
+        "rappahannock": (38.6846, -78.1594),
+        "fauquier": (38.7373, -77.8086),
+        "loudoun": (39.0897, -77.6358),
+        "prince william": (38.7380, -77.5537),
+        "fairfax county": (38.8156, -77.2837),
+        "arlington": (38.8816, -77.0910)
+    }
+
+def validate_virginia_location(city: str, state: str, lat: float, lon: float) -> bool:
+    """
+    Validate if a location is actually in Virginia and return more accurate coordinates if available.
+    """
+    if not is_location_in_virginia(lat, lon):
+        return False
+    
+    # Check if we have more accurate coordinates for this Virginia city
+    va_cities = get_virginia_cities()
+    city_key = city.lower().strip() if city else ""
+    state_key = state.lower().strip() if state else ""
+    
+    # Try exact city match
+    if city_key in va_cities:
+        return True
+    
+    # Try city with "virginia" or "va" suffix
+    for suffix in ["virginia", "va"]:
+        full_key = f"{city_key} {suffix}"
+        if full_key in va_cities:
+            return True
+    
+    return True  # If it's in VA bounds, it's valid
+
 def geocode_city_state_with_va_override(city: Optional[str], state: Optional[str], cache_key_extra: str = "", cache_only: bool = False) -> Tuple[Optional[float], Optional[float], Optional[str], Optional[str]]:
     """
     Geocode a (city, state) pair to (lat, lon) using geopy (Nominatim).
@@ -1542,21 +1754,103 @@ def geocode_city_state_with_va_override(city: Optional[str], state: Optional[str
     if not city and not state:
         return (None, None, None, None)
     
-    # First, try to geocode the original location
-    original_lat, original_lon = geocode_city_state(city, state, cache_key_extra, cache_only=cache_only)
+    # Clean and normalize city/state inputs
+    clean_city = city.strip() if city else ""
+    clean_state = state.strip() if state else ""
     
-    if original_lat is not None and original_lon is not None:
-        # Check if the geocoded location is in Virginia
-        if is_location_in_virginia(original_lat, original_lon):
-            # Location is in Virginia, return original coordinates
-            return (original_lat, original_lon, city, state)
+    # Try multiple fallback strategies
+    fallback_strategies = [
+        (clean_city, clean_state, "original"),
+        (clean_city, clean_state, "normalized"),
+    ]
+    
+    # Add state abbreviation/expansion fallbacks
+    if clean_state:
+        if len(clean_state) == 2:
+            # Try expanding abbreviation
+            state_expansions = {
+                "VA": "Virginia", "CA": "California", "NY": "New York", "TX": "Texas",
+                "FL": "Florida", "PA": "Pennsylvania", "IL": "Illinois", "OH": "Ohio",
+                "GA": "Georgia", "NC": "North Carolina", "MI": "Michigan", "NJ": "New Jersey",
+                "TN": "Tennessee", "IN": "Indiana", "MO": "Missouri", "MD": "Maryland",
+                "WI": "Wisconsin", "CO": "Colorado", "MN": "Minnesota", "SC": "South Carolina",
+                "AL": "Alabama", "LA": "Louisiana", "KY": "Kentucky", "OR": "Oregon",
+                "OK": "Oklahoma", "CT": "Connecticut", "UT": "Utah", "IA": "Iowa",
+                "NV": "Nevada", "AR": "Arkansas", "MS": "Mississippi", "KS": "Kansas",
+                "NM": "New Mexico", "NE": "Nebraska", "WV": "West Virginia", "ID": "Idaho",
+                "HI": "Hawaii", "NH": "New Hampshire", "ME": "Maine", "RI": "Rhode Island",
+                "MT": "Montana", "DE": "Delaware", "SD": "South Dakota", "ND": "North Dakota",
+                "AK": "Alaska", "VT": "Vermont", "WY": "Wyoming"
+            }
+            expanded_state = state_expansions.get(clean_state.upper())
+            if expanded_state:
+                fallback_strategies.append((clean_city, expanded_state, "expanded_state"))
         else:
-            # Location is not in Virginia, return Richmond, VA coordinates
-            va_lat, va_lon = get_virginia_town_coordinates()
-            # Cache the Virginia coordinates with a Virginia location key instead of original key
-            va_key = f"richmond|virginia|{cache_key_extra}"
-            _GEOCODE_CACHE[va_key] = {"lat": va_lat, "lon": va_lon}
-            return (va_lat, va_lon, "Richmond", "Virginia")
+            # Try abbreviating full state name
+            state_abbreviations = {v: k for k, v in {
+                "VA": "Virginia", "CA": "California", "NY": "New York", "TX": "Texas",
+                "FL": "Florida", "PA": "Pennsylvania", "IL": "Illinois", "OH": "Ohio",
+                "GA": "Georgia", "NC": "North Carolina", "MI": "Michigan", "NJ": "New Jersey",
+                "TN": "Tennessee", "IN": "Indiana", "MO": "Missouri", "MD": "Maryland",
+                "WI": "Wisconsin", "CO": "Colorado", "MN": "Minnesota", "SC": "South Carolina",
+                "AL": "Alabama", "LA": "Louisiana", "KY": "Kentucky", "OR": "Oregon",
+                "OK": "Oklahoma", "CT": "Connecticut", "UT": "Utah", "IA": "Iowa",
+                "NV": "Nevada", "AR": "Arkansas", "MS": "Mississippi", "KS": "Kansas",
+                "NM": "New Mexico", "NE": "Nebraska", "WV": "West Virginia", "ID": "Idaho",
+                "HI": "Hawaii", "NH": "New Hampshire", "ME": "Maine", "RI": "Rhode Island",
+                "MT": "Montana", "DE": "Delaware", "SD": "South Dakota", "ND": "North Dakota",
+                "AK": "Alaska", "VT": "Vermont", "WY": "Wyoming"
+            }.items()}
+            abbreviated_state = state_abbreviations.get(clean_state.title())
+            if abbreviated_state:
+                fallback_strategies.append((clean_city, abbreviated_state, "abbreviated_state"))
+    
+    # Try each fallback strategy
+    for try_city, try_state, strategy in fallback_strategies:
+        if not try_city and not try_state:
+            continue
+            
+        # Create cache key for this strategy
+        strategy_key = f"{cache_key_extra}_{strategy}" if strategy != "original" else cache_key_extra
+        
+        # First, check if we have a Virginia city in our database
+        va_cities = get_virginia_cities()
+        if try_city and try_state and try_state.lower() in ["virginia", "va"]:
+            city_key = try_city.lower().strip()
+            if city_key in va_cities:
+                # Use our accurate Virginia city coordinates
+                va_lat, va_lon = va_cities[city_key]
+                cache_key = f"{city_key}|virginia|{strategy_key}"
+                _GEOCODE_CACHE[cache_key] = {"lat": va_lat, "lon": va_lon}
+                return (va_lat, va_lon, try_city.title(), "Virginia")
+        
+        # Try to geocode this combination
+        original_lat, original_lon = geocode_city_state(try_city, try_state, strategy_key, cache_only=cache_only)
+        
+        if original_lat is not None and original_lon is not None:
+            # Check if the geocoded location is in Virginia
+            if is_location_in_virginia(original_lat, original_lon):
+                # Location is in Virginia, validate and potentially improve coordinates
+                if validate_virginia_location(try_city, try_state, original_lat, original_lon):
+                    # Try to get more accurate coordinates from our Virginia cities database
+                    if try_city:
+                        city_key = try_city.lower().strip()
+                        if city_key in va_cities:
+                            va_lat, va_lon = va_cities[city_key]
+                            # Update cache with more accurate coordinates
+                            cache_key = f"{city_key}|virginia|{strategy_key}_accurate"
+                            _GEOCODE_CACHE[cache_key] = {"lat": va_lat, "lon": va_lon}
+                            return (va_lat, va_lon, try_city.title(), "Virginia")
+                    
+                    # Return original coordinates if no better match found
+                    return (original_lat, original_lon, try_city, try_state)
+            else:
+                # Location is not in Virginia, return Richmond, VA coordinates
+                va_lat, va_lon = get_virginia_town_coordinates()
+                # Cache the Virginia coordinates with a Virginia location key
+                va_key = f"richmond|virginia|{strategy_key}"
+                _GEOCODE_CACHE[va_key] = {"lat": va_lat, "lon": va_lon}
+                return (va_lat, va_lon, "Richmond", "Virginia")
     
     return (None, None, None, None)
 
@@ -1881,17 +2175,62 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
         lon = rec.get("spatial",{}).get("last_seen_lon")
         needs_geo = (lat is None or lon is None or (lat == 0.0 and lon == 0.0))
         if needs_geo:
+            # Try multiple geocoding strategies
+            geocoding_strategies = []
+            
+            # Strategy 1: Use extracted city/state
             city = rec.get("spatial",{}).get("last_seen_city")
             state = rec.get("spatial",{}).get("last_seen_state")
-            glat, glon, final_city, final_state = geocode_city_state_with_va_override(city, state, cache_key_extra="city_state", cache_only=cache_only)
+            if city or state:
+                geocoding_strategies.append(("city_state", city, state))
+            
+            # Strategy 2: Parse free-text location
+            loc = rec.get("spatial",{}).get("last_seen_location")
+            if loc and isinstance(loc, str):
+                # Try different parsing approaches for free-text location
+                parts = [p.strip() for p in loc.split(",")]
+                if len(parts) >= 2:
+                    # Standard "City, State" format
+                    geocoding_strategies.append(("from_location_comma", parts[0], parts[1]))
+                elif len(parts) == 1:
+                    # Single location string - try to extract city/state
+                    single_loc = parts[0]
+                    # Look for state patterns
+                    state_patterns = [
+                        r'\b([A-Za-z\s]+),\s*([A-Z]{2})\b',  # "City, ST"
+                        r'\b([A-Za-z\s]+),\s*([A-Za-z\s]+(?:Carolina|Dakota|Hampshire|Jersey|Mexico|York|Island|Virginia|Washington|California|Florida|Texas|Alaska|Hawaii|Alabama|Arizona|Arkansas|Colorado|Connecticut|Delaware|Georgia|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode|South|Tennessee|Utah|Vermont|West|Wisconsin|Wyoming))\b'
+                    ]
+                    for pattern in state_patterns:
+                        match = re.search(pattern, single_loc, re.I)
+                        if match:
+                            geocoding_strategies.append(("from_location_regex", match.group(1), match.group(2)))
+                            break
+            
+            # Strategy 3: Try address parsing if available
+            address = rec.get("spatial",{}).get("last_seen_address")
+            if address and isinstance(address, str):
+                # Extract city/state from address
+                addr_parts = [p.strip() for p in address.split(",")]
+                if len(addr_parts) >= 2:
+                    geocoding_strategies.append(("from_address", addr_parts[-2], addr_parts[-1]))
+            
+            # Try each strategy until one succeeds
+            glat, glon, final_city, final_state = None, None, None, None
+            for strategy_name, try_city, try_state in geocoding_strategies:
+                glat, glon, final_city, final_state = geocode_city_state_with_va_override(
+                    try_city, try_state, cache_key_extra=strategy_name, cache_only=cache_only
+                )
+                if glat is not None and glon is not None:
+                    break
+            
+            # If all strategies failed, try a final fallback with just the state
             if glat is None or glon is None:
-                # Try free-text location if available
-                loc = rec.get("spatial",{}).get("last_seen_location")
-                if loc:
-                    parts = [p.strip() for p in (loc.split(",") if isinstance(loc,str) else [])]
-                    c2 = parts[0] if parts else city
-                    s2 = parts[1] if len(parts) > 1 else state
-                    glat, glon, final_city, final_state = geocode_city_state_with_va_override(c2, s2, cache_key_extra="from_location", cache_only=cache_only)
+                if state:
+                    glat, glon, final_city, final_state = geocode_city_state_with_va_override(
+                        None, state, cache_key_extra="state_only", cache_only=cache_only
+                    )
+            
+            # Update the record if we got coordinates
             if glat is not None and glon is not None:
                 rec.setdefault("spatial", {})["last_seen_lat"] = glat
                 rec.setdefault("spatial", {})["last_seen_lon"] = glon
