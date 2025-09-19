@@ -1,0 +1,4900 @@
+{
+  "case_id": "GRD-2025-000001",
+  "demographic": {
+    "name": "Griselda Yaneth Choc Choc",
+    "gender": "female",
+    "age_years": 16.0,
+    "height_in": 61.0,
+    "weight_lbs": 135.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black",
+    "distinctive_features": "Scars on toes on her left foot from an injury."
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-04-07T04:00:00Z",
+    "reported_missing_ts": "2023-04-07T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The Juvenile left her brother/sponsor's residence on Friday, April 7, 2023. She was last seen wearing black pants and a black shirt with pink flowers. Griselda is believed to be en route to Maryland or Delaware.",
+    "behavioral_patterns": [
+      "pink flowers CASE"
+    ],
+    "movement_cues_text": "to Maryland or Delaware. CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation Physical Description Hair Color Black Head Hair Description -- Body Hair Description -- Facial Hair Description -- Left Eye Color Hazel Eye Description -- Right Eye Color Hazel Distinctive Physical Features Item Description Scar/mark Scars on toes on her left foot from an injury. Clothing and Accessories Item Description Clothing Last seen wearing black pants and a black shirt with pink flowers CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation Additional Case Info Transportation No Information Entered"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP102335.pdf"
+  },
+  "name": {
+    "first": "Griselda",
+    "middle": "Yaneth",
+    "last": "Choc Choc",
+    "full": "Griselda Yaneth Choc Choc"
+  },
+  "case": {
+    "case_id": "GRD-2025-000001",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The Juvenile left her brother/sponsor's residence on Friday, April 7, 2023. She was last seen wearing black pants and a black shirt with pink flowers. Griselda is believed to be en route to Maryland or Delaware."
+  }
+}
+{
+  "case_id": "GRD-2025-000002",
+  "demographic": {
+    "name": "Adelfo Tiul Coc",
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 61.0,
+    "weight_lbs": 137.5,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-04-24T04:00:00Z",
+    "reported_missing_ts": "2023-04-24T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile left his family member's residence on Monday, April 24th while his family member was at work. The juvenile's destination is unknown.",
+    "movement_cues_text": "is unknown. CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation Physical Description Hair Color Black Head Hair Description short and wavy hair Body Hair Description -- Facial Hair Description -- Left Eye Color Brown Eye Description -- Right Eye Color Brown Distinctive Physical Features No Information Entered Clothing and Accessories No Information Entered Additional Case Info Transportation No Information Entered CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP102986.pdf"
+  },
+  "name": {
+    "middle": "Adelfo",
+    "last": "Tiul Coc",
+    "full": "Adelfo Tiul Coc"
+  },
+  "case": {
+    "case_id": "GRD-2025-000002",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile left his family member's residence on Monday, April 24th while his family member was at work. The juvenile's destination is unknown."
+  }
+}
+{
+  "case_id": "GRD-2025-000003",
+  "demographic": {
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 72,
+    "weight_lbs": 160.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Seven Corners, Virginia 22044",
+    "last_seen_city": "Seven Corners",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8659197,
+    "last_seen_lon": -77.1441138,
+    "last_seen_postal_code": "18317",
+    "last_seen_county": "Fairfax",
+    "city": "Seven Corners",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2023-04-21T00:00:00Z",
+    "reported_ts": "2023-05-02T04:00:00Z",
+    "reported_missing_ts": "2023-05-02T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Unknown location"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP103102.pdf",
+    "case_number": "s"
+  },
+  "case": {
+    "case_id": "GRD-2025-000003",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Unknown location"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000004",
+  "demographic": {
+    "name": "Nixon",
+    "gender": "male",
+    "age_years": 15.0,
+    "height_in": 64,
+    "weight_lbs": 125.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Falls Church, Virginia 22042",
+    "last_seen_city": "Falls Church",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8823,
+    "last_seen_lon": -77.1711,
+    "last_seen_postal_code": "22042",
+    "last_seen_county": "Fairfax",
+    "city": "Falls Church",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2022-05-01T00:00:00Z",
+    "reported_ts": "2023-05-16T04:00:00Z",
+    "reported_missing_ts": "2023-05-16T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Nixon arrived by plane to the United States shortly before his disappearance in 2022 to live with his aunt in Falls Church, VA (Fairfax County). Once inside the Country, Nixon expressed his desire to move to North Carolina with his uncle to work instead of going to school. He was last seen on Sunday, May 1st, at his aunt's home. Nixon's does not have a phone. Nixon's aunt no longer has contact with Nixon's mother in Honduras, nor does she have any information for Nixon's uncle in North Carolina.",
+    "behavioral_patterns": [
+      "his uncle to work",
+      "his aunt"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP103552.pdf",
+    "case_number": "s"
+  },
+  "name": {
+    "first": "Nixon",
+    "full": "Nixon"
+  },
+  "case": {
+    "case_id": "GRD-2025-000004",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Nixon arrived by plane to the United States shortly before his disappearance in 2022 to live with his aunt in Falls Church, VA (Fairfax County). Once inside the Country, Nixon expressed his desire to move to North Carolina with his uncle to work instead of going to school. He was last seen on Sunday, May 1st, at his aunt's home. Nixon's does not have a phone. Nixon's aunt no longer has contact with Nixon's mother in Honduras, nor does she have any information for Nixon's uncle in North Carolina."
+  }
+}
+{
+  "case_id": "GRD-2025-000005",
+  "demographic": {
+    "gender": "female",
+    "age_years": 16.0,
+    "height_in": 63,
+    "weight_lbs": 120.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Front Royal, Virginia 22630",
+    "last_seen_city": "Front Royal",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.9178538,
+    "last_seen_lon": -78.1917718,
+    "last_seen_postal_code": "22630",
+    "last_seen_county": "Warren",
+    "city": "Front Royal",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-05-15T04:00:00Z",
+    "reported_missing_ts": "2023-05-15T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile is currently entered as a Missing and Endangered Juvenile as her legal guardians, DSS are not aware of her location."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP104898.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000005",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile is currently entered as a Missing and Endangered Juvenile as her legal guardians, DSS are not aware of her location."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000006",
+  "demographic": {
+    "name": "Alexander Acte Caal",
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 61.0,
+    "weight_lbs": 145.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-06-29T04:00:00Z",
+    "reported_missing_ts": "2023-06-29T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile left his residence. County Culpeper County Primary Residence on Tribal Land No"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP108526.pdf"
+  },
+  "name": {
+    "middle": "Alexander",
+    "last": "Acte Caal",
+    "full": "Alexander Acte Caal"
+  },
+  "case": {
+    "case_id": "GRD-2025-000006",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile left his residence. County Culpeper County Primary Residence on Tribal Land No"
+  }
+}
+{
+  "case_id": "GRD-2025-000007",
+  "demographic": {
+    "gender": "female",
+    "age_years": 14.0,
+    "height_in": 60,
+    "weight_lbs": 100.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black",
+    "distinctive_features": "Tattoo on right forearm spelling out Sylvia with a star on her wrist. | butterfly on right arm (specific area is unknown)"
+  },
+  "spatial": {
+    "last_seen_location": "Goode, Virginia 24556",
+    "last_seen_city": "Goode",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.3587528,
+    "last_seen_lon": -79.391696,
+    "last_seen_postal_code": "24556",
+    "last_seen_county": "Bedford",
+    "city": "Goode",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-09-24T04:00:00Z",
+    "reported_missing_ts": "2023-09-24T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Unknown location, possibly in Atlanta or Chicago County Bedford County Primary Residence on Tribal Land No"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP108866.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000007",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Unknown location, possibly in Atlanta or Chicago County Bedford County Primary Residence on Tribal Land No"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000008",
+  "demographic": {
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 63,
+    "weight_lbs": 120.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Woodlawn, Virginia 24381",
+    "last_seen_city": "Woodlawn",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.7309415,
+    "last_seen_lon": -77.1127241,
+    "last_seen_postal_code": "24381",
+    "last_seen_county": "Carroll",
+    "city": "Woodlawn",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2023-12-31T00:00:00Z",
+    "reported_ts": "2024-01-16T05:00:00Z",
+    "reported_missing_ts": "2024-01-16T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Unknown location"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP114700.pdf",
+    "case_number": "s"
+  },
+  "case": {
+    "case_id": "GRD-2025-000008",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Unknown location"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000009",
+  "demographic": {
+    "name": "Abigail Bravo Diaz",
+    "gender": "female",
+    "age_years": 16.0,
+    "height_in": 58.5,
+    "weight_lbs": 115.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2024-02-07T05:00:00Z",
+    "reported_missing_ts": "2024-02-07T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Unknown location County Culpeper County Primary Residence on Tribal Land No"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP116504.pdf"
+  },
+  "name": {
+    "middle": "Abigail",
+    "last": "Bravo Diaz",
+    "full": "Abigail Bravo Diaz"
+  },
+  "case": {
+    "case_id": "GRD-2025-000009",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Unknown location County Culpeper County Primary Residence on Tribal Land No"
+  }
+}
+{
+  "case_id": "GRD-2025-000010",
+  "demographic": {
+    "name": "Reportedly Yovany Ba Xol",
+    "gender": "male",
+    "age_years": 14.0,
+    "height_in": 63.5,
+    "weight_lbs": 135.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2023-12-18T05:00:00Z",
+    "reported_missing_ts": "2023-12-18T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Reportedly went to live with his brother in Maryland. County Culpeper County Primary Residence on Tribal Land No",
+    "behavioral_patterns": [
+      "his brother"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP120609.pdf"
+  },
+  "name": {
+    "first": "Reportedly",
+    "middle": "Yovany",
+    "last": "Ba Xol",
+    "full": "Reportedly Yovany Ba Xol"
+  },
+  "case": {
+    "case_id": "GRD-2025-000010",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Reportedly went to live with his brother in Maryland. County Culpeper County Primary Residence on Tribal Land No"
+  }
+}
+{
+  "case_id": "GRD-2025-000011",
+  "demographic": {
+    "gender": "female",
+    "age_years": 16.0,
+    "height_in": 65,
+    "weight_lbs": 120.0,
+    "race_ethnicity": "Hispanic / Latino"
+  },
+  "spatial": {
+    "last_seen_location": "Dumfries, Virginia 22026",
+    "last_seen_city": "Dumfries",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.5674,
+    "last_seen_lon": -77.3281,
+    "last_seen_postal_code": "22026",
+    "last_seen_county": "Prince William",
+    "city": "Dumfries",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Juvenile was reported missing on 12/01/2024. Juvenile was reported to have left with her boyfriend leaving her cell phone and purse behind. Juvenile has not been seen or heard from by the family, however there has been social media activity. Last seen wearing black dress, sweater, creme colored heels and gold bracelet. Juvenile has long straight hair and nose piercing."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP136823.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000011",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Juvenile was reported missing on 12/01/2024. Juvenile was reported to have left with her boyfriend leaving her cell phone and purse behind. Juvenile has not been seen or heard from by the family, however there has been social media activity. Last seen wearing black dress, sweater, creme colored heels and gold bracelet. Juvenile has long straight hair and nose piercing."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000012",
+  "demographic": {
+    "gender": "male",
+    "age_years": 15.0,
+    "height_in": 69,
+    "weight_lbs": 197.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Lynchburg, Virginia 24501",
+    "last_seen_city": "Lynchburg",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.4138,
+    "last_seen_lon": -79.1422,
+    "last_seen_postal_code": "24501",
+    "last_seen_county": "Lynchburg City Primary Residence On Tribal Land No Case Information Physical Description Demographics Circumstances Physical Description Clothing And Accessories Additional Case Info Transportation Hair Color Black Head Hair Description -- Body Hair Description -- Facial Hair Description -- Left Eye Color Brown Eye Description -- Right Eye Color Brown Distinctive Physical Features No Information Entered Clothing And Accessories No Information Entered Additional Case Info Transportation No Information Entered Case Information Demographics Circumstances Physical Description Clothing And Accessories Additional Case Info Transportation",
+    "city": "Lynchburg",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2025-03-27T04:00:00Z",
+    "reported_missing_ts": "2025-03-27T00:00:00Z",
+    "last_seen_ts": "2025-03-27"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Last seen on 3/27/2025. County Lynchburg City Primary Residence on Tribal Land No"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP143706.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000012",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Last seen on 3/27/2025. County Lynchburg City Primary Residence on Tribal Land No"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000013",
+  "demographic": {
+    "name": "Greysi Jacob Portillo-Guerra",
+    "gender": "female",
+    "age_years": 15.0,
+    "height_in": 61.0,
+    "weight_lbs": 100.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Woodstock, Virginia 22664",
+    "last_seen_city": "Woodstock",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8817784,
+    "last_seen_lon": -78.5058429,
+    "city": "Tribal Land No County Shenandoah County Primary Residence On Tribal Land Unknown Circumstances Of Disappearance Greysi Was Last Seen In Woodstock",
+    "state": "VA",
+    "last_seen_postal_code": "22664",
+    "last_seen_county": "Shenandoah"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2023-12-08T00:00:00Z",
+    "reported_ts": "2025-07-11T04:00:00Z",
+    "reported_missing_ts": "2025-07-11T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Greysi was last seen in Woodstock, VA on December 8th, 2023. She was last heard from via text on June 3rd, 2024. Her phone line was later disconnected. Many attempts were made to search all known associates and addresses; however, Greysi has not been located."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP147555.pdf",
+    "case_number": "s"
+  },
+  "name": {
+    "first": "Greysi",
+    "middle": "Jacob",
+    "last": "Portillo-Guerra",
+    "full": "Greysi Jacob Portillo-Guerra"
+  },
+  "case": {
+    "case_id": "GRD-2025-000013",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Greysi was last seen in Woodstock, VA on December 8th, 2023. She was last heard from via text on June 3rd, 2024. Her phone line was later disconnected. Many attempts were made to search all known associates and addresses; however, Greysi has not been located."
+  }
+}
+{
+  "case_id": "GRD-2025-000014",
+  "demographic": {
+    "name": "Antonio Dean",
+    "gender": "male",
+    "age_years": 14.0,
+    "height_in": 69.0,
+    "weight_lbs": 140.0,
+    "race_ethnicity": "Black / African American",
+    "hair_color": "Brown"
+  },
+  "spatial": {
+    "last_seen_location": "North Chesterfield, Virginia 23235",
+    "last_seen_city": "North Chesterfield",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5056125,
+    "last_seen_lon": -77.6087021,
+    "last_seen_postal_code": "23235",
+    "last_seen_county": "Chesterfield",
+    "city": "North Chesterfield",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2017-06-28T00:00:00Z",
+    "reported_ts": "2019-07-29T04:00:00Z",
+    "reported_missing_ts": "2019-07-29T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Jordan may travel to Henrico County, Petersburg or Richmond, Virginia. Jordan may be in the company of an adult female.",
+    "movement_cues_text": "to Henrico County, Petersburg or Richmond, Virginia. Jordan may be in the company of an adult female. CASE INFORMATION Case Numbers Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation Physical Description Hair Color Brown Head Hair Description -- Body Hair Description -- Facial Hair Description -- Left Eye Color Brown Right Eye Color Brown Eye Description -- Distinctive Physical Features No Information Entered Clothing and Accessories No Information Entered Additional Case Info Transportation No Information Entered CASE INFORMATION Case Numbers Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP59055.pdf",
+    "case_number": "s"
+  },
+  "name": {
+    "middle": "Antonio",
+    "last": "Dean",
+    "full": "Antonio Dean"
+  },
+  "case": {
+    "case_id": "GRD-2025-000014",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Jordan may travel to Henrico County, Petersburg or Richmond, Virginia. Jordan may be in the company of an adult female."
+  }
+}
+{
+  "case_id": "GRD-2025-000015",
+  "demographic": {
+    "gender": "female",
+    "age_years": 15.0,
+    "height_in": 53,
+    "weight_lbs": 103.0,
+    "race_ethnicity": "White / Caucasian",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2022-09-13T00:00:00Z",
+    "reported_ts": "2022-09-13T04:00:00Z",
+    "reported_missing_ts": "2022-09-13T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Juvenile left sponsor's residence and whereabouts are unknown"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP95247.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000015",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Juvenile left sponsor's residence and whereabouts are unknown"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000016",
+  "demographic": {
+    "gender": "male",
+    "age_years": 15.0,
+    "height_in": 60,
+    "weight_lbs": 118.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2022-09-13T04:00:00Z",
+    "reported_missing_ts": "2022-09-13T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile left his sponsor's residence sometime during the night and his whereabouts are unknown."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP95470.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000016",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile left his sponsor's residence sometime during the night and his whereabouts are unknown."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000017",
+  "demographic": {
+    "gender": "male",
+    "age_years": 17.0,
+    "height_in": 62,
+    "weight_lbs": 140.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2022-09-02T04:00:00Z",
+    "reported_missing_ts": "2022-09-02T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Juvenile left his sponsor's residence and his whereabouts are unknown"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP95471.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000017",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "Juvenile left his sponsor's residence and his whereabouts are unknown"
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000018",
+  "demographic": {
+    "name": "Maribel Gabriel Jimenez",
+    "gender": "female",
+    "age_years": 15.0,
+    "height_in": 62.0,
+    "weight_lbs": 110.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2022-10-28T04:00:00Z",
+    "reported_missing_ts": "2022-10-28T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile left her aunt/sponsor's residence and was picked up by her juvenile boyfriend and his mother. Possible destination to an unknown city in South Carolina.",
+    "movement_cues_text": "to an unknown city in South Carolina. CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation Physical Description Hair Color Black Head Hair Description long Body Hair Description -- Facial Hair Description -- Left Eye Color Brown Eye Description -- Right Eye Color Brown Distinctive Physical Features No Information Entered Clothing and Accessories No Information Entered Additional Case Info Transportation No Information Entered CASE INFORMATION Demographics Circumstances Physical Description Clothing and Accessories ADDITIONAL CASE INFO Transportation"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP97978.pdf"
+  },
+  "name": {
+    "middle": "Maribel",
+    "last": "Gabriel Jimenez",
+    "full": "Maribel Gabriel Jimenez"
+  },
+  "case": {
+    "case_id": "GRD-2025-000018",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile left her aunt/sponsor's residence and was picked up by her juvenile boyfriend and his mother. Possible destination to an unknown city in South Carolina."
+  }
+}
+{
+  "case_id": "GRD-2025-000019",
+  "demographic": {
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 60,
+    "weight_lbs": 90.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2022-12-03T05:00:00Z",
+    "reported_missing_ts": "2022-12-03T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The Juvenile left his sponsor's residence and his whereabouts are unknown. The juvenile was released to the custody of the sponsor by the ORR."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP98822.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000019",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The Juvenile left his sponsor's residence and his whereabouts are unknown. The juvenile was released to the custody of the sponsor by the ORR."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000020",
+  "demographic": {
+    "gender": "male",
+    "age_years": 16.0,
+    "height_in": 64,
+    "weight_lbs": 120.0,
+    "race_ethnicity": "Hispanic / Latino",
+    "hair_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Culpeper, Virginia 22701",
+    "last_seen_city": "Culpeper",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.4734,
+    "last_seen_lon": -77.9961,
+    "last_seen_postal_code": "22701",
+    "last_seen_county": "Culpeper",
+    "city": "Culpeper",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "reported_ts": "2022-07-28T04:00:00Z",
+    "reported_missing_ts": "2022-07-28T00:00:00Z",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The juvenile was released from the Office of the Refugee Resettlement to a sponsor. The juvenile ran away from the residence in town and the sponsor relocated to Brooklyn NY."
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\namus\\MP98824.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000020",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {
+    "incident_summary": "The juvenile was released from the Office of the Refugee Resettlement to a sponsor. The juvenile ran away from the residence in town and the sponsor relocated to Brooklyn NY."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000021",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "female",
+    "height_in": 64.5,
+    "height_estimate": true,
+    "weight_lbs": 125,
+    "weight_estimate": true,
+    "distinctive_features": "BRACES AND ALSO HAS A NOSE RING"
+  },
+  "spatial": {
+    "last_seen_location": "Newport News, VA",
+    "last_seen_city": "Newport News",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.0871,
+    "last_seen_lon": -76.473,
+    "city": "Newport News",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-08T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "DESHAYNA WAS LAST SEEN WEARING A BEIGE HOODIE. SHE HAS BRACES AND ALSO HAS A NOSE RING."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3587",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_ VA25-3587.pdf"
+  },
+  "name": {
+    "full": "Deshayna Sheiane King"
+  },
+  "case": {
+    "case_id": "GRD-2025-000021",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "DESHAYNA WAS LAST SEEN WEARING A BEIGE HOODIE. SHE HAS BRACES AND ALSO HAS A NOSE RING."
+  }
+}
+{
+  "case_id": "GRD-2025-000022",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "female",
+    "height_in": 64.5,
+    "height_estimate": true,
+    "weight_lbs": 125,
+    "weight_estimate": true,
+    "eye_color": "Blue"
+  },
+  "spatial": {
+    "last_seen_location": "Danville, VA",
+    "last_seen_city": "Danville",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.586,
+    "last_seen_lon": -79.395,
+    "city": "Danville",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-07-27T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Shakyah may stay in the local area. When she was last seen her hair was dyed blue. Shakyah has her ears pierced."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "2057079",
+    "agency_phone": "434-799-6510",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_2057079.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000022",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "Shakyah may stay in the local area. When she was last seen her hair was dyed blue. Shakyah has her ears pierced."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000023",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "County, VA",
+    "last_seen_city": "County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.2611268,
+    "last_seen_lon": -76.6345651,
+    "city": "County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-02-25T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ISMAEL WAS LAST SEEN WEARING DARK PANTS, A BLACK HOODIE/ZIP UP JACKET AND A HAT."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-0724",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-0724.pdf"
+  },
+  "name": {
+    "full": "Ismael Colohua-Sanchez"
+  },
+  "case": {
+    "case_id": "GRD-2025-000023",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ISMAEL WAS LAST SEEN WEARING DARK PANTS, A BLACK HOODIE/ZIP UP JACKET AND A HAT."
+  }
+}
+{
+  "case_id": "GRD-2025-000024",
+  "demographic": {
+    "age_years": 2.0,
+    "gender": "female",
+    "height_in": 34.0,
+    "height_estimate": true,
+    "weight_lbs": 26,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Fairfax County, VA",
+    "last_seen_city": "Fairfax County",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8156,
+    "last_seen_lon": -77.2837,
+    "city": "Fairfax County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-06-23T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "AYA MAY HAVE BEEN TAKEN TO KAZAKHSTAN BY HER MOTHER, ELENA STUKALKINA (PENDERGRASS). THEY MAY HAVE RETURNED TO THE UNITED STATES."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-2907",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-2907.pdf"
+  },
+  "name": {
+    "full": "Aya Maria Stukalkina"
+  },
+  "case": {
+    "case_id": "GRD-2025-000024",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "AYA MAY HAVE BEEN TAKEN TO KAZAKHSTAN BY HER MOTHER, ELENA STUKALKINA (PENDERGRASS). THEY MAY HAVE RETURNED TO THE UNITED STATES."
+  }
+}
+{
+  "case_id": "GRD-2025-000025",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "female",
+    "height_in": 63.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Norfolk, VA",
+    "last_seen_city": "Norfolk",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8468,
+    "last_seen_lon": -76.2852,
+    "city": "Norfolk",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-07-13T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "YENSY WAS LAST SEEN ON JULY 13, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-2931",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-2931.pdf"
+  },
+  "name": {
+    "full": "Yensy Sarahi Martinez Soriano"
+  },
+  "case": {
+    "case_id": "GRD-2025-000025",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "YENSY WAS LAST SEEN ON JULY 13, 2025."
+  }
+}
+{
+  "case_id": "GRD-2025-000026",
+  "demographic": {
+    "age_years": 13.0,
+    "gender": "female",
+    "height_in": 61.5,
+    "height_estimate": true,
+    "weight_lbs": 105,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Portsmouth, VA",
+    "last_seen_city": "Portsmouth",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8354,
+    "last_seen_lon": -76.2983,
+    "city": "Portsmouth",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-07-11T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ZHINAE WAS LAST SEEN WEARING PINK PANTS, PURPLE TOP, AND PURPLE CROCS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3086",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3086.pdf"
+  },
+  "name": {
+    "full": "Zhinae Aziree Mcluarin"
+  },
+  "case": {
+    "case_id": "GRD-2025-000026",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ZHINAE WAS LAST SEEN WEARING PINK PANTS, PURPLE TOP, AND PURPLE CROCS."
+  }
+}
+{
+  "case_id": "GRD-2025-000027",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true,
+    "hair_color": "Gray",
+    "eye_color": "Gray"
+  },
+  "spatial": {
+    "last_seen_location": "Orange, VA",
+    "last_seen_city": "Orange",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.2456,
+    "last_seen_lon": -78.1108,
+    "city": "Orange",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-09T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "JOSE WAS LAST SEEN WEARING A WHITE T-SHIRT AND GRAY PANTS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3238",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3238.pdf",
+    "agency_phone": "(540) 622-1200"
+  },
+  "name": {
+    "full": "Jose Fernando Domingo Morales"
+  },
+  "case": {
+    "case_id": "GRD-2025-000027",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "JOSE WAS LAST SEEN WEARING A WHITE T-SHIRT AND GRAY PANTS."
+  }
+}
+{
+  "case_id": "GRD-2025-000028",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Bristol, VA",
+    "last_seen_city": "Bristol",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.5951,
+    "last_seen_lon": -82.1887,
+    "city": "Bristol",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-20T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ALBERT WAS LAST SEEN ON AUGUST 20, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3370",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3370.pdf"
+  },
+  "name": {
+    "full": "Albert James Bennett Jr"
+  },
+  "case": {
+    "case_id": "GRD-2025-000028",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ALBERT WAS LAST SEEN ON AUGUST 20, 2025."
+  }
+}
+{
+  "case_id": "GRD-2025-000029",
+  "demographic": {
+    "age_years": 5.0,
+    "gender": "female",
+    "height_in": 42.5,
+    "height_estimate": true,
+    "weight_lbs": 38,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Chesapeake, VA",
+    "last_seen_city": "Chesapeake",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.7682,
+    "last_seen_lon": -76.2875,
+    "city": "Chesapeake",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-06-21T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "MELINA IS MISSING UNDER CIRCUMSTANCES INDICATING HER PHYSICAL SAFETY IS IN DANGER."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3398",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3398.pdf"
+  },
+  "name": {
+    "full": "Melina Miel Vassar"
+  },
+  "case": {
+    "case_id": "GRD-2025-000029",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "MELINA IS MISSING UNDER CIRCUMSTANCES INDICATING HER PHYSICAL SAFETY IS IN DANGER."
+  }
+}
+{
+  "case_id": "GRD-2025-000030",
+  "demographic": {
+    "age_years": 9.0,
+    "gender": "male",
+    "height_in": 52.5,
+    "height_estimate": true,
+    "weight_lbs": 63,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Chesapeake, VA",
+    "last_seen_city": "Chesapeake",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.7682,
+    "last_seen_lon": -76.2875,
+    "city": "Chesapeake",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-06-21T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "CARLOS IS MISSING UNDER CIRCUMSTANCES INDICATING HIS PHYSICAL SAFETY IS IN DANGER."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3399",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3399.pdf"
+  },
+  "name": {
+    "full": "Carlos Carolit Vassar"
+  },
+  "case": {
+    "case_id": "GRD-2025-000030",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "CARLOS IS MISSING UNDER CIRCUMSTANCES INDICATING HIS PHYSICAL SAFETY IS IN DANGER."
+  }
+}
+{
+  "case_id": "GRD-2025-000031",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "female",
+    "height_in": 65.0,
+    "height_estimate": true,
+    "weight_lbs": 130,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Alexandria, VA",
+    "last_seen_city": "Alexandria",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8048,
+    "last_seen_lon": -77.0469,
+    "city": "Alexandria",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-25T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "PAMELA WAS LAST SEEN CARRYING A BLACK NORTHFACE BACKPACK."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3431",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3431.pdf"
+  },
+  "name": {
+    "full": "Pamela Alejandra Garcia Cruz"
+  },
+  "case": {
+    "case_id": "GRD-2025-000031",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "PAMELA WAS LAST SEEN CARRYING A BLACK NORTHFACE BACKPACK."
+  }
+}
+{
+  "case_id": "GRD-2025-000032",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Henrico County, VA",
+    "last_seen_city": "Henrico County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.5131191,
+    "last_seen_lon": -77.3465081,
+    "city": "Henrico County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-26T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "LUIS WAS LAST SEEN WEARING A NAVY SHIRT WITH A PUMA ON THE FRONT AND BLACK SWEATPANTS. HE MAY BE CARRYING A BLACK NIKE BACKPACK."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3435",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3435.pdf"
+  },
+  "name": {
+    "full": "Luis Guillermo Coronell Gonzalez"
+  },
+  "case": {
+    "case_id": "GRD-2025-000032",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "LUIS WAS LAST SEEN WEARING A NAVY SHIRT WITH A PUMA ON THE FRONT AND BLACK SWEATPANTS. HE MAY BE CARRYING A BLACK NIKE BACKPACK."
+  }
+}
+{
+  "case_id": "GRD-2025-000033",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Blue"
+  },
+  "spatial": {
+    "last_seen_location": "Loudoun County, VA",
+    "last_seen_city": "Loudoun County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 39.0984586,
+    "last_seen_lon": -77.6705008,
+    "city": "Loudoun County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-27T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "SAFFAT WAS LAST SEEN WEARING BLUE/WHITE STRIPED T-SHIRT, BLUE ATHLETIC PANTS, BLUE SHOES AND BLACK GLASSES."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3452",
+    "agency_phone": "703-777-1021",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3452.pdf"
+  },
+  "name": {
+    "full": "Saffat Zumar Khan"
+  },
+  "case": {
+    "case_id": "GRD-2025-000033",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "SAFFAT WAS LAST SEEN WEARING BLUE/WHITE STRIPED T-SHIRT, BLUE ATHLETIC PANTS, BLUE SHOES AND BLACK GLASSES."
+  }
+}
+{
+  "case_id": "GRD-2025-000034",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Hopewell, VA",
+    "last_seen_city": "Hopewell",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.3043,
+    "last_seen_lon": -77.2872,
+    "city": "Hopewell",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-30T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ZAHYRE WAS LAST SEEN ON AUGUST 30, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3492",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3492.pdf"
+  },
+  "name": {
+    "full": "Zahyre Dixon-Hodges"
+  },
+  "case": {
+    "case_id": "GRD-2025-000034",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ZAHYRE WAS LAST SEEN ON AUGUST 30, 2025."
+  }
+}
+{
+  "case_id": "GRD-2025-000035",
+  "demographic": {
+    "age_years": 15.0,
+    "gender": "female",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 120,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Portsmouth, VA",
+    "last_seen_city": "Portsmouth",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8354,
+    "last_seen_lon": -76.2983,
+    "city": "Portsmouth",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-08-28T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ANIAH WAS LAST SEEN WEARING A BLACK T-SHIRT, BLACK PANTS, AND BLACK CROCS. HER HAIR IS STYLED IN DREADLOCKS. SHE REQUIRES MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3495",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3495.pdf"
+  },
+  "name": {
+    "full": "Aniah Marcia Conner"
+  },
+  "case": {
+    "case_id": "GRD-2025-000035",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ANIAH WAS LAST SEEN WEARING A BLACK T-SHIRT, BLACK PANTS, AND BLACK CROCS. HER HAIR IS STYLED IN DREADLOCKS. SHE REQUIRES MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000036",
+  "demographic": {
+    "age_years": 15.0,
+    "gender": "female",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 120,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Virginia Beach, VA",
+    "last_seen_city": "Virginia Beach",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8529,
+    "last_seen_lon": -75.978,
+    "city": "Virginia Beach",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-01T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "EMILIY WAS LAST SEEN WEARING A BLACK SHIRT AND BLACK PANTS. SHE HAS MEDICAL CONDITIONS AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3507",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3507.pdf"
+  },
+  "name": {
+    "full": "Emily Marie Alleman"
+  },
+  "case": {
+    "case_id": "GRD-2025-000036",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "EMILIY WAS LAST SEEN WEARING A BLACK SHIRT AND BLACK PANTS. SHE HAS MEDICAL CONDITIONS AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000037",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Chesapeake, VA",
+    "last_seen_city": "Chesapeake",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.7682,
+    "last_seen_lon": -76.2875,
+    "city": "Chesapeake",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-02T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "CHRISTIAN WAS LAST SEEN WEARING A BLACK SKULL CAP, BLACK HOODIE, RED WINDBREAKER PANTS W/ WHITE STRIPE, YELLOW/BLACK JORDAN SNEAKERS. HE HAS MEDICAL CONDITIONS AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3524",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3524.pdf"
+  },
+  "name": {
+    "full": "Christian Eugene Doss"
+  },
+  "case": {
+    "case_id": "GRD-2025-000037",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "CHRISTIAN WAS LAST SEEN WEARING A BLACK SKULL CAP, BLACK HOODIE, RED WINDBREAKER PANTS W/ WHITE STRIPE, YELLOW/BLACK JORDAN SNEAKERS. HE HAS MEDICAL CONDITIONS AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000038",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true,
+    "distinctive_features": "TATTOO ON HIS RIGHT HAND"
+  },
+  "spatial": {
+    "last_seen_location": "Isle Of Wight County, VA",
+    "last_seen_city": "Isle Of Wight County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 36.8953677,
+    "last_seen_lon": -76.7248143,
+    "city": "Isle Of Wight County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-01T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "KEVIN HAS A CLOCK TATTOO ON HIS RIGHT HAND."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3531",
+    "agency_phone": "757-357-2151",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3531.pdf"
+  },
+  "name": {
+    "full": "Kevin Nguyen"
+  },
+  "case": {
+    "case_id": "GRD-2025-000038",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "KEVIN HAS A CLOCK TATTOO ON HIS RIGHT HAND."
+  }
+}
+{
+  "case_id": "GRD-2025-000039",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "female",
+    "height_in": 65.0,
+    "height_estimate": true,
+    "weight_lbs": 130,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Prince William County, VA",
+    "last_seen_city": "Prince William County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 38.7389846,
+    "last_seen_lon": -77.5536743,
+    "city": "Prince William County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-03T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "DONASHINA WAS LAST SEEN WEARING A RED HOODIE WITH CLOUDS AND BLACK LEGGINGS. SHE MAY BE WEARING A LARGE, PUFFY WIG."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3543",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3543.pdf"
+  },
+  "name": {
+    "full": "Donashia Diane Cobb"
+  },
+  "case": {
+    "case_id": "GRD-2025-000039",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "DONASHINA WAS LAST SEEN WEARING A RED HOODIE WITH CLOUDS AND BLACK LEGGINGS. SHE MAY BE WEARING A LARGE, PUFFY WIG."
+  }
+}
+{
+  "case_id": "GRD-2025-000040",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "female",
+    "height_in": 65.0,
+    "height_estimate": true,
+    "weight_lbs": 130,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Dinwiddie County, VA",
+    "last_seen_city": "Dinwiddie County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.0712818,
+    "last_seen_lon": -77.6480714,
+    "city": "Dinwiddie County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ZAINNIE WAS LAST SEEN CARRYING A BLACK BLANKET. HER HAIR IS STYLED IN BLACK/RED BRAIDS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3544",
+    "agency_phone": "804-469-3735",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3544.pdf"
+  },
+  "name": {
+    "full": "Zainnie Shykerrah Briann Smith"
+  },
+  "case": {
+    "case_id": "GRD-2025-000040",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ZAINNIE WAS LAST SEEN CARRYING A BLACK BLANKET. HER HAIR IS STYLED IN BLACK/RED BRAIDS."
+  }
+}
+{
+  "case_id": "GRD-2025-000041",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Fairfax County, VA",
+    "last_seen_city": "Fairfax County",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8156,
+    "last_seen_lon": -77.2837,
+    "city": "Fairfax County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ROGER WAS LAST SEEN WEARING A BLACK SWEATSHIRT WITH RED WRITING, BLACK JOGGERS AND BLACK SHOES. IF LOCATED, APPROACH WITH CAUTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3545",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3545.pdf"
+  },
+  "name": {
+    "full": "Roger Villogram Ii"
+  },
+  "case": {
+    "case_id": "GRD-2025-000041",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ROGER WAS LAST SEEN WEARING A BLACK SWEATSHIRT WITH RED WRITING, BLACK JOGGERS AND BLACK SHOES. IF LOCATED, APPROACH WITH CAUTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000042",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "female",
+    "height_in": 64.5,
+    "height_estimate": true,
+    "weight_lbs": 125,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Suffolk, VA",
+    "last_seen_city": "Suffolk",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.7282,
+    "last_seen_lon": -76.5836,
+    "city": "Suffolk",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ASHLYN WAS LAST SEEN ON SEPTEMBER 14, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3548",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3548.pdf"
+  },
+  "name": {
+    "full": "Ashlyn Nicole Arnold"
+  },
+  "case": {
+    "case_id": "GRD-2025-000042",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ASHLYN WAS LAST SEEN ON SEPTEMBER 14, 2025."
+  }
+}
+{
+  "case_id": "GRD-2025-000043",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "female",
+    "height_in": 63.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Portsmouth, VA",
+    "last_seen_city": "Portsmouth",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8354,
+    "last_seen_lon": -76.2983,
+    "city": "Portsmouth",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "AALIYAH WAS LAST SEEN WEARING BLACK ED HARDY SWEATPANTS, WHITE HOODIE W/ A CROSS ON THE FRONT, AND BLACK/WHITE JORDANS. SHE MAY BE CARRYING A BAG."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3549",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3549.pdf"
+  },
+  "name": {
+    "full": "Aaliyah Arianna Burt"
+  },
+  "case": {
+    "case_id": "GRD-2025-000043",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "AALIYAH WAS LAST SEEN WEARING BLACK ED HARDY SWEATPANTS, WHITE HOODIE W/ A CROSS ON THE FRONT, AND BLACK/WHITE JORDANS. SHE MAY BE CARRYING A BAG."
+  }
+}
+{
+  "case_id": "GRD-2025-000044",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "female",
+    "height_in": 65.0,
+    "height_estimate": true,
+    "weight_lbs": 130,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Gray"
+  },
+  "spatial": {
+    "last_seen_location": "Leesburg, VA",
+    "last_seen_city": "Leesburg",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 39.1157,
+    "last_seen_lon": -77.5636,
+    "city": "Leesburg",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "JALISSA WAS LAST SEEN WEARING A BLACK HOODIE, BLACK LONG SLEEVE SHIRT, GRAY SWEATPANTS, BLACK SHOES, AND CARRYING A PINK BACKPACK."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3551",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3551.pdf"
+  },
+  "name": {
+    "full": "Jalissa Rose Bodtmann"
+  },
+  "case": {
+    "case_id": "GRD-2025-000044",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "JALISSA WAS LAST SEEN WEARING A BLACK HOODIE, BLACK LONG SLEEVE SHIRT, GRAY SWEATPANTS, BLACK SHOES, AND CARRYING A PINK BACKPACK."
+  }
+}
+{
+  "case_id": "GRD-2025-000045",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Richmond City, VA",
+    "last_seen_city": "Richmond City",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.5433591,
+    "last_seen_lon": -77.4353135,
+    "city": "Richmond City",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "WIL WAS LAST SEEN ON SEPTEMBER 4, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3554",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3554.pdf"
+  },
+  "name": {
+    "full": "Wil Alexis Cordova-Montano"
+  },
+  "case": {
+    "case_id": "GRD-2025-000045",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "WIL WAS LAST SEEN ON SEPTEMBER 4, 2025."
+  }
+}
+{
+  "case_id": "GRD-2025-000046",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "female",
+    "height_in": 64.5,
+    "height_estimate": true,
+    "weight_lbs": 125,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Norfolk, VA",
+    "last_seen_city": "Norfolk",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8468,
+    "last_seen_lon": -76.2852,
+    "city": "Norfolk",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-03T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "SONIA WAS LAST SEEN WEARING A CREAM SWEATER WITH DOGS ON IT, BLACK LEGGINGS, AND BLACK/WHITE SNEAKERS. SHE MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3556",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3556.pdf"
+  },
+  "name": {
+    "full": "Sonia Alivia Denise Marsden"
+  },
+  "case": {
+    "case_id": "GRD-2025-000046",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "SONIA WAS LAST SEEN WEARING A CREAM SWEATER WITH DOGS ON IT, BLACK LEGGINGS, AND BLACK/WHITE SNEAKERS. SHE MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000047",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "female",
+    "height_in": 65.0,
+    "height_estimate": true,
+    "weight_lbs": 130,
+    "weight_estimate": true,
+    "hair_color": "White",
+    "eye_color": "Green"
+  },
+  "spatial": {
+    "last_seen_location": "Richmond City, VA",
+    "last_seen_city": "Richmond City",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.5433591,
+    "last_seen_lon": -77.4353135,
+    "city": "Richmond City",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-05T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "JOCELYN WAS LAST SEEN WEARING A WHITE JUICY COUTURE OUTFIT WITH WHITE/GREEN JORDAN SHOES. HER HAIR WAS IN TWO PONLYTAILS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3561",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3561.pdf"
+  },
+  "name": {
+    "full": "Jocelyn D Newby-Morris"
+  },
+  "case": {
+    "case_id": "GRD-2025-000047",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "JOCELYN WAS LAST SEEN WEARING A WHITE JUICY COUTURE OUTFIT WITH WHITE/GREEN JORDAN SHOES. HER HAIR WAS IN TWO PONLYTAILS."
+  }
+}
+{
+  "case_id": "GRD-2025-000048",
+  "demographic": {
+    "age_years": 15.0,
+    "gender": "female",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 120,
+    "weight_estimate": true,
+    "hair_color": "Red"
+  },
+  "spatial": {
+    "last_seen_location": "Hampton, VA",
+    "last_seen_city": "Hampton",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.0299,
+    "last_seen_lon": -76.3452,
+    "city": "Hampton",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-05T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "MCKENZIE WAS LAST SEEN WEARING RED PAJAMAS AND A RED HOODIE. SHE HAS MEDICAL CONDITIONS THAT REQUIRE MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3568",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3568.pdf"
+  },
+  "name": {
+    "full": "Mckenzie Madison Williams"
+  },
+  "case": {
+    "case_id": "GRD-2025-000048",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "MCKENZIE WAS LAST SEEN WEARING RED PAJAMAS AND A RED HOODIE. SHE HAS MEDICAL CONDITIONS THAT REQUIRE MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000049",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "male",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Alexandria, VA",
+    "last_seen_city": "Alexandria",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8048,
+    "last_seen_lon": -77.0469,
+    "city": "Alexandria",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "DAMANI MAY BE WEARING A SKI MASK ON HIS HEAD OR OVER HIS FACE AND CARRYING A BLACK BACKPACK."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3571",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3571.pdf"
+  },
+  "name": {
+    "full": "Damani Alexander Sutherlin"
+  },
+  "case": {
+    "case_id": "GRD-2025-000049",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "DAMANI MAY BE WEARING A SKI MASK ON HIS HEAD OR OVER HIS FACE AND CARRYING A BLACK BACKPACK."
+  }
+}
+{
+  "case_id": "GRD-2025-000050",
+  "demographic": {
+    "age_years": 17.0,
+    "gender": "male",
+    "height_in": 70.0,
+    "height_estimate": true,
+    "weight_lbs": 160,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Prince William County, VA",
+    "last_seen_city": "Prince William County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 38.7389846,
+    "last_seen_lon": -77.5536743,
+    "city": "Prince William County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-05T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "ALVIN WAS LAST SEEN WEARING A BLACK HOODIE AND PANTS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3573",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3573.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000050",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "ALVIN WAS LAST SEEN WEARING A BLACK HOODIE AND PANTS."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000051",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "male",
+    "height_in": 69.0,
+    "height_estimate": true,
+    "weight_lbs": 145,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Roanoke City, VA",
+    "last_seen_city": "Roanoke City",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.2656425,
+    "last_seen_lon": -79.925442,
+    "city": "Roanoke City",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-06T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "PRESTON WAS LAST SEEN WEARING BLACK SHORTS."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3578",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3578.pdf"
+  },
+  "name": {
+    "full": "Preston Thomas Young"
+  },
+  "case": {
+    "case_id": "GRD-2025-000051",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "PRESTON WAS LAST SEEN WEARING BLACK SHORTS."
+  }
+}
+{
+  "case_id": "GRD-2025-000052",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "male",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true,
+    "hair_color": "Brown",
+    "eye_color": "Brown"
+  },
+  "spatial": {
+    "last_seen_location": "Richmond City, VA",
+    "last_seen_city": "Richmond City",
+    "last_seen_state": "VA",
+    "last_seen_lat": 37.5433591,
+    "last_seen_lon": -77.4353135,
+    "city": "Richmond City",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-06T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "DEREK HAS BROWN AND RED HAIR."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3583",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3583.pdf"
+  },
+  "name": {
+    "full": "Derek Yandel Poupat-Reyes"
+  },
+  "case": {
+    "case_id": "GRD-2025-000052",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "DEREK HAS BROWN AND RED HAIR."
+  }
+}
+{
+  "case_id": "GRD-2025-000053",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "female",
+    "height_in": 63.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Black"
+  },
+  "spatial": {
+    "last_seen_location": "Norfolk, VA",
+    "last_seen_city": "Norfolk",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8468,
+    "last_seen_lon": -76.2852,
+    "city": "Norfolk",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-07T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "MAKAYLA WAS LAST SEEN WEARING ALL BLACK AND WHITE SHOES. SHE HAS A MEDICAL CONDITION THAT REQUIRES MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3588",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3588.pdf"
+  },
+  "name": {
+    "full": "Makayla Monae Walker"
+  },
+  "case": {
+    "case_id": "GRD-2025-000053",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "MAKAYLA WAS LAST SEEN WEARING ALL BLACK AND WHITE SHOES. SHE HAS A MEDICAL CONDITION THAT REQUIRES MEDICATION AND MAY BE IN NEED OF MEDICAL ATTENTION."
+  }
+}
+{
+  "case_id": "GRD-2025-000054",
+  "demographic": {
+    "age_years": 14.0,
+    "gender": "female",
+    "height_in": 63.0,
+    "height_estimate": true,
+    "weight_lbs": 115,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Suffolk, VA",
+    "last_seen_city": "Suffolk",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.7282,
+    "last_seen_lon": -76.5836,
+    "city": "Suffolk",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-06T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "JAZIYIAH WEARS SILVER JEWELRY ON HER RIGHT HAND."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3594",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3594.pdf"
+  },
+  "name": {
+    "full": "Jaziyiah Charisma Holloway"
+  },
+  "case": {
+    "case_id": "GRD-2025-000054",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "JAZIYIAH WEARS SILVER JEWELRY ON HER RIGHT HAND."
+  }
+}
+{
+  "case_id": "GRD-2025-000055",
+  "demographic": {
+    "age_years": 15.0,
+    "gender": "female",
+    "height_in": 64.0,
+    "height_estimate": true,
+    "weight_lbs": 120,
+    "weight_estimate": true
+  },
+  "spatial": {
+    "last_seen_location": "Fairfax County, VA",
+    "last_seen_city": "Fairfax County",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8156,
+    "last_seen_lon": -77.2837,
+    "city": "Fairfax County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-05T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "YESENIA WAS LAST SEEN ON SEPTEMBER 5, 2025."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3597",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3597.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000055",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "YESENIA WAS LAST SEEN ON SEPTEMBER 5, 2025."
+  },
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000056",
+  "demographic": {
+    "age_years": 16.0,
+    "gender": "female",
+    "height_in": 64.5,
+    "height_estimate": true,
+    "weight_lbs": 125,
+    "weight_estimate": true,
+    "hair_color": "Black",
+    "eye_color": "Gray"
+  },
+  "spatial": {
+    "last_seen_location": "Arlington County, VA",
+    "last_seen_city": "Arlington County",
+    "last_seen_state": "VA",
+    "last_seen_lat": 38.8769326,
+    "last_seen_lon": -77.0893094,
+    "city": "Arlington County",
+    "state": "VA"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-09-02T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "CHANIYA WAS LAST SEEN WEARING A BLACK/WHITE HOODIE, GRAY SWEATPANTS AND GRAY NEW BALANCE SHOES."
+  },
+  "provenance": {
+    "sources": [
+      "NCMEC"
+    ],
+    "original_fields": {},
+    "case_number": "VA25-3598",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\NCMEC_VA25-3598.pdf"
+  },
+  "name": {
+    "full": "Chaniya Marie Beale-Smith"
+  },
+  "case": {
+    "case_id": "GRD-2025-000056",
+    "status": "ongoing",
+    "source": "NCMEC"
+  },
+  "narrative": {
+    "incident_summary": "CHANIYA WAS LAST SEEN WEARING A BLACK/WHITE HOODIE, GRAY SWEATPANTS AND GRAY NEW BALANCE SHOES."
+  }
+}
+{
+  "case_id": "GRD-2025-000057",
+  "demographic": {
+    "name": "Amina And Belel Kandil",
+    "race_ethnicity": "White",
+    "eye_color": "Blue",
+    "hair_color": "Brown",
+    "gender": "female",
+    "weight_lbs": 82.0,
+    "age_years": 10.0,
+    "dob": "2003-09-01",
+    "height_in": 62
+  },
+  "spatial": {
+    "last_seen_location": "James City County, Virginia",
+    "last_seen_city": "James City County",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.3211485,
+    "last_seen_lon": -76.7972515,
+    "city": "James City County",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2014-08-29T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The FBI Norfolk Field Office is asking for the public’s assistance in locating Amina Kandil and Belel Kandil missing from James City County, Virginia, since August 29, 2014. Photo age-progressed to 16 years Age-progressed to 14 years At the time of their disappearance, Amina was 10 and Belel was 8 years old. The National Center for Missing and Exploited Children released the age-progressed photos displayed above. The children were last seen on August 30, 2014, in the company of their father, Ahmed Abdallah Taha Kandil, leaving the United States on a flight from John F. Kennedy International Airport, in New York, bound for Boryspil, Ukraine, and then Ataturk, Turkey. The children may be living in the Alexandria, Cairo or Giza areas of Egypt. They may also be residing in the Hatay region of Turkey. Amina is described as a white female, with blue eyes and brown hair. At the time of her disappearance, she was approximately 5’2” tall and weighed approximately 82 pounds. Amina was born on September 1, 2003, in Augusta, Georgia. Belel is described as a white male, with blue eyes and blond hair. At the time of his disappearance, he was approximately 4’5” tall and weighed approximately 55 pounds. Belel was born on January 4, 2006, in Augusta, Georgia. The FBI is working this investigation jointly with the James City County Police Department, with assistance from the National Center for Missing and Exploited Children.",
+    "behavioral_patterns": [
+      "dual Egyptian citizenship. Anyone with"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(757) 455-0100",
+    "agency": "FBI Norfolk Field Office",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\amina-and-belel-kandil.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000057",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "The FBI Norfolk Field Office is asking for the public’s assistance in locating Amina Kandil and Belel Kandil missing from James City County, Virginia, since August 29, 2014. Photo age-progressed to 16 years Age-progressed to 14 years At the time of their disappearance, Amina was 10 and Belel was 8 years old. The National Center for Missing and Exploited Children released the age-progressed photos displayed above. The children were last seen on August 30, 2014, in the company of their father, Ahmed Abdallah Taha Kandil, leaving the United States on a flight from John F. Kennedy International Airport, in New York, bound for Boryspil, Ukraine, and then Ataturk, Turkey. The children may be living in the Alexandria, Cairo or Giza areas of Egypt. They may also be residing in the Hatay region of Turkey. Amina is described as a white female, with blue eyes and brown hair. At the time of her disappearance, she was approximately 5’2” tall and weighed approximately 82 pounds. Amina was born on September 1, 2003, in Augusta, Georgia. Belel is described as a white male, with blue eyes and blond hair. At the time of his disappearance, he was approximately 4’5” tall and weighed approximately 55 pounds. Belel was born on January 4, 2006, in Augusta, Georgia. The FBI is working this investigation jointly with the James City County Police Department, with assistance from the National Center for Missing and Exploited Children."
+  },
+  "name": {
+    "full": "Amina And Belel Kandil"
+  }
+}
+{
+  "case_id": "GRD-2025-000058",
+  "demographic": {
+    "name": "Arianna Fitts",
+    "gender": "female",
+    "height_in": 24,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "weight_lbs": 45
+  },
+  "spatial": {
+    "last_seen_location": "ARIANNA FITTS \n\nOakland, California",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "ARIANNA FITTS \n\nOakland",
+    "state": "California"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2013-09-06T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Arianna Fitts was reported missing from the San Francisco, California, area on April 5, 2016. She was last seen in Oakland, California, in January or February of 2016. On April 8, 2016, Arianna's mother, Nicole Fitts, was found murdered and buried in a public park in San Francisco. It is believed that Arianna was not with her mother when she was killed. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: San Francisco",
+    "behavioral_patterns": [
+      "her mother when she was killed. If you have any"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\arianna-fitts.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000058",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Arianna Fitts was reported missing from the San Francisco, California, area on April 5, 2016. She was last seen in Oakland, California, in January or February of 2016. On April 8, 2016, Arianna's mother, Nicole Fitts, was found murdered and buried in a public park in San Francisco. It is believed that Arianna was not with her mother when she was killed. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: San Francisco"
+  },
+  "name": {
+    "full": "Arianna Fitts"
+  }
+}
+{
+  "case_id": "GRD-2025-000059",
+  "demographic": {
+    "name": "Asha Jaquilla Degree",
+    "gender": "female",
+    "age_years": 9,
+    "height_in": 54,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "weight_lbs": 60
+  },
+  "spatial": {
+    "last_seen_location": "Shelby, North Carolina",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "last_seen_county": ". Fbi Charlotte Is Investigating In Partnership With The Cleveland",
+    "city": "Shelby",
+    "state": "North Carolina"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2000-02-14T05:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Asha Jaquilla Degree has been missing from her home in Shelby, North Carolina, since February 14, 2000. Family members last saw her asleep in her bedroom at approximately 2:30 am. At 4:00 am, she was seen by drivers walking along North Carolina Highway 18 in Shelby, North Carolina. She was reported missing by her parents by 6:30 am. More than a year later, Asha's book bag was discovered buried along North Carolina 18 in Burke County. FBI Charlotte is investigating in partnership with the Cleveland County Sheriff's Office and the North Carolina State Bureau of Investigation. If you have any information concerning this person, please contact FBI Charlotte at (704) 672-6100, your local FBI office, or the nearest American Embassy or Consulate. Field Office: Charlotte"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(704) 672-6100",
+    "agency": "Cleveland County Sheriff",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\asha-jaquilla-degree.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000059",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Asha Jaquilla Degree has been missing from her home in Shelby, North Carolina, since February 14, 2000. Family members last saw her asleep in her bedroom at approximately 2:30 am. At 4:00 am, she was seen by drivers walking along North Carolina Highway 18 in Shelby, North Carolina. She was reported missing by her parents by 6:30 am. More than a year later, Asha's book bag was discovered buried along North Carolina 18 in Burke County. FBI Charlotte is investigating in partnership with the Cleveland County Sheriff's Office and the North Carolina State Bureau of Investigation. If you have any information concerning this person, please contact FBI Charlotte at (704) 672-6100, your local FBI office, or the nearest American Embassy or Consulate. Field Office: Charlotte"
+  },
+  "name": {
+    "full": "Asha Jaquilla Degree"
+  }
+}
+{
+  "case_id": "GRD-2025-000060",
+  "demographic": {
+    "name": "Brandon Lee Wade",
+    "gender": "male",
+    "height_in": 33,
+    "hair_color": "Brown",
+    "weight_lbs": 33
+  },
+  "spatial": {
+    "last_seen_location": "Valdosta, Georgia",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Valdosta",
+    "state": "Georgia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2002-10-14T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "The FBI's Atlanta Field Office and the Valdosta Police Department in Georgia are asking for the public's assistance in locating Brandon Lee Wade and his mother Paula Ann Wade. Paula and Brandon were reported missing on October 14, 2002, after Paula failed to report to work at Sam's Club in Valdosta, Georgia. If you have any information concerning this case, please contact the FBI's Atlanta Field Office at (770) 216-3000. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Atlanta"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(770) 216-3000",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\brandon-lee-wade.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000060",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "The FBI's Atlanta Field Office and the Valdosta Police Department in Georgia are asking for the public's assistance in locating Brandon Lee Wade and his mother Paula Ann Wade. Paula and Brandon were reported missing on October 14, 2002, after Paula failed to report to work at Sam's Club in Valdosta, Georgia. If you have any information concerning this case, please contact the FBI's Atlanta Field Office at (770) 216-3000. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Atlanta"
+  },
+  "name": {
+    "full": "Brandon Lee Wade"
+  }
+}
+{
+  "case_id": "GRD-2025-000061",
+  "demographic": {
+    "name": "Dulce Maria Alavez",
+    "gender": "female",
+    "age_years": 5,
+    "height_in": 36,
+    "eye_color": "Brown"
+  },
+  "spatial": {
+    "last_seen_location": "DULCE MARIA ALAVEZ \n\nBridgeton, New Jersey",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "DULCE MARIA ALAVEZ \n\nBridgeton",
+    "state": "New Jersey"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2019-09-16T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Dulce Maria Alavez, age 5, was last seen on the afternoon of Monday, September 16, 2019, while playing at the Bridgeton City Park behind Bridgeton High School in Bridgeton, New Jersey. Dulce was last seen wearing a yellow shirt with a koala on the front, black and white pants with butterflies and flowers on them, and white dress sandals. If you have any information concerning this case, please contact the FBI's Toll-Free Tipline at 1-800-CALL-FBI (1-800-225-5324) and select option 4, then select option 8. You may also contact your local FBI office, or the nearest American Embassy or Consulate. You can also text your information to TIP411 subtext Bridgeton. Anyone with photos or videos from Bridgeton City Park on September 16, 2019 should upload them to the following site: http:www.fbi.gov/alavez Field Office: Newark"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\dulce-maria-alavez.pdf",
+    "agency_phone": "800-225-5324"
+  },
+  "case": {
+    "case_id": "GRD-2025-000061",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Dulce Maria Alavez, age 5, was last seen on the afternoon of Monday, September 16, 2019, while playing at the Bridgeton City Park behind Bridgeton High School in Bridgeton, New Jersey. Dulce was last seen wearing a yellow shirt with a koala on the front, black and white pants with butterflies and flowers on them, and white dress sandals. If you have any information concerning this case, please contact the FBI's Toll-Free Tipline at 1-800-CALL-FBI (1-800-225-5324) and select option 4, then select option 8. You may also contact your local FBI office, or the nearest American Embassy or Consulate. You can also text your information to TIP411 subtext Bridgeton. Anyone with photos or videos from Bridgeton City Park on September 16, 2019 should upload them to the following site: http:www.fbi.gov/alavez Field Office: Newark"
+  },
+  "name": {
+    "full": "Dulce Maria Alavez"
+  }
+}
+{
+  "case_id": "GRD-2025-000062",
+  "demographic": {
+    "name": "Heaven Desiree Mcgee",
+    "gender": "female",
+    "height_in": 60,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "weight_lbs": 140
+  },
+  "spatial": {
+    "last_seen_location": "Stockton, California",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Stockton",
+    "state": "California"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2025-01-20T05:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Heather Desiree McGee was last seen in Stockton, California, on January 20, 2025. She is thought to possibly be a victim of sex trafficking. If you have any information concerning this person, please contact the FBI's Toll-Free tipline at 1-800-CALL-FBI (1-800-225-5324). You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: San Francisco"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\heaven-desiree-mcgee.pdf",
+    "agency_phone": "800-225-5324"
+  },
+  "case": {
+    "case_id": "GRD-2025-000062",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Heather Desiree McGee was last seen in Stockton, California, on January 20, 2025. She is thought to possibly be a victim of sex trafficking. If you have any information concerning this person, please contact the FBI's Toll-Free tipline at 1-800-CALL-FBI (1-800-225-5324). You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: San Francisco"
+  },
+  "name": {
+    "full": "Heaven Desiree Mcgee"
+  }
+}
+{
+  "case_id": "GRD-2025-000063",
+  "demographic": {
+    "name": "Joshua Keshaba Sierra Garcia",
+    "gender": "male",
+    "height_in": 36,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "aka": "Joshua",
+    "aliases": [
+      "Joshua"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Mexico City, Mexico",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Mexico City",
+    "state": "Mexico"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2003-08-12T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "On August 12, 2003, Joshua Keshaba Sierra Garcia, an American-born child, was kidnapped in Mexico City, Mexico. He was last seen around 11:00 a.m. that morning. At the time of the kidnapping, Garcia was in the custody of relatives who had traveled to Mexico City to have Garcia baptized. During the kidnapping, Garcia's 14-year-old babysitter was murdered. After a series of ransom calls, a money drop resulted in the arrest of one kidnapper by Mexican law enforcement authorities, but Garcia has not been located. If you have any information concerning this case, please contact the FBI's Los Angeles Field Office at (310) 477-6565. Anonymous tips can also be submitted to tips.fbi.gov. You may also contact your local FBI office, or the nearest American Embassy or Consulate. Field Office: Los Angeles",
+    "movement_cues_text": "ed to Mexico City to have Garcia baptized. During the kidnapping, Garcia"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(310) 477-6565",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\joshua-keshaba-sierra-garcia.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000063",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "On August 12, 2003, Joshua Keshaba Sierra Garcia, an American-born child, was kidnapped in Mexico City, Mexico. He was last seen around 11:00 a.m. that morning. At the time of the kidnapping, Garcia was in the custody of relatives who had traveled to Mexico City to have Garcia baptized. During the kidnapping, Garcia's 14-year-old babysitter was murdered. After a series of ransom calls, a money drop resulted in the arrest of one kidnapper by Mexican law enforcement authorities, but Garcia has not been located. If you have any information concerning this case, please contact the FBI's Los Angeles Field Office at (310) 477-6565. Anonymous tips can also be submitted to tips.fbi.gov. You may also contact your local FBI office, or the nearest American Embassy or Consulate. Field Office: Los Angeles"
+  },
+  "name": {
+    "full": "Joshua Keshaba Sierra Garcia"
+  }
+}
+{
+  "case_id": "GRD-2025-000064",
+  "demographic": {
+    "name": "Madalina Cojocari",
+    "gender": "female",
+    "height_in": 58,
+    "hair_color": "Brown",
+    "eye_color": "Brown",
+    "weight_lbs": 90
+  },
+  "spatial": {
+    "last_seen_location": "Cornelius, North Carolina",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Cornelius",
+    "state": "North Carolina"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2022-11-21T05:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Madalina Cojocari was last seen on surveillance video getting off her school bus outside her home in Cornelius, North Carolina, on November 21, 2022, and has not been seen since. She was reported missing to her school on December 15, 2022. Her parents reported last seeing her on November 23, 2022. Madalina was last seen wearing jeans, pink, purple and white Adidas shoes, and a white t-shirt and jacket. If you have any information concerning the whereabouts of Madalina Cojocari, please contact the the Cornelius Police Department at (704) 892-7773. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Charlotte"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(704) 892-7773",
+    "agency": "Cornelius Police Department",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\madalina-cojocari.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000064",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Madalina Cojocari was last seen on surveillance video getting off her school bus outside her home in Cornelius, North Carolina, on November 21, 2022, and has not been seen since. She was reported missing to her school on December 15, 2022. Her parents reported last seeing her on November 23, 2022. Madalina was last seen wearing jeans, pink, purple and white Adidas shoes, and a white t-shirt and jacket. If you have any information concerning the whereabouts of Madalina Cojocari, please contact the the Cornelius Police Department at (704) 892-7773. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Charlotte"
+  },
+  "name": {
+    "full": "Madalina Cojocari"
+  }
+}
+{
+  "case_id": "GRD-2025-000065",
+  "demographic": {
+    "name": "Sa'Wade Birdinground",
+    "gender": "female",
+    "height_in": 64,
+    "eye_color": "Brown"
+  },
+  "spatial": {
+    "last_seen_location": "Garryowen, Montana",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Garryowen",
+    "state": "Montana"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2024-10-06T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Sa'Wade Birdinground was last seen at her family's residence in Garryowen, Montana, within the boundaries of the Crow Indian Reservation, after approximately 11:00 p.m., on October 6, 2024. She was last seen wearing a black hoodie with mushrooms on it, an anime t-shirt, basketball shorts, and purple slip-on Skechers-brand shoes. She may have a black and purple Adidas backpack with her. She is known to wear an elk tooth necklace.",
+    "behavioral_patterns": [
+      "in the boundaries of the Crow",
+      "wear an elk tooth necklace. Anyone"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(801) 579-6195",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\sawade-birdinground.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000065",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Sa'Wade Birdinground was last seen at her family's residence in Garryowen, Montana, within the boundaries of the Crow Indian Reservation, after approximately 11:00 p.m., on October 6, 2024. She was last seen wearing a black hoodie with mushrooms on it, an anime t-shirt, basketball shorts, and purple slip-on Skechers-brand shoes. She may have a black and purple Adidas backpack with her. She is known to wear an elk tooth necklace."
+  },
+  "name": {
+    "full": "Sa'Wade Birdinground"
+  }
+}
+{
+  "case_id": "GRD-2025-000066",
+  "demographic": {
+    "name": "Sebastian Wayne Drake Rogers",
+    "gender": "male",
+    "height_in": 65,
+    "eye_color": "Brown Or Hazel",
+    "weight_lbs": 120
+  },
+  "spatial": {
+    "last_seen_location": "Sumner County, Tennessee",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Sumner County",
+    "state": "Tennessee"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2024-02-26T05:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Sebastian Wayne Drake Rogers was last seen on February 25, 2024, in the area of Stafford Court in Hendersonville, Tennessee. He was wearing a black sweatshirt, black sweatpants, and black, square-framed glasses. Sebastian has medical conditions, including autism, that may impair his ability to return safely without assistance. If you have any information concerning the whereabouts of Sebastian Wayne Drake Rogers, please contact the Sumner County Sheriff's Office at (615) 451-3838, or the Tennessee Bureau of Investigation at 1-800-TBI-FIND or TipsToTBI@tbi.tn.gov. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Nashville",
+    "behavioral_patterns": [
+      "out assistance. If you have any"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(615) 451-3838",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\sebastian-wayne-drake-rogers.pdf",
+    "agency": "the Sumner County Sheriff's"
+  },
+  "case": {
+    "case_id": "GRD-2025-000066",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Sebastian Wayne Drake Rogers was last seen on February 25, 2024, in the area of Stafford Court in Hendersonville, Tennessee. He was wearing a black sweatshirt, black sweatpants, and black, square-framed glasses. Sebastian has medical conditions, including autism, that may impair his ability to return safely without assistance. If you have any information concerning the whereabouts of Sebastian Wayne Drake Rogers, please contact the Sumner County Sheriff's Office at (615) 451-3838, or the Tennessee Bureau of Investigation at 1-800-TBI-FIND or TipsToTBI@tbi.tn.gov. You may also contact your local FBI office, the nearest American Embassy or Consulate, or you can submit a tip online at tips.fbi.gov. Field Office: Nashville"
+  },
+  "name": {
+    "full": "Sebastian Wayne Drake Rogers"
+  }
+}
+{
+  "case_id": "GRD-2025-000067",
+  "demographic": {
+    "name": "Vanessa Morales",
+    "gender": "female",
+    "height_in": 26,
+    "hair_color": "Brown",
+    "eye_color": "Brown",
+    "weight_lbs": 17
+  },
+  "spatial": {
+    "last_seen_location": "Ansonia, Connecticut",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Ansonia",
+    "state": "Connecticut"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2019-12-02T05:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Law enforcement authorities are searching for Vanessa Morales from Ansonia, Connecticut, after finding her mother deceased in their home on December 2, 2019. Vanessa was last seen by family members on Friday, November 29, 2019. If you have any information concerning this case, please contact the FBI New Haven Hotline at (203) 503-5555 or the Ansonia Police at (203) 735-1885 . Field Office: New Haven"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "agency_phone": "(203) 503-5555",
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\vanessa-morales.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000067",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Law enforcement authorities are searching for Vanessa Morales from Ansonia, Connecticut, after finding her mother deceased in their home on December 2, 2019. Vanessa was last seen by family members on Friday, November 29, 2019. If you have any information concerning this case, please contact the FBI New Haven Hotline at (203) 503-5555 or the Ansonia Police at (203) 735-1885 . Field Office: New Haven"
+  },
+  "name": {
+    "full": "Vanessa Morales"
+  }
+}
+{
+  "case_id": "GRD-2025-000068",
+  "demographic": {
+    "name": "Wesley Dale Morgan",
+    "gender": "male",
+    "age_years": 2,
+    "height_in": 36,
+    "eye_color": "Blue",
+    "weight_lbs": 35
+  },
+  "spatial": {
+    "last_seen_location": "Clinton, Louisiana",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Clinton",
+    "state": "Louisiana"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2001-05-15T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Wesley Dale Morgan has been missing from his home in Clinton, Louisiana, since May 15, 2001. Morgan, who was a toddler at that time, was reportedly last seen playing on the front porch of his home at approximately 9:45 that Tuesday morning. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: New Orleans"
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\wesley-dale-morgan.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000068",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "Wesley Dale Morgan has been missing from his home in Clinton, Louisiana, since May 15, 2001. Morgan, who was a toddler at that time, was reportedly last seen playing on the front porch of his home at approximately 9:45 that Tuesday morning. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: New Orleans"
+  },
+  "name": {
+    "full": "Wesley Dale Morgan"
+  }
+}
+{
+  "case_id": "GRD-2025-000069",
+  "demographic": {
+    "name": "Yusuf Shikder",
+    "gender": "male"
+  },
+  "spatial": {
+    "last_seen_location": "Rashida Shikder left Miami, Florida",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Rashida Shikder left Miami",
+    "state": "Florida"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2015-03-14T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "On March 14, 2015, Rashida Shikder left Miami, Florida, and took her two young children, Yusuf and Zahra Shikder, to Syria. After Rashida was later killed, the children may have been taken by an ISIS affiliate and they may still be living in Syria. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: Washington D.C."
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\yusuf-shikder.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000069",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "On March 14, 2015, Rashida Shikder left Miami, Florida, and took her two young children, Yusuf and Zahra Shikder, to Syria. After Rashida was later killed, the children may have been taken by an ISIS affiliate and they may still be living in Syria. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: Washington D.C."
+  },
+  "name": {
+    "full": "Yusuf Shikder"
+  }
+}
+{
+  "case_id": "GRD-2025-000070",
+  "demographic": {
+    "name": "Zahra Shikder",
+    "gender": "female"
+  },
+  "spatial": {
+    "last_seen_location": "Rashida Shikder left Miami, Florida",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Rashida Shikder left Miami",
+    "state": "Florida"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2015-03-14T04:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "On March 14, 2015, Rashida Shikder left Miami, Florida, and took her two young children, Zahra and Yusuf Shikder, to Syria. After Rashida was later killed, the children may have been taken by an ISIS affiliate and they may still be living in Syria. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: Washington D.C."
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\zahra-shikder.pdf"
+  },
+  "case": {
+    "case_id": "GRD-2025-000070",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {
+    "incident_summary": "On March 14, 2015, Rashida Shikder left Miami, Florida, and took her two young children, Zahra and Yusuf Shikder, to Syria. After Rashida was later killed, the children may have been taken by an ISIS affiliate and they may still be living in Syria. If you have any information concerning this person, please contact your local FBI office or the nearest American Embassy or Consulate. Field Office: Washington D.C."
+  },
+  "name": {
+    "full": "Zahra Shikder"
+  }
+}
+{
+  "case_id": "GRD-2025-000071",
+  "demographic": {
+    "gender": "female",
+    "weight_lbs": 100.0,
+    "age_years": 51,
+    "height_in": 62,
+    "dob": "1962-07-30"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1977-02-07T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "molesting a ten-year-old girl"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Angela Mae Rader – The Charley Project.pdf",
+    "agency": "Roanoke",
+    "agency_phone": "540-853-5305"
+  },
+  "case": {
+    "case_id": "GRD-2025-000071",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {},
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000072",
+  "demographic": {
+    "name": "Anthony",
+    "gender": "male",
+    "weight_lbs": 150.0,
+    "age_years": 15,
+    "height_in": 70,
+    "aka": "is",
+    "aliases": [
+      "is"
+    ]
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1993-08-31T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "holes cut"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Anthony Juan Turner – The Charley Project.pdf",
+    "agency": "Virginia",
+    "agency_phone": "757-385-4023"
+  },
+  "name": {
+    "first": "Anthony",
+    "full": "Anthony"
+  },
+  "case": {
+    "case_id": "GRD-2025-000072",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000073",
+  "demographic": {
+    "name": "Brenda",
+    "gender": "female",
+    "weight_lbs": 135.0,
+    "age_years": 63,
+    "height_in": 67,
+    "dob": "1960-03-08",
+    "risk_factors": [
+      "runaway"
+    ]
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0,
+    "last_seen_postal_code": "13900"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1974-03-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Brenda Sue Davidson – The Charley Project.pdf",
+    "agency": "Prince",
+    "agency_phone": "703-792-6500"
+  },
+  "name": {
+    "first": "Brenda",
+    "full": "Brenda"
+  },
+  "case": {
+    "case_id": "GRD-2025-000073",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000074",
+  "demographic": {
+    "name": "upper",
+    "gender": "female",
+    "weight_lbs": 65.0,
+    "age_years": 28,
+    "height_in": 44,
+    "dob": "1993-03-20",
+    "risk_factors": [
+      "wanted"
+    ]
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2000-08-18T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "Rainbow Kids"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Brittany Renee Williams – The Charley Project.pdf",
+    "agency": "Henrico",
+    "agency_phone": "804-501-5000"
+  },
+  "name": {
+    "first": "upper",
+    "full": "upper"
+  },
+  "case": {
+    "case_id": "GRD-2025-000074",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000075",
+  "demographic": {
+    "name": "Codi Bigsby",
+    "gender": "male",
+    "race": "Black",
+    "age_years": 4.0,
+    "dob": "2018-01-12T05:00:00Z",
+    "height_in": 36,
+    "weight_lbs": 60.0,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "risk_factors": [
+      "wanted"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Hampton, Virginia",
+    "last_seen_city": "Hampton",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.0299,
+    "last_seen_lon": -76.3452,
+    "last_seen_address": "so she could visit them. She said she last spoke to Codi in April 2021",
+    "city": "Hampton",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2022-01-31T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Codi was last seen asleep at the Buckroe Pointe town homes in the 100 block of Ranalet Drive in Hampton, Virginia at 2:00 a.m. on January 31, 2022. He lived with his father and three brothers, a five-year-old and two-year-old twins. His father, Cory Jamar Bigsby, said he woke up to find his son missing. He notified police at 9:00 a.m. that same day. A photo of Cory is posted with this case summary. In addition to his four children who lived with him on Ranalet Drive, he and his estranged wife have multiple older children living in the local area. Codi disappeared the same day the family was supposed to move to a new house. Authorities were immediately suspicious of Cory's story and believed Codi may not have disappeared at the time that his father claimed. On February 3, Cory was arrested for seven counts of felony child neglect. He admitted to leaving his children home alone on several occasions in December 2021 and January 2022 for hours at a time, with no way to contact him or emergency services. He said he did this because the children were \"too much of a handful\" and it didn't occur to him to get a babysitter. In July 2022, Cory was indicted for a further 23 charges: four counts of child abuse, two counts of child neglect in connection with the child abuse counts, fifteen counts of child neglect for leaving the children home alone, and two counts of child neglect for failure to secure medical attention for an injured child. None of the charges were connected to Codi's actual disappearance, only to Cory's alleged actions in the year prior to his son's disappearance. Cory is awaiting trial on these charges. If convicted, he could face a maximum term of 162 years in prison. Investigators stated his account of his son's disappearance did not match the evidence. His attorneys have claimed Cory was mistreated by the police and called the case a \"modern-day lynching.\" Cory was questioned between 9:30 p.m. on January 31 to 4:45 a.m. the next day, then he was taken to another room and isolated for eight hours. More than twenty times during the interview he said he was tired and wanted to go home, but he was told \"going home is not an option\" even though he was not under arrest at the time. Authorities also admitted that Cory had invoked his right to legal representation during the interview, twice, and that this was ignored. The detective was removed from the case and put on paid administrative leave as a result of the mishandled interrogation, and another detective was assigned to the case. It may be worth noting that there is a documented history of domestic violence between Cory and Codi's mother, Dina Abdul Kareem. He was charged with assaulting her in 2018 after she told police he had choked her, bitten her and threatened to kill her. https://charleyproject.org/case/codi-bigsby 5/9 9/9/25, 8:43 PM Codi Bigsby - The Charley Project The charges were dropped after Kareem stopped cooperating with the investigation and failed to appear for multiple court dates. She was investigated after Codi went missing and ruled out as a suspect in her son's case. In June 2023, Cory was charged with second-degree murder and concealment of a body in Codi's presumed death. Authorities stated they believed Codi was beaten to death by his father on June 18, 2021, six months prior to being reported missing, and that his body was buried in the state of Maryland. At Cory's trial in March 2024, Codi's brother, now seven years old, testified and said that as a four-year-old he had been unable to wake up Codi and his brother's face was bruised and red, and although Cory said Codi was fine, his brother thought Codi appeared to be dead. This was the last time he ever saw Codi. If the brother's memory is accurate and he was four years old when Codi disappeared, that would mean Codi was last seen sometime before December 24, 2021, the day his brother turned five. Kareem also testified, saying she had not been in a relationship with Cory since 2019. She said she left her children in Cory's care starting in 2020, after she was hospitalized. She stated Cory didn't initially want custody of Codi and called the child a \"mama's boy.\" Kareem testified the last time she saw any of her children prior to her disappearance was on November 1, 2020, and that Cory refused to give her his home address so she could visit them. She said she last spoke to Codi in April 2021, nine months before he was reported missing. That same month, Cory sent her an email saying, \"I need to bring Codi back to you, I don’t want to severely hurt him.\" He told her Codi had touched his younger brothers inappropriately, something Kareem did not believe. Cory maintained his innocence, but was convicted of both murder and concealment of a body. He faces up to 45 years in prison. He is still awaiting trial in the other offenses. The siblings Codi lived with at the time of his disappearance are now in foster care. Foul play is suspected in Codi's disappearance due to the circumstances involved.",
+    "behavioral_patterns": [
+      "second-degree murder and concealment of a body",
+      "Cory since 2019. She said she left her children",
+      "assaulting her",
+      "at the time of his disappearance are now",
+      "this case summary."
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Codi Bigsby – The Charley Project.pdf",
+    "agency": "Hampton",
+    "agency_phone": "757-727-6111"
+  },
+  "case": {
+    "case_id": "GRD-2025-000075",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Codi was last seen asleep at the Buckroe Pointe town homes in the 100 block of Ranalet Drive in Hampton, Virginia at 2:00 a.m. on January 31, 2022. He lived with his father and three brothers, a five-year-old and two-year-old twins. His father, Cory Jamar Bigsby, said he woke up to find his son missing. He notified police at 9:00 a.m. that same day. A photo of Cory is posted with this case summary. In addition to his four children who lived with him on Ranalet Drive, he and his estranged wife have multiple older children living in the local area. Codi disappeared the same day the family was supposed to move to a new house. Authorities were immediately suspicious of Cory's story and believed Codi may not have disappeared at the time that his father claimed. On February 3, Cory was arrested for seven counts of felony child neglect. He admitted to leaving his children home alone on several occasions in December 2021 and January 2022 for hours at a time, with no way to contact him or emergency services. He said he did this because the children were \"too much of a handful\" and it didn't occur to him to get a babysitter. In July 2022, Cory was indicted for a further 23 charges: four counts of child abuse, two counts of child neglect in connection with the child abuse counts, fifteen counts of child neglect for leaving the children home alone, and two counts of child neglect for failure to secure medical attention for an injured child. None of the charges were connected to Codi's actual disappearance, only to Cory's alleged actions in the year prior to his son's disappearance. Cory is awaiting trial on these charges. If convicted, he could face a maximum term of 162 years in prison. Investigators stated his account of his son's disappearance did not match the evidence. His attorneys have claimed Cory was mistreated by the police and called the case a \"modern-day lynching.\" Cory was questioned between 9:30 p.m. on January 31 to 4:45 a.m. the next day, then he was taken to another room and isolated for eight hours. More than twenty times during the interview he said he was tired and wanted to go home, but he was told \"going home is not an option\" even though he was not under arrest at the time. Authorities also admitted that Cory had invoked his right to legal representation during the interview, twice, and that this was ignored. The detective was removed from the case and put on paid administrative leave as a result of the mishandled interrogation, and another detective was assigned to the case. It may be worth noting that there is a documented history of domestic violence between Cory and Codi's mother, Dina Abdul Kareem. He was charged with assaulting her in 2018 after she told police he had choked her, bitten her and threatened to kill her. https://charleyproject.org/case/codi-bigsby 5/9 9/9/25, 8:43 PM Codi Bigsby - The Charley Project The charges were dropped after Kareem stopped cooperating with the investigation and failed to appear for multiple court dates. She was investigated after Codi went missing and ruled out as a suspect in her son's case. In June 2023, Cory was charged with second-degree murder and concealment of a body in Codi's presumed death. Authorities stated they believed Codi was beaten to death by his father on June 18, 2021, six months prior to being reported missing, and that his body was buried in the state of Maryland. At Cory's trial in March 2024, Codi's brother, now seven years old, testified and said that as a four-year-old he had been unable to wake up Codi and his brother's face was bruised and red, and although Cory said Codi was fine, his brother thought Codi appeared to be dead. This was the last time he ever saw Codi. If the brother's memory is accurate and he was four years old when Codi disappeared, that would mean Codi was last seen sometime before December 24, 2021, the day his brother turned five. Kareem also testified, saying she had not been in a relationship with Cory since 2019. She said she left her children in Cory's care starting in 2020, after she was hospitalized. She stated Cory didn't initially want custody of Codi and called the child a \"mama's boy.\" Kareem testified the last time she saw any of her children prior to her disappearance was on November 1, 2020, and that Cory refused to give her his home address so she could visit them. She said she last spoke to Codi in April 2021, nine months before he was reported missing. That same month, Cory sent her an email saying, \"I need to bring Codi back to you, I don’t want to severely hurt him.\" He told her Codi had touched his younger brothers inappropriately, something Kareem did not believe. Cory maintained his innocence, but was convicted of both murder and concealment of a body. He faces up to 45 years in prison. He is still awaiting trial in the other offenses. The siblings Codi lived with at the time of his disappearance are now in foster care. Foul play is suspected in Codi's disappearance due to the circumstances involved."
+  },
+  "name": {
+    "full": "Codi Bigsby"
+  }
+}
+{
+  "case_id": "GRD-2025-000076",
+  "demographic": {
+    "name": "Elsie Mae Roane",
+    "gender": "female",
+    "race": "White",
+    "age_years": 16.0,
+    "dob": "1940-11-06T05:00:00Z",
+    "height_in": 68.5,
+    "weight_lbs": 115.0,
+    "hair_color": "Brown",
+    "eye_color": "Blue"
+  },
+  "spatial": {
+    "last_seen_location": "West Point, Virginia",
+    "last_seen_city": "West Point",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5315303,
+    "last_seen_lon": -76.7963566,
+    "city": "West Point",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1957-05-20T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Elsie was last seen by a police officer in West Point, Virginia at 11:00 p.m. on May 20, 1957. She was walking down the street, carrying two suitcases, at the time. She has never been heard from again. Elsie was finishing her sophomore year at West Point High School when she went missing; she was an above-average student. At the time of her disappearance, she lived with her adoptive father on Fifth Street; her mother had died two years previously. Her father didn't realize she was missing for some time because he worked the night shift and arrived home during school hours, when Elsie would normally have been out of the house. He reported her missing three days after she was last seen. In 2015, nearly sixty years after Elsie's 1957 disappearance, authorities announced they have a suspect in her case. They haven't publicly identified the person, but they stated he was close to Elsie's age and is still alive; they've interviewed him multiple times. Elsie's father died in 1968, but her former classmates and the community would still like to determine her fate. Elsie's case remains unsolved."
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Elsie Mae Roane – The Charley Project.pdf",
+    "agency": "West",
+    "agency_phone": "804-769-0999"
+  },
+  "case": {
+    "case_id": "GRD-2025-000076",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Elsie was last seen by a police officer in West Point, Virginia at 11:00 p.m. on May 20, 1957. She was walking down the street, carrying two suitcases, at the time. She has never been heard from again. Elsie was finishing her sophomore year at West Point High School when she went missing; she was an above-average student. At the time of her disappearance, she lived with her adoptive father on Fifth Street; her mother had died two years previously. Her father didn't realize she was missing for some time because he worked the night shift and arrived home during school hours, when Elsie would normally have been out of the house. He reported her missing three days after she was last seen. In 2015, nearly sixty years after Elsie's 1957 disappearance, authorities announced they have a suspect in her case. They haven't publicly identified the person, but they stated he was close to Elsie's age and is still alive; they've interviewed him multiple times. Elsie's father died in 1968, but her former classmates and the community would still like to determine her fate. Elsie's case remains unsolved."
+  },
+  "name": {
+    "full": "Elsie Mae Roane"
+  }
+}
+{
+  "case_id": "GRD-2025-000077",
+  "demographic": {
+    "name": "The Charley Project Menu",
+    "gender": "male",
+    "age_years": 10,
+    "height_in": 51,
+    "dob": "2008-07-15"
+  },
+  "spatial": {
+    "last_seen_location": "Missing From\nCharlottesville, Virginia",
+    "last_seen_city": "Missing From\nCharlottesville",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.1232245,
+    "last_seen_lon": -78.4927721,
+    "city": "Missing From\nCharlottesville",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2013-09-28T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Ethan Shinoy John – The Charley Project.pdf",
+    "agency": "Federal",
+    "agency_phone": "804-261-1044"
+  },
+  "case": {
+    "case_id": "GRD-2025-000077",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {},
+  "name": {
+    "full": "The Charley Project Menu"
+  }
+}
+{
+  "case_id": "GRD-2025-000078",
+  "demographic": {
+    "name": "Forest Ferguson",
+    "gender": "male",
+    "race": "White",
+    "age_years": 16.0,
+    "dob": "1994-05-04T04:00:00Z",
+    "height_in": 74,
+    "weight_lbs": 170.0,
+    "eye_color": "Blue",
+    "risk_factors": [
+      "Runaway"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "South Boston, Virginia",
+    "last_seen_city": "South Boston",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.6987494,
+    "last_seen_lon": -78.9013987,
+    "city": "South Boston",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2010-12-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Forest disappeared from South Boston, Virginia on December 4, 2010. He was a student at Carlbrook School, a boarding school for teenagers with academic and behavioral problems. He had previously attended Diamond Ranch Academy, a residential treatment facility in Utah. Forest left the Carlbook campus at 7:30 p.m., taking some clothing. He may have been en route to Danville, Virginia or Durham, North Carolina. Authorities believe he left of his own accord. Few details are available in his case.",
+    "movement_cues_text": "to Danville, Virginia or Durham, North Carolina. Authorities believe he left of his own accord. Few details are available in his case. Investigating Agency Halifax County Sheriff"
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Forest Ferguson – The Charley Project.pdf",
+    "agency": "Halifax",
+    "agency_phone": "434-476-3339"
+  },
+  "case": {
+    "case_id": "GRD-2025-000078",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Forest disappeared from South Boston, Virginia on December 4, 2010. He was a student at Carlbrook School, a boarding school for teenagers with academic and behavioral problems. He had previously attended Diamond Ranch Academy, a residential treatment facility in Utah. Forest left the Carlbook campus at 7:30 p.m., taking some clothing. He may have been en route to Danville, Virginia or Durham, North Carolina. Authorities believe he left of his own accord. Few details are available in his case."
+  },
+  "name": {
+    "full": "Forest Ferguson"
+  }
+}
+{
+  "case_id": "GRD-2025-000079",
+  "demographic": {
+    "gender": "male",
+    "weight_lbs": 38.0,
+    "age_years": 3,
+    "height_in": 38,
+    "dob": "2007-02-03",
+    "distinctive_features": "on his leg."
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Gabriel Leonardo Makielski-Rivera – The Charley Project.pdf",
+    "agency": "Culpeper",
+    "agency_phone": "540-727-7900"
+  },
+  "case": {
+    "case_id": "GRD-2025-000079",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {},
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000080",
+  "demographic": {
+    "gender": "male",
+    "weight_lbs": 60.0,
+    "age_years": 22,
+    "height_in": 54,
+    "dob": "1999-09-21"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2009-08-22T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Gunnar David Berg – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-691-2131"
+  },
+  "case": {
+    "case_id": "GRD-2025-000080",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {},
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000081",
+  "demographic": {
+    "name": "Haydn Gomez",
+    "gender": "male",
+    "race": "Asian",
+    "age_years": 2.0,
+    "dob": "2007-09-22T04:00:00Z",
+    "height_in": 30,
+    "weight_lbs": 35.0,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "aka": "date | first",
+    "aliases": [
+      "date",
+      "first"
+    ],
+    "distinctive_features": "on his right shoulder. He may use the alias name"
+  },
+  "spatial": {
+    "last_seen_location": "Fairfax, Virginia",
+    "last_seen_city": "Fairfax",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8462,
+    "last_seen_lon": -77.3064,
+    "city": "Fairfax",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Haydn disappeared from Fairfax, Virginia on January 28, 2010. He was abducted by his non-custodial mother, Lin Lan. A felony warrant for kidnapping was issued for her on February 17, 2010. A photo of Lan is posted with this case summary. Her date of birth is May 1, 1972, making her 37 years old at the time of Haydn's abduction. She's described as Asian, 5'4 and 135 pounds, with black hair and brown eyes. Lan may use the alias date of birth May 7, 1972 and the alias first names Maggie and/or Pepper. She has birthmarks on the outside of her right thigh. https://charleyproject.org/case/haydn-gomez 4/7 9/9/25, 8:41 PM Haydn Gomez - The Charley Project Authorities believe Lan and Haydn are in China, where Lan was born. The child's whereabouts are unknown and his case remains unsolved."
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Haydn Gomez – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-691-2131"
+  },
+  "case": {
+    "case_id": "GRD-2025-000081",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Haydn disappeared from Fairfax, Virginia on January 28, 2010. He was abducted by his non-custodial mother, Lin Lan. A felony warrant for kidnapping was issued for her on February 17, 2010. A photo of Lan is posted with this case summary. Her date of birth is May 1, 1972, making her 37 years old at the time of Haydn's abduction. She's described as Asian, 5'4 and 135 pounds, with black hair and brown eyes. Lan may use the alias date of birth May 7, 1972 and the alias first names Maggie and/or Pepper. She has birthmarks on the outside of her right thigh. https://charleyproject.org/case/haydn-gomez 4/7 9/9/25, 8:41 PM Haydn Gomez - The Charley Project Authorities believe Lan and Haydn are in China, where Lan was born. The child's whereabouts are unknown and his case remains unsolved."
+  },
+  "name": {
+    "full": "Haydn Gomez"
+  }
+}
+{
+  "case_id": "GRD-2025-000082",
+  "demographic": {
+    "name": "Helen",
+    "gender": "female",
+    "weight_lbs": 115.0,
+    "age_years": 61,
+    "height_in": 63,
+    "dob": "1956-02-23"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1972-05-11T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "movement_cues_text": "ed to the Washington D.C. area after her disappearance. Few details are available in her case. Investigating Agency Fairfax County Police Department 703-691-2131 Source Information The National Center for Missing and Exploited Children NamUs Updated 2 times since October 12, 2004. Last updated August 25, 2017"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Helen Irene Allison – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-691-2131"
+  },
+  "name": {
+    "first": "Helen",
+    "full": "Helen"
+  },
+  "case": {
+    "case_id": "GRD-2025-000082",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000083",
+  "demographic": {
+    "gender": "female",
+    "weight_lbs": 84.0,
+    "age_years": 8,
+    "height_in": 54,
+    "dob": "2002-08-29"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Isabel Marie Makielski-Rivera – The Charley Project.pdf",
+    "agency": "Culpeper",
+    "agency_phone": "540-727-7900"
+  },
+  "case": {
+    "case_id": "GRD-2025-000083",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {},
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000084",
+  "demographic": {
+    "name": "The Charley Project",
+    "race": "Black",
+    "age_years": 7.0,
+    "dob": "1982-08-12T04:00:00Z",
+    "height_in": 53,
+    "weight_lbs": 47.0,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "risk_factors": [
+      "Wanted"
+    ],
+    "gender": "male"
+  },
+  "spatial": {
+    "last_seen_location": "Richmond, Virginia",
+    "last_seen_city": "Richmond",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.5407,
+    "last_seen_lon": -77.436,
+    "city": "Richmond",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1990-04-16T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Jamal's stepmother dropped him and his eight-year-old brother, Basil, off at their mother's apartment in the 1700 block Clarkson Road on April 16, 1990. The boys went outside to play in the front yard at 2:30 p.m. while their mother, Tambra Ellis, went to sleep inside. She had worked the night shift the day before. Ellis woke up after a nap and searched for her sons, but couldn't find them. After forty-five minutes of searching, she contacted the police. The boys never returned to their apartment. A photo of Basil is posted with this case summary. Three days later, authorities discovered Basil's fully clothed body in a Chesterfield County landfill ten miles from their home. Basil had been bound, gagged and stabbed twice in the back, and his skull had been fractured postmortem. His killer placed his remains in a plastic garbage bag and put in a dumpster, and from there his body was taken to the landfill. There was no sign of Jamal at the scene and he has never been heard from again. https://charleyproject.org/case/jamal-abdulfaruq 3/6 9/9/25, 8:45 PM Jamal Abdul’Faruq - The Charley Project Following the discovery of Basil's body, investigators detained the boys' father, Everett Abdul'Faruq, for three hours. Court documents indicated that authorities initially believed the child was injured or killed inside his father's residence. A search of the property failed to produce any evidence to support the theory. Everett has never been implicated in connection with his sons' cases, although he did refuse to take a lie detector test, saying it was contrary to his Muslim religious beliefs. Eventually both of Jamal's parents were ruled out as suspects in his disappearance and Basil's murder. Jamal's favorite food in 1990 was pizza, and he enjoyed playing and watching basketball and watching Teenage Mutant Ninja Turtles videos. He was in the second grade at E.S.H. Green Elementary School at the time of his disappearance. Authorities believe it's possible he's still alive. His case remains unsolved."
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Jamal Abdul’Faruq – The Charley Project.pdf",
+    "agency": "Richmond",
+    "agency_phone": "804-780-6748"
+  },
+  "case": {
+    "case_id": "GRD-2025-000084",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Jamal's stepmother dropped him and his eight-year-old brother, Basil, off at their mother's apartment in the 1700 block Clarkson Road on April 16, 1990. The boys went outside to play in the front yard at 2:30 p.m. while their mother, Tambra Ellis, went to sleep inside. She had worked the night shift the day before. Ellis woke up after a nap and searched for her sons, but couldn't find them. After forty-five minutes of searching, she contacted the police. The boys never returned to their apartment. A photo of Basil is posted with this case summary. Three days later, authorities discovered Basil's fully clothed body in a Chesterfield County landfill ten miles from their home. Basil had been bound, gagged and stabbed twice in the back, and his skull had been fractured postmortem. His killer placed his remains in a plastic garbage bag and put in a dumpster, and from there his body was taken to the landfill. There was no sign of Jamal at the scene and he has never been heard from again. https://charleyproject.org/case/jamal-abdulfaruq 3/6 9/9/25, 8:45 PM Jamal Abdul’Faruq - The Charley Project Following the discovery of Basil's body, investigators detained the boys' father, Everett Abdul'Faruq, for three hours. Court documents indicated that authorities initially believed the child was injured or killed inside his father's residence. A search of the property failed to produce any evidence to support the theory. Everett has never been implicated in connection with his sons' cases, although he did refuse to take a lie detector test, saying it was contrary to his Muslim religious beliefs. Eventually both of Jamal's parents were ruled out as suspects in his disappearance and Basil's murder. Jamal's favorite food in 1990 was pizza, and he enjoyed playing and watching basketball and watching Teenage Mutant Ninja Turtles videos. He was in the second grade at E.S.H. Green Elementary School at the time of his disappearance. Authorities believe it's possible he's still alive. His case remains unsolved."
+  },
+  "name": {
+    "full": "The Charley Project"
+  }
+}
+{
+  "case_id": "GRD-2025-000085",
+  "demographic": {
+    "name": "her",
+    "gender": "female",
+    "weight_lbs": 100.0,
+    "age_years": 45,
+    "height_in": 61,
+    "dob": "1971-10-29",
+    "aka": "s",
+    "aliases": [
+      "s"
+    ],
+    "risk_factors": [
+      "Runaway"
+    ]
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1987-02-10T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "her disappearance."
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Jennifer Lynn Pandos – The Charley Project.pdf",
+    "agency_phone": "757-253-1800"
+  },
+  "name": {
+    "first": "her",
+    "full": "her"
+  },
+  "case": {
+    "case_id": "GRD-2025-000085",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000086",
+  "demographic": {
+    "name": "The Charley Project Menu",
+    "gender": "male",
+    "age_years": 13,
+    "height_in": 57,
+    "dob": "2005-07-15"
+  },
+  "spatial": {
+    "last_seen_location": "Missing From\nCharlottesville, Virginia",
+    "last_seen_city": "Missing From\nCharlottesville",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.1232245,
+    "last_seen_lon": -78.4927721,
+    "city": "Missing From\nCharlottesville",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2013-09-28T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Jeremy Shinoy John – The Charley Project.pdf",
+    "agency": "Federal",
+    "agency_phone": "804-261-1044"
+  },
+  "case": {
+    "case_id": "GRD-2025-000086",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {},
+  "name": {
+    "full": "The Charley Project Menu"
+  }
+}
+{
+  "case_id": "GRD-2025-000087",
+  "demographic": {
+    "name": "Katherine Sybil Worsky",
+    "gender": "female",
+    "race": "White",
+    "age_years": 12.0,
+    "height_in": 58,
+    "weight_lbs": 90.0,
+    "hair_color": "Blonde",
+    "eye_color": "Hazel",
+    "aka": "is",
+    "aliases": [
+      "is"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Charlottesville, Virginia",
+    "last_seen_city": "Charlottesville",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.0293,
+    "last_seen_lon": -78.4767,
+    "last_seen_address": "the home of a friend",
+    "city": "Charlottesville",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": ""
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Katie was last seen at the home of a friend, Tammy Gates, in the 2700 block of McElroy Drive in Charlottesville, Virginia on July 12, 1982. She was spending the night with her Tammy; her own family lived in an apartment in the Four Seasons subdivision off Rio Road. Katie's friend's mother, Carrie Gates, called Katie's parents early that morning, thinking the girl had returned to her own apartment. https://charleyproject.org/case/katherine-sybil-worsky 3/7 9/9/25, 8:50 PM Katherine Sybil Worsky - The Charley Project She had not, however. Katie's parents notified police of her disappearance. Glenn Haslam Barker was one of the people who volunteered in the effort to search for Katie. A photograph of him is posted with this case summary. He had previously dated Carrie, but their relationship was over by July 1982. He was employed as a clerk at a gas station and convenience store which Katie's father frequently patronized. Authorities suspected Barker immediately in part due to his criminal record; he pleaded guilty to assault in 1981 after admitting to kidnapping teenage female acquaintance and holding her at knifepoint. Police interrogated him at Katie's disappearance. He admitted having seen her on the night she went missing. He stated he had come by the Gates home after everyone had gone to bed, and had given Katie and Tammy one can of beer each. Tammy said she and Katie had actually had more alcohol than that, and got sick afterwards. Afterwards, they went to bed. Barker stated he left at 12:30 a.m., after making sure Katie, Tammy and Tammy's younger brother were asleep. Tammy woke up at 5:30 a.m. and realized Katie was missing. Investigators did not believe Barker's story and, with his permission, searched his apartment in the Hessian Hills apartment complex on Georgetown Road. They found wet, bloodstained men's clothing and towels wedged between his mattress and box spring. Some of the blood was Type A, Barker's blood type, and some was Type B. Katie's blood was Type B; authorities discovered this fact by testing the menstrual blood on her bedsheets. Barker said he did not know how the clothes had gotten there. Authorities searched the residence a second time several days later and found a pair of girls' panties hidden in a rolled-up ball of socks in Barker's dresser. There was a tiny bloodstain in the back of the panties, consistent with the location where Katie injected her insulin. Barker was arrested and charged with Katie's murder in January 1983, six months after she went missing. Prosecutors theorized that after Katie became intoxicated, Barker carried her to the living room, attempted to molest her, then killed her. A few drops of Type B blood were found on the living room rug and coffee table. Barker maintained his innocence, stating he had had nothing to do with Katie's disappearance. https://charleyproject.org/case/katherine-sybil-worsky 4/7 9/9/25, 8:50 PM Katherine Sybil Worsky - The Charley Project The jury convicted Barker of second-degree murder and recommended a sentence of 18 years in prison, two years short of the maximum. They acquitted him of first-degree murder, meaning they did not believe Katie's murder was premeditated. He was only the second person to be convicted of murder in Virginia without the victim's body. Barker was paroled from prison in 1992. He was rearrested in 1993 and charged with possession of a firearm after a pellet gun was found in his car, and served a further six months in jail before being released again. Barker's name has been mentioned in connection with other homicides and missing persons cases and some theorize he was a serial murderer. He was never charged with any deaths besides Katie's, however, and maintained he he didn't harm Katie and the only wrongdoing he committed that night was giving her and Tammy beer when they were underage. Barker stated he believed he had been framed by the police, and accused them of planting the bloodstained clothing found in his apartment. He died of natural causes in North Carolina in 2014, at the age of 55. Katie's parents divorced after Barker's conviction. Her body has never been located, but foul play is strongly suspected in her disappearance due to the circumstances involved.",
+    "behavioral_patterns": [
+      "the location where Katie",
+      "his permission, searched his apartment"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Katherine Sybil Worsky – The Charley Project.pdf",
+    "agency": "Charlottesville",
+    "agency_phone": "434-970-3280"
+  },
+  "case": {
+    "case_id": "GRD-2025-000087",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Katie was last seen at the home of a friend, Tammy Gates, in the 2700 block of McElroy Drive in Charlottesville, Virginia on July 12, 1982. She was spending the night with her Tammy; her own family lived in an apartment in the Four Seasons subdivision off Rio Road. Katie's friend's mother, Carrie Gates, called Katie's parents early that morning, thinking the girl had returned to her own apartment. https://charleyproject.org/case/katherine-sybil-worsky 3/7 9/9/25, 8:50 PM Katherine Sybil Worsky - The Charley Project She had not, however. Katie's parents notified police of her disappearance. Glenn Haslam Barker was one of the people who volunteered in the effort to search for Katie. A photograph of him is posted with this case summary. He had previously dated Carrie, but their relationship was over by July 1982. He was employed as a clerk at a gas station and convenience store which Katie's father frequently patronized. Authorities suspected Barker immediately in part due to his criminal record; he pleaded guilty to assault in 1981 after admitting to kidnapping teenage female acquaintance and holding her at knifepoint. Police interrogated him at Katie's disappearance. He admitted having seen her on the night she went missing. He stated he had come by the Gates home after everyone had gone to bed, and had given Katie and Tammy one can of beer each. Tammy said she and Katie had actually had more alcohol than that, and got sick afterwards. Afterwards, they went to bed. Barker stated he left at 12:30 a.m., after making sure Katie, Tammy and Tammy's younger brother were asleep. Tammy woke up at 5:30 a.m. and realized Katie was missing. Investigators did not believe Barker's story and, with his permission, searched his apartment in the Hessian Hills apartment complex on Georgetown Road. They found wet, bloodstained men's clothing and towels wedged between his mattress and box spring. Some of the blood was Type A, Barker's blood type, and some was Type B. Katie's blood was Type B; authorities discovered this fact by testing the menstrual blood on her bedsheets. Barker said he did not know how the clothes had gotten there. Authorities searched the residence a second time several days later and found a pair of girls' panties hidden in a rolled-up ball of socks in Barker's dresser. There was a tiny bloodstain in the back of the panties, consistent with the location where Katie injected her insulin. Barker was arrested and charged with Katie's murder in January 1983, six months after she went missing. Prosecutors theorized that after Katie became intoxicated, Barker carried her to the living room, attempted to molest her, then killed her. A few drops of Type B blood were found on the living room rug and coffee table. Barker maintained his innocence, stating he had had nothing to do with Katie's disappearance. https://charleyproject.org/case/katherine-sybil-worsky 4/7 9/9/25, 8:50 PM Katherine Sybil Worsky - The Charley Project The jury convicted Barker of second-degree murder and recommended a sentence of 18 years in prison, two years short of the maximum. They acquitted him of first-degree murder, meaning they did not believe Katie's murder was premeditated. He was only the second person to be convicted of murder in Virginia without the victim's body. Barker was paroled from prison in 1992. He was rearrested in 1993 and charged with possession of a firearm after a pellet gun was found in his car, and served a further six months in jail before being released again. Barker's name has been mentioned in connection with other homicides and missing persons cases and some theorize he was a serial murderer. He was never charged with any deaths besides Katie's, however, and maintained he he didn't harm Katie and the only wrongdoing he committed that night was giving her and Tammy beer when they were underage. Barker stated he believed he had been framed by the police, and accused them of planting the bloodstained clothing found in his apartment. He died of natural causes in North Carolina in 2014, at the age of 55. Katie's parents divorced after Barker's conviction. Her body has never been located, but foul play is strongly suspected in her disappearance due to the circumstances involved."
+  },
+  "name": {
+    "full": "Katherine Sybil Worsky"
+  }
+}
+{
+  "case_id": "GRD-2025-000088",
+  "demographic": {
+    "name": "Kawan",
+    "gender": "male",
+    "weight_lbs": 155.0,
+    "age_years": 34,
+    "height_in": 65,
+    "dob": "1981-10-18"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1997-09-09T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Kawan K. Pryor – The Charley Project.pdf",
+    "agency": "Norfolk",
+    "agency_phone": "757-664-7039"
+  },
+  "name": {
+    "first": "Kawan",
+    "full": "Kawan"
+  },
+  "case": {
+    "case_id": "GRD-2025-000088",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000089",
+  "demographic": {
+    "name": "Khaleesi Hope Cuthriell",
+    "gender": "female",
+    "race": "White",
+    "age_years": 4.0,
+    "dob": "2016-12-05T05:00:00Z",
+    "height_in": 37,
+    "weight_lbs": 40.0,
+    "hair_color": "Blonde",
+    "eye_color": "Blue",
+    "risk_factors": [
+      "fugitive",
+      "wanted"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Waynesboro, Virginia",
+    "last_seen_city": "Waynesboro",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.0687,
+    "last_seen_lon": -78.8895,
+    "city": "Waynesboro",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2021-02-01T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Khaleesi was last seen sometime in February 2021, but she was not reported missing until September. At the time of her disappearance, she was in the care of Candi Jo Royer and lived with her in Waynesboro, Virginia. Khaleesi's mother, Amanda G. Arey, had placed her daughter in Royer's care in October 2020, while Arey was incarcerated in the Middle River Regional Jail for parole violation. Royer was reported missing on September 3 and was believed to be with her boyfriend, Travis Brown, who had been a fugitive wanted by police in five different jurisdictions since August 21. He had fourteen charges against him, including strangulation, grand larceny, and assault and battery of a family member among other offenses. Photos of Royer and Brown are posted with this case summary. Police stated the pair had been going on a crime spree across Virginia and Pennsylvania since Royer went missing. When Arey found out Royer was missing, she told jail authorities that Royer had her child. By this time, Royer had stopped communicating with Arey in jail, and Arey hadn't heard from her or Brown in months and was concerned about her daughter's safety. Arey had been told that Royer placed Khaleesi with the child's maternal grandmother or aunt in the Covington, Virginia area, but this was untrue. Royer and Brown were located in Pennsylvania on September 12, and arrested. They had driven there in a stolen car and were hiding in a motel. They did not have Khaleesi and initially claimed workers with Shenandoah Valley Social Services had taken her, something Shenandoah Valley Social Services denied. Eventually Rowan said Khaleesi had died after accidentally striking her head, and he wrapped her body in a blanket and put it in the trash. Royer was charged with abuse/neglect of a child resulting in serious injury; Brown wasn't charged directly in Khaleesi's disappearance, but was held on other, unrelated charges. A little over a week later, police announced Khaleesi was dead, and had died while in the couple's care at Royer's home in the 200 block of Cattle Scales Road in Waynesboro around January 2021. https://charleyproject.org/case/khaleesi-hope-cuthriell 4/7 9/9/25, 8:43 PM Khaleesi Hope Cuthriell - The Charley Project A video taken of Khaleesi in January 2021 showed the child was covered with bruises, frail and unable to stand. Still photos of her taken around that time showed cuts and bruises on her face. Khaleesi's blood was found on the upstairs doorframes at Brown's home. Hair found in electrical tape wrapped around a bent wire hanger also matched Khaleesi's DNA. Brown made strange claims about the four-year-old to the police, stating she was suicidal and also sexually aware, and that she had once tried to choke his own daughter. In May 2022, Royer and Brown were indicted for Khaleesi's murder. Each was charged with aggravated murder, felony murder, unlawfully concealing a dead body, conspiracy to commit aggravated murder, conspiracy to commit child abuse, and conspiracy to concceal a dead body. Brown was also charged with child abuse/neglect resulting in serious injury. In August 2023, Brown was convicted of aggravated murder, felony murder and child abuse in Khaleesi's death, though his attorney tried to place the blame on Royer. At the trial, an expert on child abuse said how Khaleesi was treated \"fits the definition of child torture.\" Two weeks after Brown's conviction, Royer pleaded guilty to first-degree murder. The other charges against her were dropped. The pair have yet to be sentenced. Khaleesi's body has never been located, but foul play is suspected due to the circumstances involved. Investigators believe her remains are in a landfill which would potentially take years to thoroughly search.",
+    "behavioral_patterns": [
+      "abuse/neglect of a child resulting",
+      "child abuse/neglect resulting"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Khaleesi Hope Cuthriell – The Charley Project.pdf",
+    "agency": "Augusta",
+    "agency_phone": "540-245-5333"
+  },
+  "case": {
+    "case_id": "GRD-2025-000089",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Khaleesi was last seen sometime in February 2021, but she was not reported missing until September. At the time of her disappearance, she was in the care of Candi Jo Royer and lived with her in Waynesboro, Virginia. Khaleesi's mother, Amanda G. Arey, had placed her daughter in Royer's care in October 2020, while Arey was incarcerated in the Middle River Regional Jail for parole violation. Royer was reported missing on September 3 and was believed to be with her boyfriend, Travis Brown, who had been a fugitive wanted by police in five different jurisdictions since August 21. He had fourteen charges against him, including strangulation, grand larceny, and assault and battery of a family member among other offenses. Photos of Royer and Brown are posted with this case summary. Police stated the pair had been going on a crime spree across Virginia and Pennsylvania since Royer went missing. When Arey found out Royer was missing, she told jail authorities that Royer had her child. By this time, Royer had stopped communicating with Arey in jail, and Arey hadn't heard from her or Brown in months and was concerned about her daughter's safety. Arey had been told that Royer placed Khaleesi with the child's maternal grandmother or aunt in the Covington, Virginia area, but this was untrue. Royer and Brown were located in Pennsylvania on September 12, and arrested. They had driven there in a stolen car and were hiding in a motel. They did not have Khaleesi and initially claimed workers with Shenandoah Valley Social Services had taken her, something Shenandoah Valley Social Services denied. Eventually Rowan said Khaleesi had died after accidentally striking her head, and he wrapped her body in a blanket and put it in the trash. Royer was charged with abuse/neglect of a child resulting in serious injury; Brown wasn't charged directly in Khaleesi's disappearance, but was held on other, unrelated charges. A little over a week later, police announced Khaleesi was dead, and had died while in the couple's care at Royer's home in the 200 block of Cattle Scales Road in Waynesboro around January 2021. https://charleyproject.org/case/khaleesi-hope-cuthriell 4/7 9/9/25, 8:43 PM Khaleesi Hope Cuthriell - The Charley Project A video taken of Khaleesi in January 2021 showed the child was covered with bruises, frail and unable to stand. Still photos of her taken around that time showed cuts and bruises on her face. Khaleesi's blood was found on the upstairs doorframes at Brown's home. Hair found in electrical tape wrapped around a bent wire hanger also matched Khaleesi's DNA. Brown made strange claims about the four-year-old to the police, stating she was suicidal and also sexually aware, and that she had once tried to choke his own daughter. In May 2022, Royer and Brown were indicted for Khaleesi's murder. Each was charged with aggravated murder, felony murder, unlawfully concealing a dead body, conspiracy to commit aggravated murder, conspiracy to commit child abuse, and conspiracy to concceal a dead body. Brown was also charged with child abuse/neglect resulting in serious injury. In August 2023, Brown was convicted of aggravated murder, felony murder and child abuse in Khaleesi's death, though his attorney tried to place the blame on Royer. At the trial, an expert on child abuse said how Khaleesi was treated \"fits the definition of child torture.\" Two weeks after Brown's conviction, Royer pleaded guilty to first-degree murder. The other charges against her were dropped. The pair have yet to be sentenced. Khaleesi's body has never been located, but foul play is suspected due to the circumstances involved. Investigators believe her remains are in a landfill which would potentially take years to thoroughly search."
+  },
+  "name": {
+    "full": "Khaleesi Hope Cuthriell"
+  }
+}
+{
+  "case_id": "GRD-2025-000090",
+  "demographic": {
+    "gender": "female",
+    "weight_lbs": 60.0,
+    "age_years": 21,
+    "height_in": 54,
+    "dob": "2000-10-15"
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2009-08-22T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": ""
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Kianna Joanna Berg – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-691-2131"
+  },
+  "case": {
+    "case_id": "GRD-2025-000090",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {},
+  "name": {}
+}
+{
+  "case_id": "GRD-2025-000091",
+  "demographic": {
+    "name": "The Charley Project Menu",
+    "gender": "female",
+    "age_years": 21,
+    "height_in": 36,
+    "dob": "1984-04-13"
+  },
+  "spatial": {
+    "last_seen_location": "PM\n\nLorton, Virginia",
+    "last_seen_city": "PM\n\nLorton",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.1232245,
+    "last_seen_lon": -78.4927721,
+    "last_seen_address": "a holiday party in the Woodside Apartment Clubhouse",
+    "city": "PM\n\nLorton",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1989-12-03T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "the intent to defile"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "FBI"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Melissa Lee Brannen – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-246-7800"
+  },
+  "case": {
+    "case_id": "GRD-2025-000091",
+    "status": "ongoing",
+    "source": "FBI"
+  },
+  "narrative": {},
+  "name": {
+    "full": "The Charley Project Menu"
+  }
+}
+{
+  "case_id": "GRD-2025-000092",
+  "demographic": {
+    "name": "Quinn Renard Woodfolk",
+    "gender": "male",
+    "race": "Black",
+    "age_years": 11.0,
+    "dob": "1986-07-23T04:00:00Z",
+    "height_in": 57,
+    "weight_lbs": 89.0,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "aka": "is",
+    "aliases": [
+      "is"
+    ],
+    "distinctive_features": "on the top of his head. His",
+    "risk_factors": [
+      "Wanted"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Charlottesville, Virginia",
+    "last_seen_city": "Charlottesville",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.0293,
+    "last_seen_lon": -78.4767,
+    "city": "Charlottesville",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1998-07-04T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Quinn was last seen on Friendship Court in his hometown of Charlottesville, Virginia on July 4, 1998. He was at home by himself that day, and when his father came home he was gone. There was no note, and he left all his belongings behind. He has never been heard from again. Authorities initially thought Quinn left of his own accord, and after he went missing they got tips that could be in the company of drug dealers in the Harlem, New York or Detroit, Michigan areas. However, he never resurfaced, and investigators stated they hadn't gotten any credible information in his case since the early 2000s. His case remains unsolved."
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Quinn Renard Woodfolk – The Charley Project.pdf",
+    "agency": "Charlottesville",
+    "agency_phone": "434-970-3280"
+  },
+  "case": {
+    "case_id": "GRD-2025-000092",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Quinn was last seen on Friendship Court in his hometown of Charlottesville, Virginia on July 4, 1998. He was at home by himself that day, and when his father came home he was gone. There was no note, and he left all his belongings behind. He has never been heard from again. Authorities initially thought Quinn left of his own accord, and after he went missing they got tips that could be in the company of drug dealers in the Harlem, New York or Detroit, Michigan areas. However, he never resurfaced, and investigators stated they hadn't gotten any credible information in his case since the early 2000s. His case remains unsolved."
+  },
+  "name": {
+    "full": "Quinn Renard Woodfolk"
+  }
+}
+{
+  "case_id": "GRD-2025-000093",
+  "demographic": {
+    "name": "Sarah",
+    "gender": "female",
+    "weight_lbs": 139.0,
+    "age_years": 36,
+    "height_in": 67,
+    "dob": "1982-07-29",
+    "aka": "is",
+    "aliases": [
+      "is"
+    ]
+  },
+  "spatial": {
+    "last_seen_lat": 0.0,
+    "last_seen_lon": 0.0
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1997-02-18T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "",
+    "behavioral_patterns": [
+      "to visit her. She was staying",
+      "visit her. She was staying"
+    ],
+    "movement_cues_text": "to visit her. She was staying with a relative at the time of her disappearance, and was known to frequent the Richmond, Virginia metropolitan area. She may have associates within the Hispanic community. Authorities stated they have little evidence in her case, which remains unsolved. https"
+  },
+  "provenance": {
+    "sources": [
+      "NamUs"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Sarah Lee Murray – The Charley Project.pdf",
+    "agency": "Virginia",
+    "agency_phone": "804-352-7128"
+  },
+  "name": {
+    "first": "Sarah",
+    "full": "Sarah"
+  },
+  "case": {
+    "case_id": "GRD-2025-000093",
+    "status": "ongoing",
+    "source": "NamUs"
+  },
+  "narrative": {}
+}
+{
+  "case_id": "GRD-2025-000094",
+  "demographic": {
+    "name": "Tammy Lynn Akers",
+    "gender": "female",
+    "race": "White",
+    "age_years": 14.0,
+    "dob": "1962-06-28T04:00:00Z",
+    "height_in": 64,
+    "weight_lbs": 82.0,
+    "hair_color": "Red",
+    "eye_color": "Blue"
+  },
+  "spatial": {
+    "last_seen_location": "Roanoke, Virginia",
+    "last_seen_city": "Roanoke",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 37.271,
+    "last_seen_lon": -79.9414,
+    "city": "Roanoke",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1977-02-07T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Tammy and her friend, Angela Rader, were dropped off at William Ruffner Junior High School by one of the girls' relatives on February 7, 1977 in Roanoke, Virginia. The girls did not attend classes that day and were last seen hitchhiking in the city. Neither girl has been heard from again. Angela and Tammy had run away together several times before their disappearances in 1977. The police originally did not take their disappearances seriously as a result. Several months after their disappearances, one of the girls's mothers got a phone call from someone saying she was her daughter and was all right. Tammy and Angela were also allegedly seen in a grocery store in the months after they vanished but that sighting was never confirmed. The girls' mothers told authorities that Tammy and Angela worked for a friend of their families, Earl Conrad Bramblett, in 1977. A photo of Bramblett is posted with this case summary. Tammy's mother stated that her daughter was friends with Bramblett and his wife at the time, frequently spending time at their home. He did not seem to have any adult friends, just children. Investigators believe that Bramblett may have been involved in Tammy and Angela's disappearances. He reportedly told friends at a party in 1980 that he wished he did not \"hurt Tammy\" back in 1977. Bramblett was charged with molesting a ten-year-old girl in 1984 but acquitted. Tammy's older sister says he molested her when she was twelve years old and she believes he molested Tammy as well. Bramblett convicted of murdering a Virginia family of four, Blaine and Teresa Hodges and their two children, in 1994 and sentenced to death. He was living with the Hodges family at the time of their homicides. A jailhouse informant told police that Bramblett had told him that he killed the Hodges family after being caught molesting one of the children. The informant later recanted his statements, but Bramblett was executed in April 2003, still maintaining his innocence. It's worth noting that Bramblett has many supporters (particularly online) who believe he was wrongly accused. The same people maintain that both Tammy and Angela ran away from Roanoke voluntarily in 1977. https://charleyproject.org/case/tammy-lynn-akers 4/7 9/9/25, 8:51 PM Tammy Lynn Akers - The Charley Project Eight months after Bramblett was sent to death row, authorities dug up the yard of the house he had been living in when Tammy and Angela disappeared. They found nothing and the residence's current owners did not give them permission to search inside the house, so they never had the opportunity to look in the basement where they believe Tammy and Angela may be buried. Bramblett always maintained his innocence in the missing girls' cases. He said he was drunk when he made the statement about \"hurting Tammy\" in 1980 and his comment was misinterpreted. He said he believed Tammy died in a bonfire in central Florida in 1980 and the police know about it and have tried to cover it up. There is no evidence to support Bramblett's theory, however. Authorities never charged Bramblett in connection with the girls' disappearances. Angela's mother has since died; she believed her daughter was still alive. Tammy's family believes she is deceased and Bramblett was connected to her disappearance. Tammy's and Angela's cases remain open and unsolved.",
+    "behavioral_patterns": [
+      "molesting a ten-year-old girl"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Tammy Lynn Akers – The Charley Project.pdf",
+    "agency": "Roanoke",
+    "agency_phone": "540-853-5305"
+  },
+  "case": {
+    "case_id": "GRD-2025-000094",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Tammy and her friend, Angela Rader, were dropped off at William Ruffner Junior High School by one of the girls' relatives on February 7, 1977 in Roanoke, Virginia. The girls did not attend classes that day and were last seen hitchhiking in the city. Neither girl has been heard from again. Angela and Tammy had run away together several times before their disappearances in 1977. The police originally did not take their disappearances seriously as a result. Several months after their disappearances, one of the girls's mothers got a phone call from someone saying she was her daughter and was all right. Tammy and Angela were also allegedly seen in a grocery store in the months after they vanished but that sighting was never confirmed. The girls' mothers told authorities that Tammy and Angela worked for a friend of their families, Earl Conrad Bramblett, in 1977. A photo of Bramblett is posted with this case summary. Tammy's mother stated that her daughter was friends with Bramblett and his wife at the time, frequently spending time at their home. He did not seem to have any adult friends, just children. Investigators believe that Bramblett may have been involved in Tammy and Angela's disappearances. He reportedly told friends at a party in 1980 that he wished he did not \"hurt Tammy\" back in 1977. Bramblett was charged with molesting a ten-year-old girl in 1984 but acquitted. Tammy's older sister says he molested her when she was twelve years old and she believes he molested Tammy as well. Bramblett convicted of murdering a Virginia family of four, Blaine and Teresa Hodges and their two children, in 1994 and sentenced to death. He was living with the Hodges family at the time of their homicides. A jailhouse informant told police that Bramblett had told him that he killed the Hodges family after being caught molesting one of the children. The informant later recanted his statements, but Bramblett was executed in April 2003, still maintaining his innocence. It's worth noting that Bramblett has many supporters (particularly online) who believe he was wrongly accused. The same people maintain that both Tammy and Angela ran away from Roanoke voluntarily in 1977. https://charleyproject.org/case/tammy-lynn-akers 4/7 9/9/25, 8:51 PM Tammy Lynn Akers - The Charley Project Eight months after Bramblett was sent to death row, authorities dug up the yard of the house he had been living in when Tammy and Angela disappeared. They found nothing and the residence's current owners did not give them permission to search inside the house, so they never had the opportunity to look in the basement where they believe Tammy and Angela may be buried. Bramblett always maintained his innocence in the missing girls' cases. He said he was drunk when he made the statement about \"hurting Tammy\" in 1980 and his comment was misinterpreted. He said he believed Tammy died in a bonfire in central Florida in 1980 and the police know about it and have tried to cover it up. There is no evidence to support Bramblett's theory, however. Authorities never charged Bramblett in connection with the girls' disappearances. Angela's mother has since died; she believed her daughter was still alive. Tammy's family believes she is deceased and Bramblett was connected to her disappearance. Tammy's and Angela's cases remain open and unsolved."
+  },
+  "name": {
+    "full": "Tammy Lynn Akers"
+  }
+}
+{
+  "case_id": "GRD-2025-000095",
+  "demographic": {
+    "name": "Vitaliya Andrevevna Yarovitskaya",
+    "gender": "female",
+    "race": "White",
+    "age_years": 6.0,
+    "dob": "2012-11-05T05:00:00Z",
+    "height_in": 52,
+    "weight_lbs": 45.0,
+    "hair_color": "Blonde",
+    "eye_color": "Blue"
+  },
+  "spatial": {
+    "last_seen_location": "Virginia Beach, Virginia",
+    "last_seen_city": "Virginia Beach",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 36.8529,
+    "last_seen_lon": -75.978,
+    "city": "Virginia Beach",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "2019-04-08T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Vitaliya was last seen in Virginia Beach, Virginia on April 8, 2019. She has never been heard from again. Authorities believe she was abducted by her non-custodial mother, Galina Yarovitskaya. Galina's date of birth is February 29, 1988, making her 31 years old at the time. Photos and further information about her are unavailable. Vitaliya's whereabouts are unknown and her case remains unsolved. California police are investigating the case."
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Vitaliya Andrevevna Yarovitskaya – The Charley Project.pdf",
+    "agency_phone": "818-238-3000"
+  },
+  "case": {
+    "case_id": "GRD-2025-000095",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Vitaliya was last seen in Virginia Beach, Virginia on April 8, 2019. She has never been heard from again. Authorities believe she was abducted by her non-custodial mother, Galina Yarovitskaya. Galina's date of birth is February 29, 1988, making her 31 years old at the time. Photos and further information about her are unavailable. Vitaliya's whereabouts are unknown and her case remains unsolved. California police are investigating the case."
+  },
+  "name": {
+    "full": "Vitaliya Andrevevna Yarovitskaya"
+  }
+}
+{
+  "case_id": "GRD-2025-000096",
+  "demographic": {
+    "name": "Yuan Xia Wang",
+    "gender": "female",
+    "race": "Asian",
+    "age_years": 12.0,
+    "dob": "1986-09-13T04:00:00Z",
+    "height_in": 66,
+    "weight_lbs": 118.0,
+    "hair_color": "Black",
+    "eye_color": "Brown",
+    "aka": "is",
+    "aliases": [
+      "is"
+    ]
+  },
+  "spatial": {
+    "last_seen_location": "Lincolnia, Virginia",
+    "last_seen_city": "Lincolnia",
+    "last_seen_state": "Virginia",
+    "last_seen_lat": 38.8243605,
+    "last_seen_lon": -77.1561878,
+    "city": "Lincolnia",
+    "state": "Virginia"
+  },
+  "temporal": {
+    "timezone": "America/New_York",
+    "last_seen_ts": "1998-10-21T00:00:00Z"
+  },
+  "outcome": {
+    "case_status": "ongoing"
+  },
+  "narrative_osint": {
+    "incident_summary": "Yuan was smuggled into Washington D.C. from China, via Bangkok and Paris, on August 25, 1998. She used a genuine Thai passport to get into the country and posed as the niece of her smuggler, Chaichana Klaharn, a Thai citizen. They were caught at Dulles International Airport. Yuan could not speak English or Thai. Through a Mandarin Chinese translator, she told immigration authorities she was from Fuzhou in the Chinese province of Fujian, and her parents had paid Klaharn a significant sum of money to take her to the United States. He said he was supposed to deliver Yuan to a hotel in Washington D.C. Klaharn pleaded guilty to passport fraud in September 1998 and was sentenced to four months in jail. Yuan was sent to live with a foster family in the 4700 block of Barnum Lane in Alexandria, Virginia, while authorities decided what to do with her. At first she stayed at home with a Mandarin-speaking babysitter. After three weeks she was enrolled in the seventh grade at Holmes Middle School, where she was the only Mandarin-speaking student. She would typically take the school bus home with one of her foster sisters, arriving home at 3:10 p.m. On the day of her disappearance, however, she took the bus home alone. Yuan was last seen exiting a Fairfax County school bus at approximately 3:00 p.m. on October 21, 1998. The bus was near Lincolnia Road and Deming Avenue in the Lincolnia area of Virginia at the time. She supposed to take a cab to a doctor's appointment at 3:30 p.m., but she wasn't there when the cab arrived and never showed up for her appointment. She never returned to her foster home and has not been heard from again. An extensive search of the area produced no clues as to Yuan's whereabouts. She was not familiar with the neighborhood at the time of her disappearance. Her foster family didn't speak Mandarin and, while they stated Yuan appeared to be intelligent and content with her situation, they admitted they didn't know her very well and couldn't guess whether she'd run away or not. She had https://charleyproject.org/case/yuan-xia-wang 3/6 9/9/25, 8:49 PM Yuan Xia Wang - The Charley Project lived with the family for only six weeks by the time of her disappearance. Yuan's immediate family resides in China. She told immigration officials she was twelve years old, but it's possible that she was as old as fifteen. In November 2008, ten years after her disappearance, investigators said they thought Yuan could be in the Kansas City, Missouri area. This information was never confirmed, however. Police believe Yuan either ran away to avoid potential deportation to China, or she was abducted, possibly by one of the people who smuggled her into the country. If the latter is the case, Yuan may be being forced to work for her abductor(s). Her case remains unsolved.",
+    "behavioral_patterns": [
+      "a foster family"
+    ]
+  },
+  "provenance": {
+    "sources": [
+      "CharleyProject"
+    ],
+    "original_fields": {},
+    "source_path": "C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\Yuan Xia Wang – The Charley Project.pdf",
+    "agency": "Fairfax",
+    "agency_phone": "703-691-2131"
+  },
+  "case": {
+    "case_id": "GRD-2025-000096",
+    "status": "ongoing",
+    "source": "CharleyProject"
+  },
+  "narrative": {
+    "incident_summary": "Yuan was smuggled into Washington D.C. from China, via Bangkok and Paris, on August 25, 1998. She used a genuine Thai passport to get into the country and posed as the niece of her smuggler, Chaichana Klaharn, a Thai citizen. They were caught at Dulles International Airport. Yuan could not speak English or Thai. Through a Mandarin Chinese translator, she told immigration authorities she was from Fuzhou in the Chinese province of Fujian, and her parents had paid Klaharn a significant sum of money to take her to the United States. He said he was supposed to deliver Yuan to a hotel in Washington D.C. Klaharn pleaded guilty to passport fraud in September 1998 and was sentenced to four months in jail. Yuan was sent to live with a foster family in the 4700 block of Barnum Lane in Alexandria, Virginia, while authorities decided what to do with her. At first she stayed at home with a Mandarin-speaking babysitter. After three weeks she was enrolled in the seventh grade at Holmes Middle School, where she was the only Mandarin-speaking student. She would typically take the school bus home with one of her foster sisters, arriving home at 3:10 p.m. On the day of her disappearance, however, she took the bus home alone. Yuan was last seen exiting a Fairfax County school bus at approximately 3:00 p.m. on October 21, 1998. The bus was near Lincolnia Road and Deming Avenue in the Lincolnia area of Virginia at the time. She supposed to take a cab to a doctor's appointment at 3:30 p.m., but she wasn't there when the cab arrived and never showed up for her appointment. She never returned to her foster home and has not been heard from again. An extensive search of the area produced no clues as to Yuan's whereabouts. She was not familiar with the neighborhood at the time of her disappearance. Her foster family didn't speak Mandarin and, while they stated Yuan appeared to be intelligent and content with her situation, they admitted they didn't know her very well and couldn't guess whether she'd run away or not. She had https://charleyproject.org/case/yuan-xia-wang 3/6 9/9/25, 8:49 PM Yuan Xia Wang - The Charley Project lived with the family for only six weeks by the time of her disappearance. Yuan's immediate family resides in China. She told immigration officials she was twelve years old, but it's possible that she was as old as fifteen. In November 2008, ten years after her disappearance, investigators said they thought Yuan could be in the Kansas City, Missouri area. This information was never confirmed, however. Police believe Yuan either ran away to avoid potential deportation to China, or she was abducted, possibly by one of the people who smuggled her into the country. If the latter is the case, Yuan may be being forced to work for her abductor(s). Her case remains unsolved."
+  },
+  "name": {
+    "full": "Yuan Xia Wang"
+  }
+}
