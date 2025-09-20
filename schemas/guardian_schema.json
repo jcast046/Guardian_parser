@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Guardian Synthetic Case",
+  "type": "object",
+  "required": ["case_id", "demographic", "spatial", "temporal", "outcome", "narrative_osint"],
+  "properties": {
+    "_fulltext": {
+      "type": "string",
+      "description": "Optional raw/combined OCR or extracted text for debugging and provenance. Not used for modeling."
+    },
+
+    "case_id": {
+      "type": "string",
+      "pattern": "^GRD-\\d{4}-\\d{6}$",
+      "description": "Unique case identifier"
+    },
+
+    "demographic": {
+      "type": "object",
+      "required": ["gender"],
+      "properties": {
+        "_fulltext": { "type": "string", "description": "Optional raw/combined OCR or extracted text for debugging and provenance. Not used for modeling." },
+        "name": { "type": "string" },
+        "aliases": { "type": "array", "items": { "type": "string" } },
+        "age_years": { "type": "number", "minimum": 0, "maximum": 120 },
+        "gender": { "type": "string", "enum": ["male", "female"] },
+        "race_ethnicity": { "type": "string" },
+        "height_in": { "type": "number", "minimum": 0 },
+        "weight_lbs": { "type": "number", "minimum": 0 },
+        "distinctive_features": { "type": "string" },
+        "risk_factors": { "type": "array", "items": { "type": "string" } },
+        "abductor_associate_info": {
+          "type": "object",
+          "properties": {
+            "known": { "type": "boolean" },
+            "relationship": { "type": "string" },
+            "description": { "type": "string" },
+            "vehicle": {
+              "type": "object",
+              "properties": {
+                "make": { "type": "string" },
+                "model": { "type": "string" },
+                "color": { "type": "string" },
+                "plate_partial": { "type": "string" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "spatial": {
+      "type": "object",
+      "required": ["last_seen_lat", "last_seen_lon"],
+      "properties": {
+        "last_seen_location": { "type": "string", "description": "Free-text address/POI/neighborhood" },
+        "last_seen_address": { "type": "string" },
+        "last_seen_city": { "type": "string" },
+        "last_seen_county": { "type": "string" },
+        "last_seen_state": { "type": "string" },
+        "last_seen_postal_code": { "type": "string", "pattern": "^\\d{5}(-\\d{4})?$" },
+        "last_seen_lat": { "type": "number", "minimum": -90, "maximum": 90 },
+        "last_seen_lon": { "type": "number", "minimum": -180, "maximum": 180 },
+        "nearby_roads": { "type": "array", "items": { "type": "string" } },
+        "nearby_transit_hubs": { "type": "array", "items": { "type": "string" } },
+        "nearby_pois": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "temporal": {
+      "type": "object",
+      "required": ["timezone", "last_seen_ts"],
+      "properties": {
+        "timezone": { "type": "string", "pattern": "^[A-Za-z_]+\\/[A-Za-z_]+$" },
+        "last_seen_ts": { "type": "string", "format": "date-time" },
+        "reported_missing_ts": { "type": "string", "format": "date-time" },
+        "first_police_action_ts": { "type": "string", "format": "date-time" },
+        "elapsed_report_minutes": { "type": "integer", "minimum": 0 },
+        "elapsed_first_response_minutes": { "type": "integer", "minimum": 0 },
+
+        "follow_up_sightings": {
+          "type": "array",
+          "description": "Structured timeline events (merged from event_sequence/sighting_reports)",
+          "items": {
+            "type": "object",
+            "required": ["ts"],
+            "properties": {
+              "ts": { "type": "string", "format": "date-time" },
+              "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+              "lon": { "type": "number", "minimum": -180, "maximum": 180 },
+              "event_type": { "type": "string", "enum": ["sighting", "lead", "camera_hit", "lpr_hit", "transit_tap", "cell_ping", "search_action"] },
+              "reporter_type": { "type": "string", "enum": ["public", "officer", "family", "unknown"] },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "note": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "outcome": {
+      "type": "object",
+      "required": ["case_status"],
+      "properties": {
+        "case_status": { "type": "string", "enum": ["ongoing", "found", "not_found"] },
+        "recovery_ts": { "type": ["string", "null"], "format": "date-time" },
+        "recovery_location": { "type": ["string", "null"] },
+        "recovery_state": { "type": ["string", "null"] },
+        "recovery_lat": { "type": ["number", "null"], "minimum": -90, "maximum": 90 },
+        "recovery_lon": { "type": ["number", "null"], "minimum": -180, "maximum": 180 },
+        "recovery_time_hours": { "type": ["number", "null"], "minimum": 0 },
+        "recovery_distance_mi": { "type": ["number", "null"], "minimum": 0, "description": "Distance in miles between last seen and recovery location" },
+        "recovery_condition": { "type": ["string", "null"], "enum": ["alive", "deceased", "unknown", null] }
+      },
+      "additionalProperties": false
+    },
+
+    "narrative_osint": {
+      "type": "object",
+      "required": ["incident_summary"],
+      "properties": {
+        "incident_summary": { "type": "string" },
+
+        "behavioral_patterns": {
+          "type": "array",
+          "description": "From movement cues or extracted from text",
+          "items": { "type": "string" }
+        },
+        "movement_cues_text": { "type": "string" },
+        "temporal_markers": { "type": "array", "items": { "type": "string" } },
+
+        "witness_accounts": {
+          "type": "array",
+          "description": "Parsed details from sightings/reports",
+          "items": {
+            "type": "object",
+            "properties": {
+              "description": { "type": "string" },
+              "clothing": { "type": "string" },
+              "vehicle": { "type": "string" },
+              "behavior": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+
+        "news": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": { "title": { "type": "string" }, "excerpt": { "type": "string" } },
+            "additionalProperties": false
+          }
+        },
+        "social_media": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "platform": { "type": "string", "enum": ["nextdoor", "NCMEC", "NamUs", "The Charley Project", "other"] },
+              "text": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+
+        "persons_of_interest": {
+          "type": "array",
+          "description": "Generalized from companions_or_suspects",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": { "type": "string", "enum": ["suspect", "companion", "family", "unknown"] },
+              "age_estimate": { "type": ["number", "null"] },
+              "vehicle": {
+                "type": ["object", "null"],
+                "properties": {
+                  "make": { "type": "string" },
+                  "model": { "type": "string" },
+                  "color": { "type": "string" },
+                  "plate_partial": { "type": "string" }
+                },
+                "additionalProperties": false
+              },
+              "note": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "provenance": {
+      "type": "object",
+      "properties": {
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "original_fields": { "type": "object" },
+        "_fulltext": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

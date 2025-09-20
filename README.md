@@ -77,6 +77,30 @@ This will:
 
 * Discover PDFs under `evidence/namus`, `evidence/ncmec`, `evidence/the_charley_project`
 * Parse and normalize all cases
+
+### Data Extraction (Streamlined)
+```bash
+# Run all data extractions in one command
+python extract_all_data.py
+
+# Clean and run all extractions
+python extract_all_data.py --clean
+
+# Run specific extractions only
+python extract_all_data.py --transport-only  # Virginia transportation data
+python extract_all_data.py --osm-only        # OSM road segments
+python extract_all_data.py --transit-only   # Transit network
+
+# Alternative: Use Makefile (Windows)
+make                    # Run all extractions
+make transport          # Transportation data only
+make osm               # OSM import only
+make transit           # Transit extraction only
+make clean             # Clean output files
+
+# Alternative: Use batch script (Windows)
+run_extractions.bat    # Run all extractions
+```
 * Write outputs to `data/` directory:
 
   * `data/guardian_output.jsonl` - Structured JSONL with readable formatting

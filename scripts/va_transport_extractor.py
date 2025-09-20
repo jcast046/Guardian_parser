@@ -535,14 +535,6 @@ def main():
     with open(road_segments_file, "w", encoding="utf-8") as f:
         json.dump(road_segments_data, f, indent=2, ensure_ascii=False)
     
-    # Create individual road segment files for validation
-    segments_dir = out_path / "road_segments"
-    segments_dir.mkdir(exist_ok=True)
-    
-    for i, segment in enumerate(output_data["road_segments"][:10]):  # Save first 10 as examples
-        segment_file = segments_dir / f"road_segment_{i+1}.json"
-        with open(segment_file, "w", encoding="utf-8") as f:
-            json.dump(segment, f, indent=2, ensure_ascii=False)
     
     # Print results
     print("\n=== Extraction Results ===")
@@ -553,7 +545,6 @@ def main():
     print(f"  - {output_file}")
     print(f"  - {summary_file}")
     print(f"  - {road_segments_file}")
-    print(f"  - {segments_dir}/ (individual road segment examples)")
     
     print(f"\nTotal items extracted: {output_data['metadata']['total_items']}")
     print(f"Total road segments created: {output_data['metadata']['total_segments']}")

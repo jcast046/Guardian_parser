@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/transit_stop.schema.json",
+  "title": "Virginia Transit Stop",
+  "description": "Schema for transit stops and stations in Virginia. Geometry is GeoJSON Point (WGS84 lon,lat).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Unique identifier for this transit stop (UUID).",
+      "type": "string",
+      "format": "uuid"
+    },
+    "name": {
+      "description": "Official name of the transit stop/station.",
+      "type": "string"
+    },
+    "type": {
+      "description": "Type of transit stop.",
+      "type": "string",
+      "enum": ["station", "halt", "stop", "platform", "bus_stop", "tram_stop", "subway_entrance", "ferry_terminal"]
+    },
+    "operator": {
+      "description": "Transit agency or operator.",
+      "type": ["string", "null"]
+    },
+    "network": {
+      "description": "Transit network or system name.",
+      "type": ["string", "null"]
+    },
+    "geometry": {
+      "description": "GeoJSON Point in WGS84 (lon,lat).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "const": "Point"},
+        "coordinates": {
+          "type": "array",
+          "prefixItems": [
+            { "type": "number", "minimum": -180, "maximum": 180 },
+            { "type": "number", "minimum": -90, "maximum": 90 }
+          ],
+          "minItems": 2,
+          "maxItems": 3
+        }
+      },
+      "required": ["type", "coordinates"]
+    },
+    "platforms": {
+      "description": "Platform information for multi-platform stations.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "platformNumber": {"type": ["string", "null"]},
+          "platformType": {"type": ["string", "null"], "enum": ["island", "side", "center"]},
+          "direction": {"type": ["string", "null"], "enum": ["North", "South", "East", "West", "Inbound", "Outbound"]}
+        }
+      }
+    },
+    "lines": {
+      "description": "List of transit line IDs that serve this stop.",
+      "type": "array",
+      "items": {"type": "string", "format": "uuid"},
+      "uniqueItems": true
+    },
+    "gtfsMapping": {
+      "description": "GTFS mapping fields for agency feed interchange.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "stopCode": {"type": ["string", "null"]},
+        "zoneId": {"type": ["string", "null"]},
+        "wheelchairBoarding": {"type": ["integer", "null"], "minimum": 0, "maximum": 2}
+      }
+    },
+    "facilities": {
+      "description": "Available facilities at the stop.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "shelter": {"type": ["boolean", "null"]},
+        "bench": {"type": ["boolean", "null"]},
+        "lighting": {"type": ["boolean", "null"]},
+        "ticketMachine": {"type": ["boolean", "null"]},
+        "waitingRoom": {"type": ["boolean", "null"]},
+        "restroom": {"type": ["boolean", "null"]},
+        "parking": {"type": ["boolean", "null"]},
+        "bikeRack": {"type": ["boolean", "null"]},
+        "wifi": {"type": ["boolean", "null"]}
+      }
+    },
+    "accessibility": {
+      "description": "Accessibility features.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "wheelchairAccessible": {"type": ["boolean", "null"]},
+        "audioAnnouncements": {"type": ["boolean", "null"]},
+        "visualAnnouncements": {"type": ["boolean", "null"]},
+        "elevatorAccess": {"type": ["boolean", "null"]},
+        "tactilePaving": {"type": ["boolean", "null"]},
+        "rampAccess": {"type": ["boolean", "null"]}
+      }
+    },
+    "admin": {
+      "description": "Administrative placement for scoring/joins.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "region": {
+          "type": "string",
+          "enum": ["Northern Virginia", "Central Virginia", "Tidewater", "Southwest", "Valley", "Western Virginia", "Northern Neck", "Southside", "Unknown"],
+          "default": "Unknown"
+        },
+        "regionTagRL": {
+          "type": "string",
+          "description": "Exact RL region tag expected by the agent.",
+          "enum": ["NoVA", "Tidewater", "Shenandoah", "Appalachia", "Piedmont", "Unknown"],
+          "default": "Unknown"
+        },
+        "countyFips": {"type": ["string", "null"]},
+        "placeFips": {"type": ["string", "null"]},
+        "inState": {
+          "type": "boolean",
+          "description": "Convenience flag for RL penalties/filters; should be true for VA stops.",
+          "default": true
+        }
+      }
+    },
+    "tags": {
+      "description": "Additional OpenStreetMap tags and metadata.",
+      "type": ["object", "null"],
+      "additionalProperties": true
+    },
+    "provenance": {
+      "description": "Extraction metadata.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string", "default": "OpenStreetMap via OSMnx"},
+        "sourceDoc": {"type": ["string", "null"]},
+        "parserVersion": {"type": ["string", "null"]},
+        "extractedAt": {"type": ["string", "null"], "format": "date-time"},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "datasetVersion": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "required": ["id", "name", "type", "geometry"]
+}

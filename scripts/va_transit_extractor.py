@@ -19,6 +19,7 @@ from typing import Dict, List, Any
 try:
     import geopandas as gpd
     import osmnx as ox
+    import pandas as pd
     from shapely.geometry import LineString, MultiLineString, Point
 except ImportError as e:
     print(f"Missing dependencies: {e}")
@@ -58,6 +59,15 @@ def extract_transit_network(place: str = "Virginia, USA") -> Dict[str, Any]:
             else:
                 continue
             
+            # Clean tags - replace NaN with null for JSON compatibility
+            clean_tags = {}
+            for k, v in tags.items():
+                if k not in ['geometry', 'osmid']:
+                    if pd.isna(v) or v == 'NaN':
+                        clean_tags[k] = None
+                    else:
+                        clean_tags[k] = v
+            
             transit_nodes.append({
                 "id": str(uuid.uuid4()),
                 "name": tags.get('name', 'Unnamed'),
@@ -68,7 +78,7 @@ def extract_transit_network(place: str = "Virginia, USA") -> Dict[str, Any]:
                     "type": "Point",
                     "coordinates": [row.geometry.x, row.geometry.y]
                 },
-                "tags": {k: v for k, v in tags.items() if k not in ['geometry', 'osmid']}
+                "tags": clean_tags
             })
     
     # Extract rail lines
@@ -86,6 +96,15 @@ def extract_transit_network(place: str = "Virginia, USA") -> Dict[str, Any]:
                 else:
                     coords = list(geom.coords)
                 
+                # Clean tags - replace NaN with null for JSON compatibility
+                clean_tags = {}
+                for k, v in tags.items():
+                    if k not in ['geometry', 'osmid']:
+                        if pd.isna(v) or v == 'NaN':
+                            clean_tags[k] = None
+                        else:
+                            clean_tags[k] = v
+                
                 transit_edges.append({
                     "id": str(uuid.uuid4()),
                     "name": tags.get('name', 'Unnamed'),
@@ -96,7 +115,7 @@ def extract_transit_network(place: str = "Virginia, USA") -> Dict[str, Any]:
                         "type": "LineString",
                         "coordinates": coords
                     },
-                    "tags": {k: v for k, v in tags.items() if k not in ['geometry', 'osmid']}
+                    "tags": clean_tags
                 })
     
     return {

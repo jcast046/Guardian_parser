@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/road_segment.schema.json",
+  "title": "Virginia Road Segment",
+  "description": "Parser- and RL-ready schema for a single roadway segment in Virginia. Geometry is GeoJSON LineString (WGS84 lon,lat).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "segmentId": {
+      "description": "Unique identifier for this specific road segment (UUID).",
+      "type": "string",
+      "format": "uuid"
+    },
+    "localNames": {
+      "description": "Common or local names for the segment (e.g., 'Leesburg Pike', 'Main Street').",
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    },
+    "routeDesignation": {
+      "description": "Canonical route identification and variants.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "routeSystem": {
+          "description": "Numbered highway system.",
+          "type": "string",
+          "enum": ["Interstate", "US Highway", "Primary Highway", "Secondary Highway", "Unknown"]
+        },
+        "routeNumber": {
+          "description": "Route number as text (allows branches like '58', '29', '58-BR').",
+          "type": "string"
+        },
+        "routeBranch": {
+          "description": "Business/alternate/bypass/truck/spur branch, if applicable.",
+          "type": "string",
+          "enum": ["Business", "Alternate", "Bypass", "Truck", "Spur", "None"],
+          "default": "None"
+        },
+        "signing": {
+          "description": "Signing family used on shields.",
+          "type": "string",
+          "enum": ["Interstate", "US", "VA", "None"],
+          "default": "None"
+        },
+        "corridorCodes": {
+          "description": "Convenience labels for RL (e.g., 'I-95 NB', 'US-29').",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "cardinalDirection": {
+          "description": "Overall signed direction where applicable.",
+          "type": "string",
+          "enum": ["North", "South", "East", "West"]
+        }
+      },
+      "required": ["routeSystem", "routeNumber"]
+    },
+    "geometry": {
+      "description": "GeoJSON LineString in WGS84 (lon,lat).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "const": "LineString"},
+        "coordinates": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "array",
+            "items": [
+              {"type": "number"},
+              {"type": "number"}
+            ],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "bbox": {
+          "type": "array",
+          "items": {"type": "number"},
+          "minItems": 4,
+          "maxItems": 6
+        }
+      },
+      "required": ["type", "coordinates"]
+    },
+    "centroid": {
+      "description": "Precomputed centroid for fast distance checks.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "lon": {"type": "number"},
+        "lat": {"type": "number"}
+      },
+      "required": ["lon","lat"]
+    },
+    "lengthMiles": {
+      "description": "Segment length in miles (optional).",
+      "type": ["number", "null"],
+      "minimum": 0
+    },
+    "functionalClassification": {
+      "description": "FHWA/VDOT functional class (fill as available).",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "context": {
+          "description": "Geographic context of the classification.",
+          "type": "string",
+          "enum": ["Urban", "Rural"]
+        },
+        "class": {
+          "description": "Functional class of the roadway.",
+          "type": "string",
+          "enum": ["Freeway/Expressway", "Principal Arterial", "Minor Arterial", "Major Collector", "Minor Collector", "Local"]
+        }
+      },
+      "required": ["context", "class"]
+    },
+    "specialDesignations": {
+      "description": "Official designations (e.g., scenic, strategic).",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["All-American Road", "National Scenic Byway", "Virginia Byway", "Historic Corridor Overlay", "NHS", "STRAHNET", "NFCS"]
+      }
+    },
+    "operations": {
+      "description": "Operational attributes.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "toll": {"type": "boolean"},
+        "hovHot": {"type": "string", "enum": ["HOV", "HOT", "None"], "default": "None"},
+        "evacuationRoute": {"type": "boolean"},
+        "truckRoute": {"type": "string", "enum": ["designated", "restricted", "none"], "default": "none"},
+        "restrictedHeightFt": {"type": ["number", "null"]},
+        "restrictedWeightTons": {"type": ["number", "null"]}
+      }
+    },
+    "physicalAttributes": {
+      "description": "Physical properties of the segment.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "speedLimit": {"type": ["integer", "null"], "minimum": 0},
+        "lanes": {"type": ["integer", "null"], "minimum": 1},
+        "lanesPerDirection": {"type": ["integer", "null"], "minimum": 1},
+        "centerTurnLane": {"type": ["boolean", "null"]},
+        "hovLaneCount": {"type": ["integer", "null"], "minimum": 0},
+        "surface": {"type": ["string", "null"], "enum": ["Paved", "Unpaved", "Gravel", "Brick", null]},
+        "oneway": {"type": ["boolean", "null"]},
+        "medianType": {"type": ["string", "null"], "enum": ["Barrier", "Painted", "Raised", "None", null]},
+        "shoulderType": {"type": ["string", "null"], "enum": ["Paved", "Unpaved", "None", null]}
+      }
+    },
+    "linearReference": {
+      "description": "Milepoint/centerline references (optional).",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "milepointStart": {"type": ["number", "null"]},
+        "milepointEnd": {"type": ["number", "null"]},
+        "centerlineId": {"type": ["string", "null"]}
+      }
+    },
+    "admin": {
+      "description": "Administrative placement for scoring/joins.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "region": {
+          "type": "string",
+          "enum": ["Northern Virginia", "Richmond", "Hampton Roads", "Southwest", "Shenandoah", "Unknown"],
+          "default": "Unknown"
+        },
+        "regionTagRL": {
+          "type": "string",
+          "description": "Exact RL region tag expected by the agent.",
+          "enum": ["NoVA", "Tidewater", "Shenandoah", "Appalachia", "Piedmont", "Unknown"],
+          "default": "Unknown"
+        },
+        "vdotDistrict": {"type": ["string", "null"]},
+        "countyFips": {"type": ["string", "null"]},
+        "placeFips": {"type": ["string", "null"]},
+        "inState": {
+          "type": "boolean",
+          "description": "Convenience flag for RL penalties/filters; should be true for VA segments.",
+          "default": true
+        }
+      }
+    },
+    "rlHints": {
+      "description": "Fast-lookups used by RL scoring.",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "directionalBearingDeg": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 360
+        },
+        "allowedDirections": {
+          "type": "array",
+          "items": {"type": "string", "enum": ["NB","SB","EB","WB"]}
+        }
+      }
+    },
+    "provenance": {
+      "description": "Extraction metadata.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string", "default": "OpenStreetMap via OSMnx"},
+        "sourceDoc": {"type": ["string", "null"]},
+        "sourcePage": {"type": ["integer", "null"]},
+        "parserVersion": {"type": ["string", "null"]},
+        "extractedAt": {"type": ["string", "null"], "format": "date-time"},
+        "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1}
+      }
+    }
+  },
+  "required": ["segmentId", "localNames", "routeDesignation", "geometry"]
+}
