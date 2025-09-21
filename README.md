@@ -90,7 +90,7 @@ Runs the parser across **all evidence folders** with geocoding and caching enabl
 
 This will:
 
-* Discover PDFs under `evidence/namus`, `evidence/ncmec`, `evidence/the_charley_project`
+* Discover PDFs under `evidence/namus`, `evidence/ncmec`,`evidence/FBI`, `evidence/the_charley_project`
 * Parse and normalize all cases
 
 ### Data Extraction (Streamlined)
