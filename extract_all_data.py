@@ -89,7 +89,7 @@ def import_osm_segments():
 
 def extract_transit_network():
     """Extract Virginia transit network."""
-    cmd = 'python scripts/va_transit_extractor.py --place "Richmond, Virginia, USA" --out "data/va_transit.json"'
+    cmd = 'python scripts/va_transit_extractor.py --place "Virginia, USA" --regional --out "data/va_transit.json"'
     return run_command(cmd, "Virginia transit network extraction")
 
 

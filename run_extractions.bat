@@ -39,7 +39,7 @@ echo  OSM road segments imported
 REM Extract Virginia transit network
 echo.
 echo  Extracting Virginia transit network...
-python scripts\va_transit_extractor.py --place "Richmond, Virginia, USA" --out "data\va_transit.json"
+python scripts\va_transit_extractor.py --place "Virginia, USA" --regional --out "data\va_transit.json"
 if %errorlevel% neq 0 (
     echo  Transit network extraction failed
     goto :error

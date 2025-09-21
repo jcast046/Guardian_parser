@@ -1,0 +1,255 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://guardian.schema/guardian_case.schema.json",
+    "title": "Guardian Case",
+    "type": "object",
+    "required": ["case_id", "style_tag", "sources", "source_text"],
+    "additionalProperties": false,
+  
+    "properties": {
+      "case_id": {
+        "type": "string",
+        "description": "Stable ID for merged case or single-source record (e.g., va-2025-000123)."
+      },
+  
+      "style_tag": {
+        "type": "string",
+        "enum": ["amber_alert", "news_report", "police_presser", "youtube_transcript", "nextdoor_post", "facebook_post"],
+        "description": "Source/document style (also used to pick narrative template)."
+      },
+  
+      "ingest_meta": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "parser_version": { "type": "string" },
+          "ingested_at": { "type": "string", "format": "date-time" },
+          "file_origin": { "type": "string", "description": "Path or bucket key for original file/chunk." }
+        }
+      },
+  
+      "sources": {
+        "type": "array",
+        "description": "One or more citations backing this record (URLs or file refs).",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "outlet": { "type": "string" },
+            "url": { "type": "string" },
+            "published_at": { "type": "string", "format": "date-time" },
+            "doc_type": { "type": "string", "enum": ["article", "alert", "post", "video", "transcript", "press_release"] }
+          }
+        }
+      },
+  
+      "child": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": ["string", "null"] },
+          "age": { "type": ["integer", "null"], "minimum": 0, "maximum": 20 },
+          "gender": { "type": ["string", "null"], "enum": ["male", "female", "nonbinary", "unknown", null] },
+          "race": { "type": ["string", "null"] }
+        }
+      },
+  
+      "physical": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "height_in": { "type": ["integer", "null"], "minimum": 10, "maximum": 96 },
+          "weight_lb": { "type": ["integer", "null"], "minimum": 10, "maximum": 400 },
+          "hair": { "type": ["string", "null"] },
+          "eyes": { "type": ["string", "null"] },
+          "marks": { "type": ["string", "null"], "description": "Tattoos, scars, piercings, birthmarks." }
+        }
+      },
+  
+      "clothing": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "top": { "type": ["string", "null"] },
+          "bottom": { "type": ["string", "null"] },
+          "shoes": { "type": ["string", "null"] },
+          "accessories": { "type": ["string", "null"] },
+          "raw": { "type": ["string", "null"], "description": "Verbatim clothing phrase if structured tokens are uncertain." }
+        }
+      },
+  
+      "last_seen": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["place_text"],
+        "properties": {
+          "date_time_local": { "type": ["string", "null"], "format": "date-time" },
+          "place_text": { "type": "string", "description": "E.g., '200 block of Mica Ave, Virginia Beach, VA'." },
+          "geo": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "properties": {
+              "lat": { "type": "number" },
+              "lon": { "type": "number" }
+            }
+          }
+        }
+      },
+  
+      "report_time_local": { "type": ["string", "null"], "format": "date-time" },
+      "report_gap_hours": { "type": ["number", "null"], "minimum": 0 },
+  
+      "vehicle": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "make": { "type": ["string", "null"] },
+          "model": { "type": ["string", "null"] },
+          "year": { "type": ["integer", "null"], "minimum": 1980, "maximum": 2035 },
+          "color": { "type": ["string", "null"] },
+          "plate": { "type": ["string", "null"] },
+          "notes": { "type": ["string", "null"] },
+          "raw": { "type": ["string", "null"], "description": "Verbatim descriptor such as 'white Jeep' if partial." }
+        }
+      },
+  
+      "suspect": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": ["string", "null"] },
+          "age": { "type": ["integer", "null"], "minimum": 10, "maximum": 100 },
+          "gender": { "type": ["string", "null"] },
+          "race": { "type": ["string", "null"] },
+          "height_in": { "type": ["integer", "null"] },
+          "weight_lb": { "type": ["integer", "null"] },
+          "clothing": { "type": ["string", "null"] },
+          "marks": { "type": ["string", "null"] }
+        }
+      },
+  
+      "witness": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": ["string", "null"],
+            "enum": ["neighbor", "parent", "passerby", "school_staff", "store_employee", "police", "unknown", null]
+          },
+          "medium": { "type": ["string", "null"], "enum": ["ring", "cctv", "phone_tip", "social_media", "in_person", null] },
+          "quote": { "type": ["string", "null"] }
+        }
+      },
+  
+      "behaviors": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "abduction_method": { "type": ["string", "null"], "description": "e.g., lured, grabbed, custody-related, grooming meetup" },
+          "suspect_behavior": { "type": ["string", "null"], "description": "e.g., circling, backing up to block driveway" }
+        }
+      },
+  
+      "movement_cues": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "direction": { "type": ["string", "null"], "enum": ["northbound", "southbound", "eastbound", "westbound", "unknown", null] },
+          "corridor": { "type": ["string", "null"], "enum": ["I-64", "I-95", "I-81", "I-264", "US-58", "VA-168", "US-29", null] },
+          "landmarks": {
+            "type": ["array", "null"],
+            "items": { "type": "string" }
+          }
+        }
+      },
+  
+      "alert_status": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": { "type": ["string", "null"], "enum": ["AMBER", "CODI", "none", null] },
+          "issued_at": { "type": ["string", "null"], "format": "date-time" },
+          "canceled_at": { "type": ["string", "null"], "format": "date-time" }
+        }
+      },
+  
+      "outcome": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": ["string", "null"], "enum": ["safe", "deceased", "ongoing", null] },
+          "resolved_at": { "type": ["string", "null"], "format": "date-time" },
+          "notes": { "type": ["string", "null"] }
+        }
+      },
+  
+      "quotes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "speaker_role": { "type": "string", "enum": ["police", "parent", "witness", "anchor", "reporter", "official"] },
+            "text": { "type": "string" }
+          }
+        }
+      },
+  
+      "evidence": {
+        "type": "object",
+        "description": "Per-field provenance/confidence; keys mirror top-level paths.",
+        "additionalProperties": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "value": {},
+            "source_span": { "type": ["array", "null"], "items": { "type": "integer" } },
+            "extractor": { "type": ["string", "null"] },
+            "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+          }
+        }
+      },
+  
+      "source_text": {
+        "description": "Cleaned verbatim text (or array for multi-source merge).",
+        "oneOf": [
+          { "type": "string" },
+          { "type": "array", "items": { "type": "string" } }
+        ]
+      }
+    },
+  
+    "allOf": [
+      {
+        "if": { "required": ["last_seen"], "properties": { "last_seen": { "properties": { "date_time_local": { "const": null } } } } },
+        "then": { "properties": { "report_gap_hours": { "enum": [null] } } },
+        "description": "If last_seen.date_time_local is missing, report_gap_hours must be null."
+      }
+    ],
+  
+    "examples": [
+      {
+        "case_id": "va-2025-acevedo-001",
+        "style_tag": "news_report",
+        "sources": [
+          { "outlet": "13NewsNow", "url": "https://...", "published_at": "2025-01-25T08:00:00-05:00", "doc_type": "article" }
+        ],
+        "child": { "name": "Juan Sebastian Mejia Acevedo", "age": 12, "gender": "male", "race": "Hispanic" },
+        "physical": { "height_in": 68, "weight_lb": 105, "hair": "black", "eyes": "brown" },
+        "clothing": { "top": "gray jacket over red hoodie", "bottom": "blue pants", "shoes": "black shoes" },
+        "last_seen": { "date_time_local": "2025-01-24T09:00:00-05:00", "place_text": "200 block of Mica Avenue, Virginia Beach, VA" },
+        "report_time_local": "2025-01-24T21:00:00-05:00",
+        "report_gap_hours": 12,
+        "vehicle": { "raw": null },
+        "witness": { "type": "neighbor", "medium": "ring", "quote": "I saw him on my Ring around 2 p.m. and sent it to police." },
+        "movement_cues": { "corridor": "I-64", "direction": "westbound", "landmarks": ["Cambria at Cornerstone"] },
+        "alert_status": { "type": "AMBER", "issued_at": "2025-01-25T00:00:00-05:00" },
+        "outcome": { "status": "ongoing" },
+        "quotes": [{ "speaker_role": "police", "text": "We are treating this as an abduction." }],
+        "source_text": "…",
+        "evidence": { "clothing.top": { "value": "gray jacket", "confidence": 0.86 } }
+      }
+    ]
+  }
+  

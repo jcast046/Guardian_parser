@@ -32,7 +32,7 @@ osm: data
 # Extract Virginia transit network
 transit: data
 	@echo "Extracting Virginia transit network..."
-	python scripts\va_transit_extractor.py --place "Richmond, Virginia, USA" --out "data\va_transit.json"
+	python scripts\va_transit_extractor.py --place "Virginia, USA" --regional --out "data\va_transit.json"
 	@echo "✅ Virginia transit network extracted"
 
 # Clean output files
