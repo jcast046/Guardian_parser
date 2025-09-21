@@ -2,11 +2,37 @@
 """
 Virginia Transportation Data Extractor
 
-Integrated into Guardian Parser Pack to extract comprehensive transportation data
-from Virginia State Map PDFs including interstates, US routes, state routes, and named streets.
+Extract comprehensive transportation data from Virginia State Map PDFs including
+interstates, US routes, state routes, and named streets. This script processes
+official VDOT transportation maps to create structured datasets for the Guardian
+Parser Pack system.
+
+Features:
+    - PDF text extraction from Virginia State Map PDFs
+    - Road classification (Interstate, US Highway, Primary/Secondary Highway)
+    - Regional categorization across 8 Virginia regions
+    - Comprehensive road name extraction and normalization
+    - Schema-validated output with geometry and metadata
+    - Regional breakdown and summary statistics
+
+Dependencies:
+    PyPDF2 or pdfminer.six, json, pathlib, collections, datetime
 
 Usage:
-    python va_transport_extractor.py --src "C:/Users/N0Cir/CS697/VA_State_Map" --out "output"
+    # Extract from Virginia State Map directory
+    python va_transport_extractor.py --src "C:/Users/N0Cir/CS697/VA_State_Map" --out "data"
+    
+    # Extract with custom source directory
+    python va_transport_extractor.py --src "/path/to/va_maps" --out "/path/to/output"
+
+Output Files:
+    - va_transportation_data.json: Complete transportation dataset
+    - va_transportation_summary.json: Regional breakdown and statistics
+    - va_road_segments.json: Schema-validated road segments
+
+Author: Joshua Castillo
+License: MIT
+Version: 2.0.0
 """
 
 import argparse
@@ -92,7 +118,26 @@ VA_REGIONS = {
 # ----------------------------- PDF Utilities -----------------------------
 
 def read_pdf_text(path: Path) -> str:
-    """Read text from a PDF using available PDF library."""
+    """
+    Read text content from a PDF file using available PDF library.
+    
+    Attempts to use PyPDF2 first, falls back to pdfminer.six if PyPDF2 is not available.
+    Handles common PDF reading errors and provides informative error messages.
+    
+    Args:
+        path (Path): Path to the PDF file to read
+        
+    Returns:
+        str: Extracted text content from the PDF
+        
+    Raises:
+        FileNotFoundError: If the PDF file does not exist
+        Exception: If PDF reading fails with both libraries
+        
+    Note:
+        This function automatically handles different PDF formats and may need
+        different libraries depending on the PDF structure.
+    """
     try:
         if 'PDFMINER_AVAILABLE' in globals() and PDFMINER_AVAILABLE:
             return extract_text(str(path))
@@ -139,7 +184,27 @@ def normalize_whitespace(s: str) -> str:
     return re.sub(r"[ \t]+", " ", s.replace("\u00A0", " ")).strip()
 
 def extract_transportation_data(text: str) -> Dict[str, Set[str]]:
-    """Extract comprehensive transportation data from text."""
+    """
+    Extract transportation data from text using regex patterns.
+    
+    Parses transportation infrastructure from Virginia State Map PDF text content,
+    identifying interstates, US routes, state routes, and named streets using
+    comprehensive regex patterns.
+    
+    Args:
+        text (str): Raw text content from Virginia State Map PDF
+        
+    Returns:
+        Dict[str, Set[str]]: Dictionary containing:
+            - 'interstates': Set of interstate highway names
+            - 'us_routes': Set of US route numbers
+            - 'state_routes': Set of state route numbers
+            - 'named_streets': Set of named street names
+            
+    Note:
+        This function uses regex patterns optimized for Virginia State Map format
+        and may need adjustment for different PDF layouts or formats.
+    """
     text = normalize_whitespace(text)
     
     # Extract interstates
@@ -482,9 +547,35 @@ def create_comprehensive_output(transportation_data: Dict[str, List[str]], regio
     }
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract Virginia transportation data from PDFs")
-    parser.add_argument("--src", required=True, help="Source folder containing VA map PDFs")
-    parser.add_argument("--out", default="output", help="Output folder for JSON files")
+    """
+    Main entry point for Virginia transportation data extraction.
+    
+    Parses command line arguments and executes the transportation data extraction
+    process from Virginia State Map PDFs. Creates comprehensive datasets including
+    road segments, regional breakdowns, and summary statistics.
+    """
+    parser = argparse.ArgumentParser(
+        description="Extract Virginia transportation data from PDFs",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    # Extract from Virginia State Map directory
+    python va_transport_extractor.py --src "C:/Users/N0Cir/CS697/VA_State_Map" --out "data"
+    
+    # Extract with custom output directory
+    python va_transport_extractor.py --src "/path/to/va_maps" --out "/path/to/output"
+        """
+    )
+    parser.add_argument(
+        "--src", 
+        required=True, 
+        help="Source folder containing Virginia State Map PDFs"
+    )
+    parser.add_argument(
+        "--out", 
+        default="output", 
+        help="Output folder for JSON files (default: 'output')"
+    )
     args = parser.parse_args()
     
     src_path = Path(args.src)

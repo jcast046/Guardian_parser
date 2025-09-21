@@ -3,13 +3,43 @@
 Guardian Parser Pack - Data Extraction Runner
 ============================================
 
-Streamlined script to run all data extraction processes in sequence:
-- Virginia transportation data extraction
-- OSM road segment import
-- Virginia transit network extraction
+Streamlined script to run all data extraction processes in sequence for the
+Guardian Parser Pack system. This script orchestrates the complete data
+extraction pipeline including transportation data, OSM imports, and transit
+network extraction.
+
+Features:
+    - Virginia transportation data extraction from state maps
+    - OpenStreetMap road segment import with regional classification
+    - Virginia transit network extraction using regional approach
+    - Comprehensive error handling and progress reporting
+    - Selective execution modes for specific data types
+    - Clean mode for fresh data extraction
+
+Dependencies:
+    subprocess, argparse, pathlib, os, sys, time
 
 Usage:
-    python extract_all_data.py [--clean] [--transport-only] [--osm-only] [--transit-only]
+    # Run all extractions
+    python extract_all_data.py
+    
+    # Clean and run all extractions
+    python extract_all_data.py --clean
+    
+    # Run specific extractions only
+    python extract_all_data.py --transport-only  # Virginia transportation data
+    python extract_all_data.py --osm-only        # OSM road segments
+    python extract_all_data.py --transit-only   # Transit network
+
+Output:
+    Creates comprehensive datasets in the data/ directory:
+    - va_transportation_data.json: Virginia road network data
+    - va_transit.json: Virginia transit network (2,359+ stations)
+    - osm_richmond_segments.json: OSM road segments for Richmond
+
+Author: Joshua Castillo
+License: MIT
+Version: 2.0.0
 """
 
 import argparse
@@ -21,7 +51,23 @@ from pathlib import Path
 
 
 def run_command(cmd, description):
-    """Run a command and handle errors gracefully."""
+    """
+    Run a command and handle errors gracefully.
+    
+    Executes a shell command with comprehensive error handling, progress reporting,
+    and timeout management. Provides detailed output for debugging and monitoring.
+    
+    Args:
+        cmd (str): Shell command to execute
+        description (str): Human-readable description of the command
+        
+    Returns:
+        bool: True if command succeeded, False if failed
+        
+    Note:
+        This function uses subprocess.run with shell=True for cross-platform
+        compatibility. Commands are executed with timeout protection.
+    """
     print(f"\n {description}...")
     print(f"Command: {cmd}")
     

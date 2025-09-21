@@ -1,30 +1,45 @@
 #!/usr/bin/env python3
 """
 Guardian Parser Pack - Missing Person Case Data Extraction and Normalization
+============================================================================
 
 This module provides comprehensive PDF text extraction and parsing capabilities for
-missing person case data from multiple sources including NamUs, NCMEC, and Charley
-Project. It normalizes extracted data into a standardized Guardian schema format
-with support for geocoding, validation, and multiple output formats.
+missing person case data from multiple sources including NamUs, NCMEC, FBI, and
+Charley Project. It normalizes extracted data into a standardized Guardian schema
+format with support for geocoding, validation, and multiple output formats.
 
 Key Features:
-    - Multi-source PDF text extraction (NamUs, NCMEC, Charley Project)
+    - Multi-source PDF text extraction (NamUs, NCMEC, FBI, Charley Project)
     - Robust date and demographic data parsing with fallback mechanisms
     - Optional geocoding with caching for location data
-    - Schema validation against guardian_schema.json
+    - Schema validation against guardian_case.schema.json
     - Multiple output formats (JSONL, CSV)
     - Comprehensive error handling and logging
+    - Virginia-specific geocoding overrides
+    - Post-processing for missing temporal data
 
 Dependencies:
     Core: pdfminer.six, PyPDF2, python-dateutil, jsonschema, pandas, geopy
     Optional OCR: pytesseract, pillow (requires Tesseract binary)
 
 Usage:
+    # Basic parsing with geocoding
     python parser_pack.py --inputs file1.pdf file2.pdf --geocode
+    
+    # Batch processing with custom output
     python parser_pack.py --inputs *.pdf --jsonl output.jsonl --csv output.csv
+    
+    # With geocoding cache
+    python parser_pack.py --inputs *.pdf --geocode --geocode-cache cache.json
+
+Output:
+    - JSONL file: Structured case data conforming to Guardian schema
+    - CSV file: Flattened data for analysis and inspection
+    - Geocode cache: Cached location data for performance
 
 Author: Joshua Castillo
-
+License: MIT
+Version: 2.0.0
 """
 import re, os, json, csv, sys, logging
 from datetime import datetime

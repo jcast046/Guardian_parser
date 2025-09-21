@@ -2,11 +2,42 @@
 """
 Virginia Transit Data Extractor
 
-Extract transit network (rail/metro + key bus hubs) from OpenStreetMap
-for Virginia using OSMnx. Creates va_transit.json with rail lines and stations.
+Extract comprehensive transit network data (rail, metro, bus stations) from OpenStreetMap
+for Virginia using OSMnx. Supports both single-region and regional extraction modes
+for comprehensive statewide coverage.
+
+This script processes Virginia's major metropolitan areas separately to avoid
+OpenStreetMap API limitations and provides detailed regional breakdowns.
+
+Features:
+    - Regional extraction across 14+ Virginia metropolitan areas
+    - Enhanced transit detection with operator and name-based identification
+    - Comprehensive error handling and fallback mechanisms
+    - Detailed metadata with regional breakdowns
+    - Support for multiple transit types (bus stops, rail stations, transit hubs)
+
+Dependencies:
+    osmnx, geopandas, shapely, pyproj, rtree, pandas
 
 Usage:
-    python va_transit_extractor.py --out "output/va_transit.json"
+    # Regional extraction (recommended for statewide data)
+    python va_transit_extractor.py --regional --out "data/va_transit.json"
+    
+    # Single region extraction
+    python va_transit_extractor.py --place "Richmond, Virginia, USA" --out "data/richmond_transit.json"
+    
+    # Custom region list
+    python va_transit_extractor.py --regional --out "data/va_transit.json"
+
+Output:
+    JSON file containing:
+    - metadata: extraction details, total counts, regional breakdown
+    - stations: array of transit stations with geometry and metadata
+    - lines: array of transit lines (currently limited in OSM data)
+
+Author: Joshua Castillo
+License: MIT
+Version: 2.0.0
 """
 
 import argparse
@@ -27,7 +58,31 @@ except ImportError as e:
     exit(1)
 
 def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any]:
-    """Extract transit network from OSM for Virginia by major metropolitan areas."""
+    """
+    Extract transit network from OpenStreetMap for Virginia by major metropolitan areas.
+    
+    This function processes multiple Virginia metropolitan areas separately to avoid
+    OpenStreetMap API limitations and provides comprehensive statewide coverage.
+    
+    Args:
+        regions (List[str], optional): List of region names to process. If None,
+            uses default list of 14+ major Virginia metropolitan areas.
+            
+    Returns:
+        Dict[str, Any]: Transit network data containing:
+            - metadata: Extraction details, total counts, regional breakdown
+            - stations: Array of transit stations with geometry and metadata
+            - lines: Array of transit lines (currently limited in OSM data)
+            
+    Raises:
+        ImportError: If required dependencies (osmnx, geopandas) are not installed
+        Exception: If network extraction fails for a region (logged and skipped)
+        
+    Note:
+        This function uses a regional approach to avoid OpenStreetMap API timeouts
+        when processing large geographic areas. Each region is processed independently
+        with error handling to ensure partial success.
+    """
     
     if regions is None:
         # Major Virginia metropolitan areas with transit systems
@@ -226,7 +281,29 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
     }
 
 def extract_single_place(place: str) -> Dict[str, Any]:
-    """Extract transit network from OSM for a single place."""
+    """
+    Extract transit network from OpenStreetMap for a single place.
+    
+    This function processes a single geographic area and extracts all transit-related
+    infrastructure including bus stops, rail stations, and transit hubs.
+    
+    Args:
+        place (str): Place name for OSM extraction (e.g., "Richmond, Virginia, USA")
+        
+    Returns:
+        Dict[str, Any]: Transit network data containing:
+            - metadata: Extraction details, total counts, place name
+            - stations: Array of transit stations with geometry and metadata
+            - lines: Array of transit lines (currently limited in OSM data)
+            
+    Raises:
+        Exception: If network extraction fails for the specified place
+        
+    Note:
+        This function is optimized for single-region extraction and may timeout
+        for very large geographic areas. Use extract_transit_network_regional()
+        for comprehensive statewide coverage.
+    """
     
     print(f"[INFO] Fetching transit network for {place}...")
     
@@ -286,19 +363,19 @@ def extract_single_place(place: str) -> Dict[str, Any]:
                     clean_tags[k] = None
                 else:
                     clean_tags[k] = v
-            
-            transit_nodes.append({
-                "id": str(uuid.uuid4()),
-                "name": tags.get('name', 'Unnamed'),
-                "type": node_type,
-                "operator": tags.get('operator', None),
-                "network": tags.get('network', None),
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [row.geometry.x, row.geometry.y]
-                },
-                "tags": clean_tags
-            })
+        
+        transit_nodes.append({
+            "id": str(uuid.uuid4()),
+            "name": tags.get('name', 'Unnamed'),
+            "type": node_type,
+            "operator": tags.get('operator', None),
+            "network": tags.get('network', None),
+            "geometry": {
+                "type": "Point",
+                "coordinates": [row.geometry.x, row.geometry.y]
+            },
+            "tags": clean_tags
+        })
     
     # Extract rail lines
     for idx, row in edges.iterrows():
@@ -350,10 +427,42 @@ def extract_single_place(place: str) -> Dict[str, Any]:
     }
 
 def main():
-    parser = argparse.ArgumentParser(description="Extract Virginia transit network from OSM")
-    parser.add_argument("--place", default="Virginia, USA", help="Place name for OSM extraction")
-    parser.add_argument("--out", default="output/va_transit.json", help="Output JSON file")
-    parser.add_argument("--regional", action="store_true", help="Use regional extraction for large areas")
+    """
+    Main entry point for Virginia transit network extraction.
+    
+    Parses command line arguments and executes the appropriate extraction method
+    based on user preferences. Supports both single-region and regional extraction modes.
+    """
+    parser = argparse.ArgumentParser(
+        description="Extract Virginia transit network from OpenStreetMap",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    # Regional extraction (recommended for statewide data)
+    python va_transit_extractor.py --regional --out "data/va_transit.json"
+    
+    # Single region extraction
+    python va_transit_extractor.py --place "Richmond, Virginia, USA" --out "data/richmond_transit.json"
+    
+    # Use default settings
+    python va_transit_extractor.py
+        """
+    )
+    parser.add_argument(
+        "--place", 
+        default="Virginia, USA", 
+        help="Place name for OSM extraction (default: 'Virginia, USA')"
+    )
+    parser.add_argument(
+        "--out", 
+        default="output/va_transit.json", 
+        help="Output JSON file path (default: 'output/va_transit.json')"
+    )
+    parser.add_argument(
+        "--regional", 
+        action="store_true", 
+        help="Use regional extraction for large areas (recommended for statewide data)"
+    )
     args = parser.parse_args()
     
     if args.regional or args.place == "Virginia, USA":

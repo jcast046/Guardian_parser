@@ -1,29 +1,46 @@
 #!/usr/bin/env python3
 """
-osm_import.py
+OpenStreetMap Road Segment Importer
 
 Build RoadSegment JSON directly from OpenStreetMap via OSMnx and auto-fill
-fields useful to RL config (corridor codes, region tags, bearings).
+fields useful to RL config (corridor codes, region tags, bearings). This script
+extracts detailed road network data with geometry, metadata, and regional
+classification for the Guardian Parser Pack system.
 
-USAGE EXAMPLES (Windows-friendly):
-  # Entire state (can be heavy), output JSON array
-  py osm_import.py --osm --place "Virginia, USA" --out "C:/Users/N0Cir/CS697/VA_State_Map/out/road_segments.json"
-
-  # A specific metro (faster)
-  py osm_import.py --osm --place "Alexandria, Virginia, USA" --out ".\out\alexandria.json"
-
-  # Use a custom boundary GeoJSON (must be Polygon/MultiPolygon, WGS84)
-  py osm_import.py --osm --boundary ".\data\my_boundary.geojson" --out ".\out\segments.json"
-
-  # Assign RL regions via GeoJSON polygons labeled with 'region' and 'region_tag' properties
-  py osm_import.py --osm --place "Virginia, USA" --rl-regions ".\data\rl_regions.geojson" --out ".\out\segments.json"
+Features:
+    - OpenStreetMap road network extraction via OSMnx
+    - Regional classification using GeoJSON boundaries
+    - Road segment geometry with bearings and metadata
+    - Schema-validated output conforming to road_segment.schema.json
+    - Support for custom boundary files and regional tagging
+    - Memory-efficient processing for large geographic areas
 
 Dependencies:
-  pip install osmnx geopandas shapely pyproj rtree
+    osmnx, geopandas, shapely, pyproj, rtree, json, pathlib
 
-Notes:
-  - If you hit memory/time issues for the whole state, import per-region or per-county.
-  - The output conforms to your RoadSegment schema (geometry optional if needed).
+Usage Examples:
+    # Entire state (can be heavy), output JSON array
+    python osm_import.py --osm --place "Virginia, USA" --out "data/road_segments.json"
+
+    # A specific metro (faster)
+    python osm_import.py --osm --place "Alexandria, Virginia, USA" --out "data/alexandria_segments.json"
+
+    # Use a custom boundary GeoJSON (must be Polygon/MultiPolygon, WGS84)
+    python osm_import.py --osm --boundary "data/my_boundary.geojson" --out "data/segments.json"
+
+    # Assign RL regions via GeoJSON polygons
+    python osm_import.py --osm --place "Virginia, USA" --rl-regions "data/va_rl_regions.geojson" --out "data/segments.json"
+
+Output:
+    JSON file containing road segments with:
+    - geometry: LineString coordinates
+    - metadata: road name, type, classification
+    - regional tags: RL region assignment
+    - bearings: directional information
+
+Author: Joshua Castillo
+License: MIT
+Version: 2.0.0
 """
 
 import argparse

@@ -4,6 +4,35 @@ Transform Virginia Transit Data
 
 Convert the current va_transit.json into a statewide, schema-stable, versioned dataset
 that conforms to the transit_line.schema.json and transit_stop.schema.json schemas.
+This script processes raw OpenStreetMap transit data and transforms it into a
+standardized format suitable for the Guardian Parser Pack system.
+
+Features:
+    - Schema validation against transit_line.schema.json and transit_stop.schema.json
+    - Regional assignment based on geographic coordinates
+    - Transit line creation from stop sequences
+    - Data normalization and cleaning
+    - Comprehensive metadata generation
+    - Version-controlled output format
+
+Dependencies:
+    json, uuid, datetime, pathlib, typing
+
+Usage:
+    python transform_transit_data.py input_file.json output_file.json
+
+Input:
+    Raw va_transit.json from va_transit_extractor.py
+
+Output:
+    Transformed JSON file with:
+    - transit_lines: Array of transit lines with metadata
+    - transit_stops: Array of transit stops with regional tags
+    - metadata: Processing details and statistics
+
+Author: Joshua Castillo
+License: MIT
+Version: 2.0.0
 """
 
 import json
