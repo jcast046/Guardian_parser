@@ -38,8 +38,6 @@ Output:
     - Geocode cache: Cached location data for performance
 
 Author: Joshua Castillo
-License: MIT
-Version: 2.0.0
 """
 import re, os, json, csv, sys, logging
 from datetime import datetime
@@ -801,7 +799,7 @@ def parse_gender(text: str) -> Optional[str]:
         if g.startswith("male"):   return "male"
         if g.startswith("female"): return "female"
     
-    # Final heuristic: look for standalone tokens (rare but helps)
+    # Final heuristic: look for standalone tokens 
     if re.search(r"\bFemale\b", t, re.I): return "female"
     if re.search(r"\bMale\b", t, re.I):   return "male"
     
@@ -1477,7 +1475,7 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
             data["demographic"]["name"] = name
             break
 
-    # Missing Since (label may be on its own line, value on the next)
+    # Missing Since 
     m = re.search(r"Missing\s+Since(?:\s*[:\-])?\s*(?:\n|\r\n|\s)*([A-Za-z0-9 ,/\-]{6,40})", text, re.I)
     if m:
         iso = to_iso8601(m.group(1))

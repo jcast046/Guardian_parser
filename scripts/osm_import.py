@@ -39,8 +39,6 @@ Output:
     - bearings: directional information
 
 Author: Joshua Castillo
-License: MIT
-Version: 2.0.0
 """
 
 import argparse

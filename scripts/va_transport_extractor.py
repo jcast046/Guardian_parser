@@ -31,8 +31,6 @@ Output Files:
     - va_road_segments.json: Schema-validated road segments
 
 Author: Joshua Castillo
-License: MIT
-Version: 2.0.0
 """
 
 import argparse

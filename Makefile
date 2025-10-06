@@ -18,22 +18,22 @@ transport: data
 	@echo "Extracting Virginia transportation data..."
 	@if exist "C:\Users\N0Cir\CS697\VA_State_Map" (
 		python scripts\va_transport_extractor.py --src "C:\Users\N0Cir\CS697\VA_State_Map" --out "data"
-		@echo "✅ Virginia transportation data extracted"
+		@echo "Virginia transportation data extracted"
 	) else (
-		@echo "⚠️  VA map directory not found, skipping transportation extraction"
+		@echo "VA map directory not found, skipping transportation extraction"
 	)
 
 # Import OSM road segments for Richmond
 osm: data
 	@echo "Importing OSM road segments for Richmond..."
 	python scripts\osm_import.py --osm --place "Richmond, Virginia, USA" --rl-regions "data\va_rl_regions.geojson" --out "output\osm_richmond_segments.json"
-	@echo "✅ OSM road segments imported"
+	@echo "OSM road segments imported"
 
 # Extract Virginia transit network
 transit: data
 	@echo "Extracting Virginia transit network..."
 	python scripts\va_transit_extractor.py --place "Virginia, USA" --regional --out "data\va_transit.json"
-	@echo "✅ Virginia transit network extracted"
+	@echo "Virginia transit network extracted"
 
 # Clean output files
 clean:
@@ -41,7 +41,7 @@ clean:
 	@if exist "output\osm_richmond_segments.json" del "output\osm_richmond_segments.json"
 	@if exist "data\va_transit.json" del "data\va_transit.json"
 	@if exist "data\va_transportation_data.json" del "data\va_transportation_data.json"
-	@echo "✅ Output files cleaned"
+	@echo "Output files cleaned"
 
 # Help target
 help:

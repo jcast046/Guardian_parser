@@ -31,8 +31,6 @@ Output:
     - metadata: Processing details and statistics
 
 Author: Joshua Castillo
-License: MIT
-Version: 2.0.0
 """
 
 import json

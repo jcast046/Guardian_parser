@@ -36,8 +36,6 @@ Output:
     - lines: array of transit lines (currently limited in OSM data)
 
 Author: Joshua Castillo
-License: MIT
-Version: 2.0.0
 """
 
 import argparse
