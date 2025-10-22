@@ -48,38 +48,148 @@ import time
 from pathlib import Path
 
 
-def run_command(cmd, description):
+def run_command(cmd, description, max_retries=2):
     """
-    Run a command and handle errors gracefully.
+    Run a command and handle errors gracefully with retry logic.
     
     Executes a shell command with comprehensive error handling, progress reporting,
-    and timeout management. Provides detailed output for debugging and monitoring.
+    and retry mechanism. Provides detailed output for debugging and monitoring.
     
     Args:
         cmd (str): Shell command to execute
         description (str): Human-readable description of the command
+        max_retries (int): Maximum number of retry attempts (default: 2)
         
     Returns:
-        bool: True if command succeeded, False if failed
+        bool: True if command succeeded, False if failed after all retries
         
     Note:
         This function uses subprocess.run with shell=True for cross-platform
-        compatibility. Commands are executed with timeout protection.
+        compatibility. Commands are executed with timeout protection and retry logic.
     """
     print(f"\n {description}...")
     print(f"Command: {cmd}")
     
+    for attempt in range(max_retries + 1):
+        try:
+            if attempt > 0:
+                print(f"  Retry attempt {attempt}/{max_retries}...")
+                time.sleep(5)  # Wait 5 seconds before retry
+            
+            result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True, timeout=1800)
+            print(f" {description} completed successfully")
+            if result.stdout:
+                print(f"Output: {result.stdout.strip()}")
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f" {description} failed with error: {e}")
+            if e.stderr:
+                print(f"Error details: {e.stderr.strip()}")
+            if e.stdout:
+                print(f"Command output: {e.stdout.strip()}")
+            
+            if attempt < max_retries:
+                print(f"  Will retry in 5 seconds...")
+                continue
+            else:
+                print(f"  Failed after {max_retries + 1} attempts")
+                return False
+                
+        except subprocess.TimeoutExpired as e:
+            print(f" {description} timed out after 30 minutes")
+            if attempt < max_retries:
+                print(f"  Will retry in 5 seconds...")
+                continue
+            else:
+                print(f"  Failed after {max_retries + 1} attempts due to timeout")
+                return False
+                
+        except Exception as e:
+            print(f" {description} failed with unexpected error: {e}")
+            if attempt < max_retries:
+                print(f"  Will retry in 5 seconds...")
+                continue
+            else:
+                print(f"  Failed after {max_retries + 1} attempts due to unexpected error")
+                return False
+    
+    return False
+
+
+def run_diagnostics():
+    """Run system diagnostics to identify potential issues."""
+    print("\n Running system diagnostics...")
+    
+    # Check Python version
+    import sys
+    print(f" Python version: {sys.version}")
+    
+    # Check required dependencies
+    missing_deps = []
     try:
-        result = subprocess.run(cmd, shell=True, check=True, capture_output=True, text=True)
-        print(f" {description} completed successfully")
-        if result.stdout:
-            print(f"Output: {result.stdout.strip()}")
-        return True
-    except subprocess.CalledProcessError as e:
-        print(f" {description} failed with error: {e}")
-        if e.stderr:
-            print(f"Error details: {e.stderr.strip()}")
+        import osmnx
+        print(f" OSMnx: {osmnx.__version__}")
+    except ImportError:
+        missing_deps.append("osmnx")
+        print(" OSMnx: MISSING")
+    
+    try:
+        import geopandas
+        print(f" GeoPandas: {geopandas.__version__}")
+    except ImportError:
+        missing_deps.append("geopandas")
+        print(" GeoPandas: MISSING")
+    
+    try:
+        import shapely
+        print(f" Shapely: {shapely.__version__}")
+    except ImportError:
+        missing_deps.append("shapely")
+        print(" Shapely: MISSING")
+    
+    try:
+        import pandas
+        print(f" Pandas: {pandas.__version__}")
+    except ImportError:
+        missing_deps.append("pandas")
+        print(" Pandas: MISSING")
+    
+    # Check required files
+    required_files = [
+        "data/va_rl_regions.geojson",
+        "scripts/osm_import.py",
+        "scripts/va_transit_extractor.py",
+        "scripts/va_transport_extractor.py"
+    ]
+    
+    missing_files = []
+    for file_path in required_files:
+        if os.path.exists(file_path):
+            print(f" {file_path}: OK")
+        else:
+            missing_files.append(file_path)
+            print(f" {file_path}: MISSING")
+    
+    # Check VA map directory
+    va_map_dir = "C:/Users/N0Cir/CS697/VA_State_Map"
+    if os.path.exists(va_map_dir):
+        print(f" VA map directory: OK")
+    else:
+        print(f" VA map directory: MISSING ({va_map_dir})")
+    
+    # Summary
+    if missing_deps or missing_files:
+        print(f"\n DIAGNOSTIC SUMMARY:")
+        if missing_deps:
+            print(f" Missing dependencies: {', '.join(missing_deps)}")
+            print(f" Install with: pip install {' '.join(missing_deps)}")
+        if missing_files:
+            print(f" Missing files: {', '.join(missing_files)}")
         return False
+    else:
+        print(f"\n All diagnostics passed!")
+        return True
 
 
 def create_directories():
@@ -137,6 +247,38 @@ def extract_transit_network():
     return run_command(cmd, "Virginia transit network extraction")
 
 
+def test_individual_scripts():
+    """Test each extraction script individually to isolate issues."""
+    print("\n Testing individual extraction scripts...")
+    
+    # Test OSM import with a smaller area first
+    print("\n1. Testing OSM import with smaller area...")
+    cmd = 'python scripts/osm_import.py --osm --place "Alexandria, Virginia, USA" --out "output/test_osm.json"'
+    if run_command(cmd, "OSM import test (Alexandria)"):
+        print("   OSM import test: PASSED")
+        # Clean up test file
+        if os.path.exists("output/test_osm.json"):
+            os.remove("output/test_osm.json")
+    else:
+        print("   OSM import test: FAILED")
+        return False
+    
+    # Test transit extraction with a single city
+    print("\n2. Testing transit extraction with single city...")
+    cmd = 'python scripts/va_transit_extractor.py --place "Richmond, Virginia, USA" --out "output/test_transit.json"'
+    if run_command(cmd, "Transit extraction test (Richmond)"):
+        print("   Transit extraction test: PASSED")
+        # Clean up test file
+        if os.path.exists("output/test_transit.json"):
+            os.remove("output/test_transit.json")
+    else:
+        print("   Transit extraction test: FAILED")
+        return False
+    
+    print("\n All individual script tests passed!")
+    return True
+
+
 def main():
     """Main execution function."""
     parser = argparse.ArgumentParser(
@@ -149,6 +291,8 @@ Examples:
   python extract_all_data.py --transport-only  # Only transportation data
   python extract_all_data.py --osm-only   # Only OSM import
   python extract_all_data.py --transit-only     # Only transit extraction
+  python extract_all_data.py --diagnose   # Run system diagnostics
+  python extract_all_data.py --test       # Test individual scripts
         """
     )
     
@@ -160,11 +304,34 @@ Examples:
                        help="Run only OSM segment import")
     parser.add_argument("--transit-only", action="store_true",
                        help="Run only transit network extraction")
+    parser.add_argument("--diagnose", action="store_true",
+                       help="Run system diagnostics and exit")
+    parser.add_argument("--test", action="store_true",
+                       help="Test individual scripts with smaller datasets")
     
     args = parser.parse_args()
     
     print(" Guardian Parser Pack - Data Extraction Runner")
     print("=" * 50)
+    
+    # Run diagnostics if requested
+    if args.diagnose:
+        if run_diagnostics():
+            print("\n System is ready for data extraction!")
+            sys.exit(0)
+        else:
+            print("\n Please fix the issues above before running extractions.")
+            sys.exit(1)
+    
+    # Test individual scripts if requested
+    if args.test:
+        create_directories()
+        if test_individual_scripts():
+            print("\n Individual script tests passed! You can now run full extractions.")
+            sys.exit(0)
+        else:
+            print("\n Some script tests failed. Please check the errors above.")
+            sys.exit(1)
     
     start_time = time.time()
     

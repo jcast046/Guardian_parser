@@ -84,7 +84,7 @@ from jsonschema import Draft7Validator
 # ---------- Configuration Constants ----------
 
 # Path to the Guardian schema validation file
-GUARDIAN_SCHEMA_PATH: str = os.path.join(os.path.dirname(__file__), "guardian_schema.json")
+GUARDIAN_SCHEMA_PATH: str = os.path.join(os.path.dirname(__file__), "schemas", "guardian_schema.json")
 
 # Default timezone for date parsing when no timezone is specified
 DEFAULT_TZ: str = "America/New_York"
@@ -122,7 +122,7 @@ def safe_search(pattern: str, text: str, flags: int = 0) -> Optional[re.Match[st
         Optional[re.Match[str]]: The match object if found, None otherwise
         
     Example:
-        >>> safe_search(r"\d+", "abc123def")
+        >>> safe_search(r"\\d+", "abc123def")
         <re.Match object; span=(3, 6), match='123'>
         >>> safe_search(r"[", "invalid pattern")
         None
@@ -2483,15 +2483,56 @@ def parse_fbi(text: str, case_id: str) -> Dict[str, Any]:
 
     return data
 
+def discover_pdf_files():
+    """
+    Automatically discover PDF files from evidence directories.
+    
+    Returns:
+        List[str]: List of paths to discovered PDF files
+    """
+    import glob
+    inputs = []
+    
+    # Discover NamUs case PDFs
+    namus_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\namus\**\*.pdf", recursive=True)
+    inputs.extend(namus_files)
+    print(f"Found {len(namus_files)} NamUs PDF files")
+    
+    # Discover NCMEC poster PDFs
+    ncmec_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\ncmec\**\*.pdf", recursive=True)
+    inputs.extend(ncmec_files)
+    print(f"Found {len(ncmec_files)} NCMEC PDF files")
+    
+    # Discover FBI poster PDFs
+    fbi_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\FBI\**\*.pdf", recursive=True)
+    inputs.extend(fbi_files)
+    print(f"Found {len(fbi_files)} FBI PDF files")
+    
+    # Discover Charley Project case PDFs
+    charley_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\the_charley_project\**\*.pdf", recursive=True)
+    inputs.extend(charley_files)
+    print(f"Found {len(charley_files)} Charley Project PDF files")
+    
+    print(f"Total PDF files to process: {len(inputs)}")
+    return inputs
+
 def main(argv=None):
     import argparse
     parser = argparse.ArgumentParser(description="Guardian Parser Pack")
-    parser.add_argument("--inputs", nargs="+", help="PDF files to parse", required=True)
+    parser.add_argument("--inputs", nargs="*", help="PDF files to parse (if not provided, will auto-discover PDF files)")
     parser.add_argument("--jsonl", default=os.path.join("output", "guardian_output.jsonl"))
     parser.add_argument("--csv", default=os.path.join("output", "guardian_output.csv"))
     parser.add_argument("--geocode", action="store_true", help="Attempt to geocode missing lat/lon from city/state")
     parser.add_argument("--geocode-cache", default=str(os.path.join(os.path.dirname(__file__), "output", "geocode_cache.json")), help="Path to a JSON cache for geocoding results")
     args = parser.parse_args(argv)
+    
+    # Auto-discover PDF files if none provided
+    if not args.inputs:
+        print("No input files specified. Auto-discovering PDF files...")
+        args.inputs = discover_pdf_files()
+        if not args.inputs:
+            print("No PDF files found. Please specify files with --inputs or check your evidence directory structure.")
+            return 1
 
     schema = load_schema(GUARDIAN_SCHEMA_PATH)
     if args.geocode:
