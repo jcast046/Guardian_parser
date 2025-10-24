@@ -73,7 +73,7 @@ guardian_parser_pack/
 
 1. **Clone repository**:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:jcast046/Guardian_parser.git
    cd guardian_parser_pack
    ```
 
