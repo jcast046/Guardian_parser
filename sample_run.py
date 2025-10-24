@@ -41,8 +41,8 @@ def discover_pdf_files() -> List[str]:
     """
     Discover PDF files from multiple evidence source directories.
     
-    This function searches for PDF files in the expected evidence directory
-    structure and returns a list of all discovered files.
+    Searches for PDF files in the expected evidence directory structure
+    and returns a list of all discovered files.
     
     Returns:
         List[str]: List of paths to discovered PDF files
@@ -54,27 +54,23 @@ def discover_pdf_files() -> List[str]:
         evidence/the_charley_project/**/*.pdf
         
     Note:
-        The paths are hardcoded for the specific user's directory structure.
-        Modify the paths below to match your local setup.
+        Paths are hardcoded for specific user directory structure.
+        Modify paths below to match local setup.
     """
     inputs: List[str] = []
     
-    # Discover NamUs case PDFs
     namus_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\namus\**\*.pdf", recursive=True)
     inputs.extend(namus_files)
     print(f"Found {len(namus_files)} NamUs PDF files")
     
-    # Discover NCMEC poster PDFs
     ncmec_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\ncmec\**\*.pdf", recursive=True)
     inputs.extend(ncmec_files)
     print(f"Found {len(ncmec_files)} NCMEC PDF files")
     
-    # Discover FBI poster PDFs
     fbi_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\FBI\**\*.pdf", recursive=True)
     inputs.extend(fbi_files)
     print(f"Found {len(fbi_files)} FBI PDF files")
     
-    # Discover Charley Project case PDFs
     charley_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\the_charley_project\**\*.pdf", recursive=True)
     inputs.extend(charley_files)
     print(f"Found {len(charley_files)} Charley Project PDF files")
@@ -85,20 +81,27 @@ def build_parser_command(pdf_files: List[str]) -> List[str]:
     """
     Build the command line arguments for the Guardian parser.
     
+    Constructs command line arguments for subprocess execution of the
+    Guardian parser with appropriate input and output paths.
+    
     Args:
         pdf_files (List[str]): List of PDF file paths to process
         
     Returns:
         List[str]: Command line arguments for subprocess execution
+        
+    Note:
+        Includes virtual environment Python path, parser script, input files,
+        output paths, and geocoding options with cache configuration.
     """
     cmd: List[str] = [
-        str(ROOT / ".venv/Scripts/python.exe"),  # Virtual environment Python
-        str(ROOT / "parser_pack.py"),            # Parser script
-        "--inputs", *pdf_files,                  # Input PDF files
-        "--jsonl", str(ROOT / "output" / "guardian_output.jsonl"),  # JSONL output
-        "--csv", str(ROOT / "output" / "guardian_output.csv"),      # CSV output
-        "--geocode",                             # Enable geocoding
-        "--geocode-cache", str(ROOT / "output" / "geocode_cache.json")  # Geocoding cache
+        str(ROOT / ".venv/Scripts/python.exe"),
+        str(ROOT / "parser_pack.py"),
+        "--inputs", *pdf_files,
+        "--jsonl", str(ROOT / "output" / "guardian_output.jsonl"),
+        "--csv", str(ROOT / "output" / "guardian_output.csv"),
+        "--geocode",
+        "--geocode-cache", str(ROOT / "output" / "geocode_cache.json")
     ]
     return cmd
 
@@ -106,14 +109,16 @@ def main() -> None:
     """
     Main execution function for the sample run.
     
-    This function orchestrates the entire process:
+    Orchestrates the complete PDF processing pipeline:
     1. Discovers PDF files from evidence directories
     2. Builds the parser command with appropriate arguments
     3. Executes the parser with error handling
     4. Reports completion status
+    
+    Raises:
+        SystemExit: On execution errors or missing files
     """
     try:
-        # Discover PDF files from all source directories
         pdf_files = discover_pdf_files()
         
         if not pdf_files:
@@ -127,18 +132,14 @@ def main() -> None:
         
         print(f"Total PDF files to process: {len(pdf_files)}")
         
-        # Build the parser command
         cmd = build_parser_command(pdf_files)
         
-        # Display the command being executed
         print("Executing command:")
         print(" ".join(cmd))
         print("-" * 80)
         
-        # Execute the parser
         result = subprocess.run(cmd, check=False)
         
-        # Report results
         if result.returncode == 0:
             print("-" * 80)
             print("Processing completed successfully!")

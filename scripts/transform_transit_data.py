@@ -40,7 +40,21 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 
 def assign_region(lat: float, lon: float) -> str:
-    """Assign Virginia region based on coordinates."""
+    """
+    Assign Virginia region based on coordinates.
+    
+    Uses simplified coordinate-based regional assignment for Virginia.
+    
+    Args:
+        lat (float): Latitude coordinate
+        lon (float): Longitude coordinate
+        
+    Returns:
+        str: Virginia region name or "Unknown" if coordinates are outside Virginia
+        
+    Note:
+        Uses approximate coordinate boundaries for regional classification.
+    """
     # Simplified regional assignment based on coordinates
     if lat > 38.5 and lon < -77.0:
         return "Northern Virginia"
@@ -58,7 +72,18 @@ def assign_region(lat: float, lon: float) -> str:
         return "Unknown"
 
 def assign_region_tag_rl(region: str) -> str:
-    """Map region to RL tag."""
+    """
+    Map region to RL tag.
+    
+    Converts Virginia region names to standardized RL (Regional Label) tags
+    for consistent regional classification.
+    
+    Args:
+        region (str): Virginia region name
+        
+    Returns:
+        str: Corresponding RL tag or "Unknown" if region not recognized
+    """
     mapping = {
         "Northern Virginia": "NoVA",
         "Central Virginia": "Piedmont", 
@@ -73,7 +98,22 @@ def assign_region_tag_rl(region: str) -> str:
     return mapping.get(region, "Unknown")
 
 def transform_station_to_stop(station: Dict[str, Any]) -> Dict[str, Any]:
-    """Transform a station record to conform to transit_stop.schema.json."""
+    """
+    Transform a station record to conform to transit_stop.schema.json.
+    
+    Converts raw OSM station data into standardized transit stop format
+    with regional assignment, accessibility information, and facility details.
+    
+    Args:
+        station (Dict[str, Any]): Raw station data from OSM extraction
+        
+    Returns:
+        Dict[str, Any]: Standardized transit stop record conforming to schema
+        
+    Note:
+        Extracts facility and accessibility information from OSM tags
+        and assigns regional classification based on coordinates.
+    """
     coords = station.get("geometry", {}).get("coordinates", [0, 0])
     lat, lon = coords[1], coords[0]
     region = assign_region(lat, lon)
@@ -102,8 +142,8 @@ def transform_station_to_stop(station: Dict[str, Any]) -> Dict[str, Any]:
             "type": "Point",
             "coordinates": coords
         },
-        "platforms": [],  # Could be extracted from tags
-        "lines": [],  # Would need to be linked to lines
+        "platforms": [],
+        "lines": [],
         "facilities": {
             "shelter": station.get("tags", {}).get("shelter") == "yes",
             "bench": station.get("tags", {}).get("bench") == "yes",
@@ -126,8 +166,8 @@ def transform_station_to_stop(station: Dict[str, Any]) -> Dict[str, Any]:
         "admin": {
             "region": region,
             "regionTagRL": assign_region_tag_rl(region),
-            "countyFips": None,  # Could be geocoded
-            "placeFips": None,    # Could be geocoded
+            "countyFips": None,
+            "placeFips": None,
             "inState": True
         },
         "tags": station.get("tags", {}),
@@ -141,7 +181,22 @@ def transform_station_to_stop(station: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 def create_transit_line_from_stops(stops: List[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
-    """Create a transit line from a group of stops (simplified)."""
+    """
+    Create a transit line from a group of stops (simplified).
+    
+    Groups stops by operator/network and creates basic transit line records.
+    This is a simplified implementation for schema compliance.
+    
+    Args:
+        stops (List[Dict[str, Any]]): List of transit stop records
+        
+    Returns:
+        Optional[Dict[str, Any]]: Transit line record or None if insufficient data
+        
+    Note:
+        Only creates lines with multiple stops. Line geometry and service
+        patterns would require more complex route analysis.
+    """
     if not stops:
         return None
     
@@ -160,7 +215,7 @@ def create_transit_line_from_stops(stops: List[Dict[str, Any]]) -> Optional[Dict
             }
         lines[key]["stops"].extend(stop.get("lines", []))
     
-    # Create line records (simplified - would need more complex logic for real lines)
+    # Create line records
     transit_lines = []
     for key, line_data in lines.items():
         if len(line_data["stops"]) > 1:  # Only create lines with multiple stops
@@ -174,7 +229,7 @@ def create_transit_line_from_stops(stops: List[Dict[str, Any]]) -> Optional[Dict
                 "color": None,
                 "geometry": {
                     "type": "LineString",
-                    "coordinates": []  # Would need to be calculated
+                    "coordinates": []
                 },
                 "lengthMiles": None,
                 "stops": [stop["id"] for stop in line_data["stops"]],
@@ -199,7 +254,20 @@ def create_transit_line_from_stops(stops: List[Dict[str, Any]]) -> Optional[Dict
     return transit_lines
 
 def transform_transit_data(input_file: str, output_file: str):
-    """Transform the transit data to schema-stable format."""
+    """
+    Transform the transit data to schema-stable format.
+    
+    Processes raw OSM transit data and converts it to standardized format
+    with regional assignment, schema validation, and comprehensive metadata.
+    
+    Args:
+        input_file (str): Path to input transit data JSON file
+        output_file (str): Path to output transformed data JSON file
+        
+    Note:
+        Creates schema-compliant transit stops and lines with regional
+        classification and comprehensive metadata.
+    """
     
     print(f"Loading transit data from {input_file}...")
     with open(input_file, 'r', encoding='utf-8') as f:
@@ -241,7 +309,7 @@ def transform_transit_data(input_file: str, output_file: str):
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(dataset, f, indent=2, ensure_ascii=False)
     
-    print(f"✅ Transformation complete!")
+    print(f"Transformation complete!")
     print(f"   - {len(stops)} stops created")
     print(f"   - {len(lines) if lines else 0} lines created")
     print(f"   - Regions: {', '.join(dataset['metadata']['regions'])}")

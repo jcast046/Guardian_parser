@@ -19,7 +19,7 @@ Dependencies:
     osmnx, geopandas, shapely, pyproj, rtree, json, pathlib
 
 Usage Examples:
-    # Entire state (can be heavy), output JSON array
+    # Entire state, output JSON array
     python osm_import.py --osm --place "Virginia, USA" --out "data/road_segments.json"
 
     # A specific metro (faster)
@@ -62,7 +62,20 @@ except ImportError as e:
 # -------------- Helpers --------------
 
 def bearing_to_cardinal(b):
-    """Map degrees to NB/EB/SB/WB quadrants."""
+    """
+    Map degrees to NB/EB/SB/WB quadrants.
+    
+    Converts bearing degrees to cardinal direction abbreviations.
+    
+    Args:
+        b (float): Bearing in degrees (0-360)
+        
+    Returns:
+        Optional[str]: Cardinal direction (NB, EB, SB, WB) or None if invalid
+        
+    Note:
+        Uses 45-degree quadrants: 315-45° = NB, 45-135° = EB, etc.
+    """
     if b is None:
         return None
     b = float(b) % 360.0
@@ -85,7 +98,19 @@ BRANCH_MAP = {
 def parse_ref_token(token):
     """
     Parse a single ref token like 'I 95', 'US 29 BUS', 'VA 7', 'US-50 BYP'.
-    Returns tuple: (routeSystem, routeNumber, routeBranch, signing)
+    
+    Extracts route system, number, branch, and signing information from
+    OpenStreetMap ref tokens.
+    
+    Args:
+        token (str): Reference token to parse
+        
+    Returns:
+        Tuple[str, str, str, str]: (routeSystem, routeNumber, routeBranch, signing)
+        
+    Note:
+        Handles various formats including interstate, US highway, and state route
+        designations with business, alternate, bypass, and spur branches.
     """
     t = token.strip().upper().replace("–", "-").replace("—", "-")
     t = re.sub(r"\s+", " ", t)
@@ -123,7 +148,21 @@ FC_MAP = {
 }
 
 def pick_linestring(geom):
-    """Ensure a LineString geometry (pick longest if MultiLineString)."""
+    """
+    Ensure a LineString geometry (pick longest if MultiLineString).
+    
+    Converts MultiLineString geometries to single LineString by selecting
+    the longest component for road segment representation.
+    
+    Args:
+        geom: Shapely geometry object (LineString or MultiLineString)
+        
+    Returns:
+        Optional[LineString]: Longest LineString component or None if invalid
+        
+    Note:
+        Used for road segment geometry standardization in OSM data processing.
+    """
     if isinstance(geom, LineString):
         return geom
     if isinstance(geom, MultiLineString):
@@ -139,6 +178,24 @@ def pick_linestring(geom):
     return None
 
 def build_corridor_codes(route_system, route_number, bearing):
+    """
+    Build corridor codes from route system, number, and bearing.
+    
+    Creates standardized corridor codes combining route designation with
+    cardinal direction for regional classification.
+    
+    Args:
+        route_system (str): Route system (Interstate, US Highway, etc.)
+        route_number (str): Route number
+        bearing (float): Bearing in degrees
+        
+    Returns:
+        List[str]: List of corridor codes or empty list if invalid
+        
+    Note:
+        Only creates codes for recognized route systems (Interstate, US Highway,
+        Primary Highway). Includes cardinal direction when bearing is available.
+    """
     if not route_system or not route_number:
         return []
     cardinal = bearing_to_cardinal(bearing)
@@ -150,7 +207,24 @@ def build_corridor_codes(route_system, route_number, bearing):
     return [f"{prefix}-{route_number}"]
 
 def load_rl_regions(path):
-    """Load RL region polygons (expects properties: region, region_tag)."""
+    """
+    Load RL region polygons (expects properties: region, region_tag).
+    
+    Loads GeoJSON file containing regional boundary polygons for
+    spatial classification of road segments.
+    
+    Args:
+        path (str): Path to GeoJSON file with regional boundaries
+        
+    Returns:
+        Optional[GeoDataFrame]: Regional boundaries with region and region_tag columns
+        
+    Raises:
+        ValueError: If required properties (region, region_tag) are missing
+        
+    Note:
+        Automatically converts to WGS84 (EPSG:4326) coordinate system.
+    """
     if not path:
         return None
     gdf = gpd.read_file(path)
@@ -165,6 +239,27 @@ def load_rl_regions(path):
 # -------------- Core pipeline --------------
 
 def fetch_graph(place=None, boundary=None, network_type="drive", simplify=True):
+    """
+    Fetch OpenStreetMap graph for specified place or boundary.
+    
+    Downloads road network data from OpenStreetMap using OSMnx for either
+    a named place or custom boundary polygon.
+    
+    Args:
+        place (str, optional): Named place for OSM extraction
+        boundary (str, optional): Path to GeoJSON boundary file
+        network_type (str): OSMnx network type (default: "drive")
+        simplify (bool): Whether to simplify graph topology (default: True)
+        
+    Returns:
+        NetworkX graph: Road network graph from OpenStreetMap
+        
+    Raises:
+        ValueError: If neither place nor boundary is provided
+        
+    Note:
+        Automatically converts boundary to WGS84 coordinate system.
+    """
     if boundary:
         poly = gpd.read_file(boundary)
         if poly.crs is None:
@@ -182,20 +277,33 @@ def fetch_graph(place=None, boundary=None, network_type="drive", simplify=True):
     raise ValueError("Provide either --place or --boundary.")
 
 def graph_to_segments(G, rl_regions_path=None):
-    # Enrich graph
+    """
+    Convert OSMnx graph to structured road segments.
+    
+    Processes road network graph and creates standardized road segment
+    records with geometry, metadata, and regional classification.
+    
+    Args:
+        G: OSMnx road network graph
+        rl_regions_path (str, optional): Path to regional boundaries GeoJSON
+        
+    Returns:
+        List[Dict]: List of structured road segment records
+        
+    Note:
+        Enriches graph with speeds, travel times, and bearings before
+        processing. Performs spatial join for regional classification.
+    """
     G = ox.routing.add_edge_speeds(G)
     G = ox.routing.add_edge_travel_times(G)
     G = ox.bearing.add_edge_bearings(G)
 
     edges = ox.convert.graph_to_gdfs(G, nodes=False)
-    edges = edges.to_crs(4326)  # ensure WGS84
+    edges = edges.to_crs(4326)
 
-    # Optional region tagging
     rl_gdf = load_rl_regions(rl_regions_path) if rl_regions_path else None
     if rl_gdf is not None:
-        # spatial join (intersects)
         joined = gpd.sjoin(edges[["geometry"]], rl_gdf, how="left", predicate="intersects")
-        # Reattach attributes
         edges = edges.join(joined[["region","region_tag"]])
     else:
         edges["region"] = None
@@ -207,7 +315,6 @@ def graph_to_segments(G, rl_regions_path=None):
         if geom is None:
             continue
 
-        # Collect names
         name_fields = [
             row.get("name", None),
             row.get("official_name", None),
@@ -225,7 +332,6 @@ def graph_to_segments(G, rl_regions_path=None):
                 else:
                     local_names.append(str(field))
         
-        # Remove duplicates while preserving order
         seen = set()
         local_names = [n for n in local_names if not (n in seen or seen.add(n))]
 

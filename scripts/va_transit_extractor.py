@@ -59,7 +59,7 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
     """
     Extract transit network from OpenStreetMap for Virginia by major metropolitan areas.
     
-    This function processes multiple Virginia metropolitan areas separately to avoid
+    Processes multiple Virginia metropolitan areas separately to avoid
     OpenStreetMap API limitations and provides comprehensive statewide coverage.
     
     Args:
@@ -77,14 +77,12 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
         Exception: If network extraction fails for a region (logged and skipped)
         
     Note:
-        This function uses a regional approach to avoid OpenStreetMap API timeouts
-        when processing large geographic areas. Each region is processed independently
+        Uses regional approach to avoid OpenStreetMap API timeouts when
+        processing large geographic areas. Each region processed independently
         with error handling to ensure partial success.
     """
     
     if regions is None:
-        # Major Virginia metropolitan areas with transit systems
-        # Using broader regional names and alternative search terms
         regions = [
             "Richmond, Virginia, USA",
             "Norfolk, Virginia, USA", 
@@ -96,9 +94,7 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
             "Fairfax, Virginia, USA",
             "Roanoke, Virginia, USA",
             "Lynchburg, Virginia, USA",
-            # Add some broader regional searches
             "Northern Virginia, USA",
-            # Try alternative names for Hampton Roads area
             "Chesapeake, Virginia, USA",
             "Portsmouth, Virginia, USA",
             "Suffolk, Virginia, USA"
@@ -114,20 +110,15 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
         try:
             print(f"[INFO] Processing {region}...")
             
-            # Get transit infrastructure for this region with multiple network types
             G = None
             try:
-                # Try with all network types first
                 G = ox.graph_from_place(region, network_type="all", simplify=False)
             except:
                 try:
-                    # Fallback to drive network if all fails
                     G = ox.graph_from_place(region, network_type="drive", simplify=False)
                 except:
                     print(f"[WARNING] Could not fetch data for {region}, trying alternative approach...")
-                    # Try with a broader search area
                     try:
-                        # Extract city name and try with just the city
                         city_name = region.split(',')[0].strip()
                         G = ox.graph_from_place(f"{city_name}, Virginia, USA", network_type="all", simplify=False)
                     except:
@@ -178,7 +169,7 @@ def extract_transit_network_regional(regions: List[str] = None) -> Dict[str, Any
                         ['bus stop', 'transit', 'metro', 'station', 'depot', 'terminal']):
                     is_transit = True
                     node_type = "transit_station"
-                # Check for any highway tags that might be transit-related
+                # Check for highway tags that are transit-related
                 elif tags.get('highway') in ['bus_stop', 'bus_station']:
                     is_transit = True
                     node_type = "bus_stop"
@@ -282,7 +273,7 @@ def extract_single_place(place: str) -> Dict[str, Any]:
     """
     Extract transit network from OpenStreetMap for a single place.
     
-    This function processes a single geographic area and extracts all transit-related
+    Processes a single geographic area and extracts all transit-related
     infrastructure including bus stops, rail stations, and transit hubs.
     
     Args:
@@ -298,9 +289,9 @@ def extract_single_place(place: str) -> Dict[str, Any]:
         Exception: If network extraction fails for the specified place
         
     Note:
-        This function is optimized for single-region extraction and may timeout
-        for very large geographic areas. Use extract_transit_network_regional()
-        for comprehensive statewide coverage.
+        Optimized for single-region extraction and may timeout for very large
+        geographic areas. Use extract_transit_network_regional() for
+        comprehensive statewide coverage.
     """
     
     print(f"[INFO] Fetching transit network for {place}...")

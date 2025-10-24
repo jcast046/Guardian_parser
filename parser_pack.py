@@ -725,32 +725,26 @@ def parse_last_seen_ts(text: str) -> Optional[str]:
         >>> parse_last_seen_ts("Missing Since 02/07/1977")
         "1977-02-07"
     """
-    # Normalize line endings
     t = text.replace("\r", "")
     
     # NCMEC poster pattern: "Missing Since: September 8, 2025"
     m = re.search(rf"Missing Since:\s*({MDY})", t, re.I)
     if not m:
-        # Charley Project pattern: "Missing Since" on one line, date on next
         m = re.search(rf"Missing Since\s*:?\s*(?:\n|\r\n|\s)*({SLASH}|{MDY})", t, re.I)
     if not m:
-        # NamUs often: "Date last seen" variants
         m = re.search(rf"(Date\s+Last\s+Seen|Missing\s+Date)\s*:?\s*({SLASH}|{MDY})", t, re.I)
     if not m:
-        # Generic "Last seen" patterns
         m = re.search(rf"Last seen[^0-9A-Za-z]{{0,5}}({MDY}|{SLASH})", t, re.I)
     
     if m:
         date_str = m.group(1)
         try:
-            # Try multiple date formats in order of preference
             for fmt in ("%B %d, %Y", "%b %d, %Y", "%m/%d/%Y", "%m-%d-%Y", "%m/%d/%y", "%m-%d-%y"):
                 try:
                     dt = datetime.strptime(date_str, fmt)
                     return dt.strftime("%Y-%m-%d")
                 except ValueError:
                     continue
-            # Fallback to dateutil parser for complex formats
             dt = dtp.parse(date_str, dayfirst=False, fuzzy=True)
             return dt.date().isoformat()
         except Exception:
@@ -1005,13 +999,30 @@ def normalize_gender(s: str) -> Optional[str]:
 # ---------- PDF text extraction ----------
 
 def extract_text(pdf_path: str) -> str:
-    # Try pdfminer
+    """
+    Extract text content from a PDF file using multiple extraction methods.
+    
+    Attempts to extract text using pdfminer.six, PyPDF2, and OCR (pytesseract)
+    in order of preference. Returns the first successful extraction.
+    
+    Args:
+        pdf_path (str): Path to the PDF file to extract text from
+        
+    Returns:
+        str: Extracted text content, empty string if extraction fails
+        
+    Raises:
+        FileNotFoundError: If the PDF file does not exist
+        
+    Note:
+        OCR extraction requires tesseract binary to be installed and is
+        significantly slower than other methods.
+    """
     if pdfminer_extract_text:
         try:
             return pdfminer_extract_text(pdf_path) or ""
         except Exception:
             pass
-    # Try PyPDF2
     if PyPDF2:
         try:
             text = ""
@@ -1026,7 +1037,6 @@ def extract_text(pdf_path: str) -> str:
                 return text
         except Exception:
             pass
-    # Try OCR (very slow; needs tesseract installed)
     if pytesseract and Image:
         try:
             img = Image.open(pdf_path)
@@ -1049,8 +1059,23 @@ DATE_PATTERNS = [
 
 def find_date_near(text: str, label_regex: str, window: int = 160) -> Optional[str]:
     """
-    Find a date near a label. Works even if the value is on next line.
-    Returns ISO8601 string or None.
+    Find a date near a label within a specified window.
+    
+    Searches for date patterns within a character window after a label match.
+    Useful for extracting dates that appear on the same line or nearby lines
+    after field labels.
+    
+    Args:
+        text (str): The text to search in
+        label_regex (str): Regular expression pattern for the label
+        window (int): Maximum characters to search after the label (default: 160)
+        
+    Returns:
+        Optional[str]: ISO 8601 formatted date string or None if not found
+        
+    Note:
+        Uses DATE_PATTERNS list to match various date formats including
+        month names, slashes, and ISO formats.
     """
     lab = re.search(label_regex, text, flags=re.I)
     if not lab:
@@ -1068,7 +1093,22 @@ def find_date_near(text: str, label_regex: str, window: int = 160) -> Optional[s
 
 def grab_after(text: str, label_regex: str, window: int = 160) -> Optional[str]:
     """
-    Return a trimmed snippet after a label. Useful for short fields like gender.
+    Extract a trimmed text snippet after a label within a specified window.
+    
+    Searches for a label pattern and returns the text that follows it,
+    trimmed of whitespace and truncated at punctuation or line breaks.
+    
+    Args:
+        text (str): The text to search in
+        label_regex (str): Regular expression pattern for the label
+        window (int): Maximum characters to extract after the label (default: 160)
+        
+    Returns:
+        Optional[str]: Trimmed text snippet or None if label not found
+        
+    Note:
+        Text is normalized by collapsing whitespace and truncated at
+        punctuation marks or line breaks.
     """
     m = re.search(label_regex, text, flags=re.I)
     if not m:
@@ -1084,13 +1124,22 @@ def grab_after(text: str, label_regex: str, window: int = 160) -> Optional[str]:
 
 def parse_namus(text: str, case_id: str) -> Dict[str, Any]:
     """
-    Targets NamUs form-like PDFs:
-      - "Date of Last Contact"
-      - "Last Known Location"
-      - "Biological Sex"
-      - "Height" like "5' 8\" - 5' 10\" (68 - 70 Inches)"
-      - "Weight" like "130 - 150 lbs"
-      - Optional Google Maps link with lat,lon
+    Parse NamUs form-like PDF text into structured case data.
+    
+    Extracts demographic, spatial, temporal, and narrative information from
+    NamUs case documents using field-specific patterns and fallback logic.
+    
+    Args:
+        text (str): Raw text content from NamUs PDF
+        case_id (str): Unique case identifier
+        
+    Returns:
+        Dict[str, Any]: Structured case data with demographic, spatial,
+        temporal, outcome, narrative, and provenance information
+        
+    Note:
+        Handles multiple name extraction patterns and includes coordinate
+        extraction from Google Maps links when available.
     """
     data = {
         "case_id": case_id,
@@ -1233,12 +1282,22 @@ def parse_namus(text: str, case_id: str) -> Dict[str, Any]:
 
 def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
     """
-    Targets NCMEC poster:
-      - Name in caps
-      - "Missing Since: <date>"
-      - City, State
-      - Age Now, Sex
-      - Short clothing/feature description
+    Parse NCMEC poster text into structured case data.
+    
+    Extracts demographic, spatial, temporal, and narrative information from
+    NCMEC missing child posters using poster-specific patterns.
+    
+    Args:
+        text (str): Raw text content from NCMEC poster PDF
+        case_id (str): Unique case identifier
+        
+    Returns:
+        Dict[str, Any]: Structured case data with demographic, spatial,
+        temporal, outcome, narrative, and provenance information
+        
+    Note:
+        Includes age-based height/weight estimation and comprehensive
+        incident summary extraction from multiple narrative patterns.
     """
     data = {
         "case_id": case_id,
@@ -1437,12 +1496,22 @@ def parse_ncmec(text: str, case_id: str) -> Dict[str, Any]:
 
 def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
     """
-    Targets Charley Project narrative pages:
-      - "Missing Since"
-      - "Missing From"
-      - "Sex", "Race"
-      - "Height and Weight"
-      - "Details of Disappearance" (long narrative)
+    Parse Charley Project narrative text into structured case data.
+    
+    Extracts demographic, spatial, temporal, and narrative information from
+    Charley Project case pages using narrative-specific patterns.
+    
+    Args:
+        text (str): Raw text content from Charley Project PDF
+        case_id (str): Unique case identifier
+        
+    Returns:
+        Dict[str, Any]: Structured case data with demographic, spatial,
+        temporal, outcome, narrative, and provenance information
+        
+    Note:
+        Handles multiple name extraction patterns and includes comprehensive
+        narrative extraction from "Details of Disappearance" sections.
     """
     data = {
         "case_id": case_id,
@@ -1586,10 +1655,37 @@ def parse_charley(text: str, case_id: str) -> Dict[str, Any]:
 # ---------- Validation ----------
 
 def load_schema(path: str) -> Dict[str, Any]:
+    """
+    Load JSON schema from file.
+    
+    Args:
+        path (str): Path to the JSON schema file
+        
+    Returns:
+        Dict[str, Any]: Parsed JSON schema
+        
+    Raises:
+        FileNotFoundError: If the schema file does not exist
+        json.JSONDecodeError: If the file contains invalid JSON
+    """
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
 def validate_guardian(record: Dict[str, Any], schema: Dict[str, Any]) -> List[str]:
+    """
+    Validate a case record against the Guardian schema.
+    
+    Args:
+        record (Dict[str, Any]): Case record to validate
+        schema (Dict[str, Any]): JSON schema for validation
+        
+    Returns:
+        List[str]: List of validation error messages, empty if valid
+        
+    Note:
+        Uses Draft7Validator for JSON Schema validation. Errors are
+        sorted by path for consistent ordering.
+    """
     errors = []
     v = Draft7Validator(schema)
     for e in sorted(v.iter_errors(record), key=lambda e: e.path):
@@ -1602,7 +1698,16 @@ _GEOCODER = None
 _GEOCODE_CACHE = {}
 
 def _init_geocoder():
-    """Lazy import geopy and init Nominatim geocoder."""
+    """
+    Initialize Nominatim geocoder with lazy loading.
+    
+    Returns:
+        Optional[geopy.geocoders.Nominatim]: Initialized geocoder or None if import fails
+        
+    Note:
+        Uses singleton pattern to avoid repeated initialization.
+        Sets user agent to "guardian_parser" for API compliance.
+    """
     global _GEOCODER
     if _GEOCODER is not None:
         return _GEOCODER
@@ -1614,6 +1719,15 @@ def _init_geocoder():
     return _GEOCODER
 
 def load_geocode_cache(path: Optional[str]) -> None:
+    """
+    Load geocoding cache from JSON file.
+    
+    Args:
+        path (Optional[str]): Path to cache file, None to clear cache
+        
+    Note:
+        Silently handles file errors and initializes empty cache on failure.
+    """
     global _GEOCODE_CACHE
     if not path:
         _GEOCODE_CACHE = {}
@@ -1625,6 +1739,15 @@ def load_geocode_cache(path: Optional[str]) -> None:
         _GEOCODE_CACHE = {}
 
 def save_geocode_cache(path: Optional[str]) -> None:
+    """
+    Save geocoding cache to JSON file.
+    
+    Args:
+        path (Optional[str]): Path to save cache file, None to skip saving
+        
+    Note:
+        Silently handles file errors and skips saving on failure.
+    """
     if not path:
         return
     try:
@@ -1635,9 +1758,22 @@ def save_geocode_cache(path: Optional[str]) -> None:
 
 def geocode_city_state(city: Optional[str], state: Optional[str], cache_key_extra: str = "", cache_only: bool = False) -> Tuple[Optional[float], Optional[float]]:
     """
-    Geocode a (city, state) pair to (lat, lon) using geopy (Nominatim).
-    - Uses a JSON cache to avoid repeated calls.
-    - Returns (None, None) on failure.
+    Geocode a city and state pair to latitude and longitude coordinates.
+    
+    Uses Nominatim geocoding service with caching to avoid repeated API calls.
+    Only caches results for locations within Virginia state boundaries.
+    
+    Args:
+        city (Optional[str]): City name to geocode
+        state (Optional[str]): State name to geocode
+        cache_key_extra (str): Additional key component for cache lookup
+        cache_only (bool): If True, only check cache without making API calls
+        
+    Returns:
+        Tuple[Optional[float], Optional[float]]: (latitude, longitude) or (None, None) if failed
+        
+    Note:
+        API calls have 10-second timeout. Only Virginia locations are cached.
     """
     if not city and not state:
         return (None, None)
@@ -1666,22 +1802,43 @@ def geocode_city_state(city: Optional[str], state: Optional[str], cache_key_extr
 
 def is_location_in_virginia(lat: float, lon: float) -> bool:
     """
-    Check if the given coordinates are within Virginia state boundaries.
-    Virginia approximate bounds: 36.5°N to 39.5°N, 75.2°W to 83.7°W
+    Check if coordinates are within Virginia state boundaries.
+    
+    Args:
+        lat (float): Latitude coordinate
+        lon (float): Longitude coordinate
+        
+    Returns:
+        bool: True if coordinates are within Virginia bounds
+        
+    Note:
+        Uses approximate Virginia boundaries: 36.5°N to 39.5°N,
+        75.2°W to 83.7°W for efficient filtering.
     """
     return (36.5 <= lat <= 39.5) and (-83.7 <= lon <= -75.2)
 
 def get_virginia_town_coordinates() -> Tuple[float, float]:
     """
     Return coordinates for a representative Virginia town.
-    Using Richmond, VA as the default Virginia location.
+    
+    Returns:
+        Tuple[float, float]: (latitude, longitude) for Richmond, VA
+        
+    Note:
+        Used as fallback location for non-Virginia geocoding results.
     """
     return (37.5407, -77.4360)  # Richmond, VA coordinates
 
 def get_virginia_cities() -> Dict[str, Tuple[float, float]]:
     """
-    Return a dictionary of major Virginia cities with their coordinates.
-    Used for validation and fallback geocoding.
+    Return dictionary of major Virginia cities with their coordinates.
+    
+    Returns:
+        Dict[str, Tuple[float, float]]: City name to (lat, lon) mapping
+        
+    Note:
+        Includes major metropolitan areas, counties, and towns across
+        Virginia for accurate geocoding and validation.
     """
     return {
         "richmond": (37.5407, -77.4360),
@@ -1781,7 +1938,20 @@ def get_virginia_cities() -> Dict[str, Tuple[float, float]]:
 
 def validate_virginia_location(city: str, state: str, lat: float, lon: float) -> bool:
     """
-    Validate if a location is actually in Virginia and return more accurate coordinates if available.
+    Validate if a location is in Virginia and return more accurate coordinates.
+    
+    Args:
+        city (str): City name
+        state (str): State name
+        lat (float): Latitude coordinate
+        lon (float): Longitude coordinate
+        
+    Returns:
+        bool: True if location is in Virginia bounds
+        
+    Note:
+        Checks Virginia boundaries and attempts to match against known
+        Virginia cities for coordinate accuracy.
     """
     if not is_location_in_virginia(lat, lon):
         return False
@@ -1805,9 +1975,24 @@ def validate_virginia_location(city: str, state: str, lat: float, lon: float) ->
 
 def geocode_city_state_with_va_override(city: Optional[str], state: Optional[str], cache_key_extra: str = "", cache_only: bool = False) -> Tuple[Optional[float], Optional[float], Optional[str], Optional[str]]:
     """
-    Geocode a (city, state) pair to (lat, lon) using geopy (Nominatim).
-    If the location is not in Virginia, return Richmond, VA coordinates instead.
-    Returns (lat, lon, final_city, final_state) where final_city/state are the actual location used.
+    Geocode city and state with Virginia override for non-Virginia locations.
+    
+    Attempts multiple geocoding strategies and falls back to Richmond, VA
+    coordinates for locations outside Virginia state boundaries.
+    
+    Args:
+        city (Optional[str]): City name to geocode
+        state (Optional[str]): State name to geocode
+        cache_key_extra (str): Additional key component for cache lookup
+        cache_only (bool): If True, only check cache without API calls
+        
+    Returns:
+        Tuple[Optional[float], Optional[float], Optional[str], Optional[str]]:
+        (latitude, longitude, final_city, final_state) or (None, None, None, None) if failed
+        
+    Note:
+        Uses multiple fallback strategies including state abbreviation
+        expansion and Virginia city database lookup.
     """
     if not city and not state:
         return (None, None, None, None)
@@ -2389,7 +2574,7 @@ def parse_fbi(text: str, case_id: str) -> Dict[str, Any]:
 
     # ---- Height and Weight extraction
     # Look for patterns like "5'2\" tall and weighed approximately 82 pounds"
-    # Handle cases where height and weight might be on separate lines
+    # Handle cases where height and weight are on separate lines
     height_weight = re.search(r"(\d+['\"]?\d*)\s*(?:tall|ft|feet).*?(\d+)\s*(?:pounds|lbs)", t, re.I)
     if height_weight:
         height_str = height_weight.group(1)

@@ -118,14 +118,24 @@ def run_command(cmd, description, max_retries=2):
 
 
 def run_diagnostics():
-    """Run system diagnostics to identify potential issues."""
+    """
+    Run system diagnostics to identify potential issues.
+    
+    Checks Python version, required dependencies, required files, and VA map
+    directory to ensure the system is ready for data extraction.
+    
+    Returns:
+        bool: True if all diagnostics pass, False if issues found
+        
+    Note:
+        Missing dependencies or files are reported to stdout with installation
+        instructions where applicable.
+    """
     print("\n Running system diagnostics...")
     
-    # Check Python version
     import sys
     print(f" Python version: {sys.version}")
     
-    # Check required dependencies
     missing_deps = []
     try:
         import osmnx
@@ -155,7 +165,6 @@ def run_diagnostics():
         missing_deps.append("pandas")
         print(" Pandas: MISSING")
     
-    # Check required files
     required_files = [
         "data/va_rl_regions.geojson",
         "scripts/osm_import.py",
@@ -171,14 +180,12 @@ def run_diagnostics():
             missing_files.append(file_path)
             print(f" {file_path}: MISSING")
     
-    # Check VA map directory
     va_map_dir = "C:/Users/N0Cir/CS697/VA_State_Map"
     if os.path.exists(va_map_dir):
         print(f" VA map directory: OK")
     else:
         print(f" VA map directory: MISSING ({va_map_dir})")
     
-    # Summary
     if missing_deps or missing_files:
         print(f"\n DIAGNOSTIC SUMMARY:")
         if missing_deps:
@@ -193,7 +200,12 @@ def run_diagnostics():
 
 
 def create_directories():
-    """Create necessary output directories."""
+    """
+    Create necessary output directories.
+    
+    Creates the output, data, and data/samples directories if they do not exist.
+    Uses pathlib.Path.mkdir() with parents=True to create nested directories.
+    """
     directories = ["output", "data", "data/samples"]
     for directory in directories:
         Path(directory).mkdir(parents=True, exist_ok=True)
@@ -201,7 +213,15 @@ def create_directories():
 
 
 def clean_outputs():
-    """Clean output files."""
+    """
+    Clean output files.
+    
+    Removes specified output files to ensure fresh data extraction.
+    Files removed include OSM segments, transit data, and transportation data.
+    
+    Note:
+        Only removes files that exist. Reports count of files cleaned.
+    """
     files_to_clean = [
         "output/osm_richmond_segments.json",
         "data/va_transit.json", 
@@ -223,7 +243,18 @@ def clean_outputs():
 
 
 def extract_transportation_data():
-    """Extract Virginia transportation data from state maps."""
+    """
+    Extract Virginia transportation data from state maps.
+    
+    Executes the Virginia transportation data extraction script with the
+    configured VA map source directory.
+    
+    Returns:
+        bool: True if extraction succeeded, False if failed or source not found
+        
+    Note:
+        Requires VA map directory at C:/Users/N0Cir/CS697/VA_State_Map
+    """
     # Check if VA map source directory exists
     va_map_dir = "C:/Users/N0Cir/CS697/VA_State_Map"
     if not os.path.exists(va_map_dir):
@@ -236,19 +267,46 @@ def extract_transportation_data():
 
 
 def import_osm_segments():
-    """Import OSM road segments for Richmond."""
+    """
+    Import OSM road segments for Richmond.
+    
+    Executes OSM import script for Richmond, Virginia with regional classification
+    using the VA RL regions GeoJSON file.
+    
+    Returns:
+        bool: True if import succeeded, False if failed
+    """
     cmd = 'python scripts/osm_import.py --osm --place "Richmond, Virginia, USA" --rl-regions "data/va_rl_regions.geojson" --out "output/osm_richmond_segments.json"'
     return run_command(cmd, "OSM road segment import for Richmond")
 
 
 def extract_transit_network():
-    """Extract Virginia transit network."""
+    """
+    Extract Virginia transit network.
+    
+    Executes the Virginia transit network extraction using regional approach
+    to process multiple metropolitan areas.
+    
+    Returns:
+        bool: True if extraction succeeded, False if failed
+    """
     cmd = 'python scripts/va_transit_extractor.py --place "Virginia, USA" --regional --out "data/va_transit.json"'
     return run_command(cmd, "Virginia transit network extraction")
 
 
 def test_individual_scripts():
-    """Test each extraction script individually to isolate issues."""
+    """
+    Test each extraction script individually to isolate issues.
+    
+    Runs smaller test extractions for Alexandria (OSM) and Richmond (transit)
+    to verify individual script functionality before full extraction.
+    
+    Returns:
+        bool: True if all tests passed, False if any test failed
+        
+    Note:
+        Test files are automatically cleaned up after successful tests.
+    """
     print("\n Testing individual extraction scripts...")
     
     # Test OSM import with a smaller area first
@@ -280,7 +338,15 @@ def test_individual_scripts():
 
 
 def main():
-    """Main execution function."""
+    """
+    Main execution function.
+    
+    Parses command line arguments and orchestrates the data extraction pipeline.
+    Supports selective execution modes and diagnostic/testing options.
+    
+    Raises:
+        SystemExit: On diagnostic failures or argument errors
+    """
     parser = argparse.ArgumentParser(
         description="Guardian Parser Pack - Data Extraction Runner",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -335,14 +401,11 @@ Examples:
     
     start_time = time.time()
     
-    # Clean outputs if requested
     if args.clean:
         clean_outputs()
     
-    # Create directories
     create_directories()
     
-    # Determine which extractions to run
     if args.transport_only:
         extractions = [("transportation", extract_transportation_data)]
     elif args.osm_only:
@@ -356,7 +419,6 @@ Examples:
             ("transit", extract_transit_network)
         ]
     
-    # Run extractions
     success_count = 0
     total_count = len(extractions)
     
@@ -366,7 +428,6 @@ Examples:
         else:
             print(f"  {name} extraction failed, continuing with remaining extractions...")
     
-    # Summary
     end_time = time.time()
     duration = end_time - start_time
     

@@ -151,7 +151,21 @@ def read_pdf_text(path: Path) -> str:
         return ""
 
 def iter_pdf_texts(folder: Path):
-    """Yield (pdf_path, extracted_text) for all PDFs in a folder (recursive)."""
+    """
+    Yield (pdf_path, extracted_text) for all PDFs in a folder (recursive).
+    
+    Recursively searches for PDF files in the specified folder and yields
+    tuples of (path, extracted_text) for each successfully processed PDF.
+    
+    Args:
+        folder (Path): Directory to search for PDF files
+        
+    Yields:
+        Tuple[Path, str]: (pdf_path, extracted_text) for each PDF
+        
+    Note:
+        Silently skips PDFs that cannot be read and logs warnings for failures.
+    """
     for entry in sorted(folder.rglob("*.pdf")):
         try:
             text = read_pdf_text(entry)
@@ -178,7 +192,18 @@ RE_NAMED_HIGHWAY = re.compile(rf"\b([A-Z][A-Za-z'&\.-]*(?: [A-Z][A-Za-z'&\.-]*)*
 RE_TRANSIT = re.compile(r"\b(?:Metro|Bus|Rail|Train|Transit|Station|Stop|Route|Line)\b", re.IGNORECASE)
 
 def normalize_whitespace(s: str) -> str:
-    """Normalize whitespace in text."""
+    """
+    Normalize whitespace in text.
+    
+    Replaces multiple spaces/tabs with single spaces and removes non-breaking
+    spaces for consistent text processing.
+    
+    Args:
+        s (str): Input text to normalize
+        
+    Returns:
+        str: Text with normalized whitespace
+    """
     return re.sub(r"[ \t]+", " ", s.replace("\u00A0", " ")).strip()
 
 def extract_transportation_data(text: str) -> Dict[str, Set[str]]:
@@ -245,7 +270,24 @@ def extract_transportation_data(text: str) -> Dict[str, Set[str]]:
     }
 
 def extract_from_folder(folder: Path) -> Dict[str, List[str]]:
-    """Extract transportation data from all PDFs in folder."""
+    """
+    Extract transportation data from all PDFs in folder.
+    
+    Processes all PDF files in the specified folder and extracts transportation
+    infrastructure data including interstates, US routes, state routes, and
+    named streets.
+    
+    Args:
+        folder (Path): Directory containing PDF files to process
+        
+    Returns:
+        Dict[str, List[str]]: Dictionary with transportation categories as keys
+        and lists of extracted items as values
+        
+    Note:
+        Returns empty lists for categories with no matches. Processes files
+        in sorted order for consistent results.
+    """
     all_data = {
         "interstates": set(),
         "us_routes": set(),
@@ -272,7 +314,23 @@ def extract_from_folder(folder: Path) -> Dict[str, List[str]]:
     return {category: sorted(list(items)) for category, items in all_data.items()}
 
 def assign_to_regions(transportation_data: Dict[str, List[str]]) -> Dict[str, Dict[str, List[str]]]:
-    """Assign transportation items to Virginia regions."""
+    """
+    Assign transportation items to Virginia regions.
+    
+    Maps transportation infrastructure to Virginia regions based on known
+    regional networks and city keywords. Uses fallback distribution for
+    unmatched items.
+    
+    Args:
+        transportation_data (Dict[str, List[str]]): Extracted transportation data
+        
+    Returns:
+        Dict[str, Dict[str, List[str]]]: Regional breakdown of transportation data
+        
+    Note:
+        Uses VA_REGIONS mapping for known networks and city-based assignment
+        for named streets and highways.
+    """
     regional_data = {region: {
         "interstates": [],
         "us_routes": [],
@@ -320,9 +378,26 @@ def assign_to_regions(transportation_data: Dict[str, List[str]]) -> Dict[str, Di
     return regional_data
 
 def create_road_segment(route_item: str, route_type: str, region: str, source_doc: str = None) -> Dict:
-    """Create a structured road segment record according to the schema."""
+    """
+    Create a structured road segment record according to the schema.
     
-    # Parse route information
+    Generates a standardized road segment record with route designation,
+    administrative information, and provenance data.
+    
+    Args:
+        route_item (str): Route identifier (e.g., "I-95", "US-29")
+        route_type (str): Type of route (e.g., "Interstate", "US Highway")
+        region (str): Virginia region name
+        source_doc (str, optional): Source document identifier
+        
+    Returns:
+        Dict: Structured road segment record conforming to schema
+        
+    Note:
+        Automatically generates UUID for segmentId and maps regions to
+        RL tags for regional classification.
+    """
+    
     route_system = "Unknown"
     route_number = route_item
     signing = "None"
@@ -395,7 +470,24 @@ def create_road_segment(route_item: str, route_type: str, region: str, source_do
     }
 
 def create_named_street_segment(street_name: str, region: str, source_doc: str = None) -> Dict:
-    """Create a structured road segment record for named streets."""
+    """
+    Create a structured road segment record for named streets.
+    
+    Generates a standardized road segment record for named streets with
+    appropriate route designation and administrative information.
+    
+    Args:
+        street_name (str): Name of the street
+        region (str): Virginia region name
+        source_doc (str, optional): Source document identifier
+        
+    Returns:
+        Dict: Structured road segment record for named street
+        
+    Note:
+        Uses lower confidence score (0.6) for named streets compared to
+        numbered routes (0.8) due to potential ambiguity.
+    """
     
     # Map regions to RL tags
     region_mapping = {
@@ -448,7 +540,23 @@ def create_named_street_segment(street_name: str, region: str, source_doc: str =
     }
 
 def create_structured_road_segments(transportation_data: Dict[str, List[str]], regional_data: Dict[str, Dict[str, List[str]]]) -> List[Dict]:
-    """Create structured road segment records according to the schema."""
+    """
+    Create structured road segment records according to the schema.
+    
+    Processes regional transportation data and creates standardized road
+    segment records for all route types and named streets.
+    
+    Args:
+        transportation_data (Dict[str, List[str]]): Global transportation data
+        regional_data (Dict[str, Dict[str, List[str]]]): Regional breakdown
+        
+    Returns:
+        List[Dict]: List of structured road segment records
+        
+    Note:
+        Creates segments for interstates, US routes, state routes, primary
+        highways, secondary highways, and named streets/highways.
+    """
     road_segments = []
     
     # Create segments for each route type
@@ -491,7 +599,23 @@ def create_structured_road_segments(transportation_data: Dict[str, List[str]], r
     return road_segments
 
 def create_comprehensive_output(transportation_data: Dict[str, List[str]], regional_data: Dict[str, Dict[str, List[str]]]) -> Dict:
-    """Create comprehensive output structure with structured road segments."""
+    """
+    Create comprehensive output structure with structured road segments.
+    
+    Combines transportation data and regional breakdown into a comprehensive
+    output structure with metadata, summary statistics, and structured segments.
+    
+    Args:
+        transportation_data (Dict[str, List[str]]): Global transportation data
+        regional_data (Dict[str, Dict[str, List[str]]]): Regional breakdown
+        
+    Returns:
+        Dict: Comprehensive output structure with metadata, summary,
+        regional breakdown, road segments, and raw data
+        
+    Note:
+        Includes extraction metadata, counts, and schema version information.
+    """
     
     # Create structured road segments
     road_segments = create_structured_road_segments(transportation_data, regional_data)
