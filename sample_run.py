@@ -1,31 +1,22 @@
 #!/usr/bin/env python3
-"""
-Sample execution script for the Guardian Parser Pack.
+"""Sample execution script for the Guardian Parser Pack.
 
-This script demonstrates how to run the Guardian parser on a collection of PDF files
-from multiple sources (NamUs, NCMEC, FBI, Charley Project). It automatically discovers
-PDF files in the evidence directories and processes them with geocoding enabled.
+Demonstrates running the Guardian parser on PDF files from multiple sources
+(NamUs, NCMEC, FBI, Charley Project, VSP). Automatically discovers PDF files
+in evidence directories and processes them with geocoding enabled.
 
-Key Features:
-    - Automatic PDF discovery from multiple source directories
-    - Virtual environment activation
-    - Geocoding with caching enabled
-    - Structured output to JSONL and CSV formats
-
-Directory Structure Expected:
+Directory Structure:
     evidence/
-    ├── namus/           # NamUs case PDFs
-    ├── ncmec/           # NCMEC poster PDFs
-    ├── FBI/             # FBI missing person posters
-    └── the_charley_project/  # Charley Project case PDFs
+    ├── namus/               # NamUs case PDFs
+    ├── ncmec/               # NCMEC poster PDFs
+    ├── FBI/                 # FBI missing person posters
+    ├── the_charley_project/ # Charley Project case PDFs
+    └── VSP/                 # Virginia State Police PDFs
 
 Output Files:
     - guardian_output.jsonl    # Structured JSON records
     - guardian_output.csv      # Flattened CSV format
     - geocode_cache.json       # Cached geocoding results
-
-Author: Joshua Castillo
-
 """
 
 import glob
@@ -38,21 +29,14 @@ from typing import List
 ROOT: pathlib.Path = pathlib.Path(__file__).parent.resolve()
 
 def discover_pdf_files() -> List[str]:
-    """
-    Discover PDF files from multiple evidence source directories.
-    
-    Searches for PDF files in the expected evidence directory structure
+    """Discover PDF files from multiple evidence source directories.
+
+    Searches for PDF files in expected evidence directory structure
     and returns a list of all discovered files.
-    
+
     Returns:
-        List[str]: List of paths to discovered PDF files
-        
-    Expected Directory Structure:
-        evidence/namus/**/*.pdf
-        evidence/ncmec/**/*.pdf
-        evidence/FBI/**/*.pdf
-        evidence/the_charley_project/**/*.pdf
-        
+        List of paths to discovered PDF files.
+
     Note:
         Paths are hardcoded for specific user directory structure.
         Modify paths below to match local setup.
@@ -75,24 +59,23 @@ def discover_pdf_files() -> List[str]:
     inputs.extend(charley_files)
     print(f"Found {len(charley_files)} Charley Project PDF files")
     
+    vsp_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\VSP\**\*.pdf", recursive=True)
+    inputs.extend(vsp_files)
+    print(f"Found {len(vsp_files)} VSP PDF files")
+    
     return inputs
 
 def build_parser_command(pdf_files: List[str]) -> List[str]:
-    """
-    Build the command line arguments for the Guardian parser.
-    
-    Constructs command line arguments for subprocess execution of the
-    Guardian parser with appropriate input and output paths.
-    
+    """Build command line arguments for the Guardian parser.
+
+    Constructs command line arguments for subprocess execution with
+    appropriate input and output paths.
+
     Args:
-        pdf_files (List[str]): List of PDF file paths to process
-        
+        pdf_files: List of PDF file paths to process.
+
     Returns:
-        List[str]: Command line arguments for subprocess execution
-        
-    Note:
-        Includes virtual environment Python path, parser script, input files,
-        output paths, and geocoding options with cache configuration.
+        Command line arguments for subprocess execution.
     """
     cmd: List[str] = [
         str(ROOT / ".venv/Scripts/python.exe"),
@@ -106,17 +89,13 @@ def build_parser_command(pdf_files: List[str]) -> List[str]:
     return cmd
 
 def main() -> None:
-    """
-    Main execution function for the sample run.
-    
+    """Main execution function for the sample run.
+
     Orchestrates the complete PDF processing pipeline:
     1. Discovers PDF files from evidence directories
     2. Builds the parser command with appropriate arguments
     3. Executes the parser with error handling
     4. Reports completion status
-    
-    Raises:
-        SystemExit: On execution errors or missing files
     """
     try:
         pdf_files = discover_pdf_files()
@@ -128,6 +107,7 @@ def main() -> None:
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\ncmec\\")
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\FBI\\")
             print("  - C:\\Users\\N0Cir\\CS697\\evidence\\the_charley_project\\")
+            print("  - C:\\Users\\N0Cir\\CS697\\evidence\\VSP\\")
             return
         
         print(f"Total PDF files to process: {len(pdf_files)}")

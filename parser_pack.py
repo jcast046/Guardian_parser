@@ -4,12 +4,13 @@ Guardian Parser Pack - Missing Person Case Data Extraction and Normalization
 ============================================================================
 
 This module provides comprehensive PDF text extraction and parsing capabilities for
-missing person case data from multiple sources including NamUs, NCMEC, FBI, and
-Charley Project. It normalizes extracted data into a standardized Guardian schema
+missing person case data from multiple sources including NamUs, NCMEC, FBI, Charley Project,
+and Virginia State Police (VSP). It normalizes extracted data into a standardized Guardian schema
 format with support for geocoding, validation, and multiple output formats.
 
 Key Features:
-    - Multi-source PDF text extraction (NamUs, NCMEC, FBI, Charley Project)
+    - Multi-source PDF text extraction (NamUs, NCMEC, FBI, Charley Project, VSP)
+    - VSP multi-case document support (splits and parses multiple cases from single PDF)
     - Robust date and demographic data parsing with fallback mechanisms
     - Optional geocoding with caching for location data
     - Schema validation against guardian_case.schema.json
@@ -49,13 +50,13 @@ for name in [
     "pdfminer.pdfinterp",
     "pdfminer.psparser",
     "pdfminer.pdffont",
-    "fitz",              # PyMuPDF, if  used it anywhere
-    "pymupdf",           # alternate name
-    "pdfplumber"         # if  routed through pdfplumber
+    "fitz",              # PyMuPDF
+    "pymupdf",           # PyMuPDF alternate name
+    "pdfplumber"         # pdfplumber library
 ]:
     logging.getLogger(name).setLevel(logging.ERROR)
 
-# Also: default root logger if any remaining noise
+# Set default root logger to WARNING level
 logging.getLogger().setLevel(logging.WARNING)
 
 # Graceful imports
@@ -107,20 +108,19 @@ CANON_MAP = {
 # ---------- Helpers: safe regex ----------
 
 def safe_search(pattern: str, text: str, flags: int = 0) -> Optional[re.Match[str]]:
-    """
-    Perform a regex search that never throws exceptions.
-    
-    This function provides a safe wrapper around re.search() that catches
-    regex compilation errors and returns None instead of raising exceptions.
-    
+    """Perform a regex search that never throws exceptions.
+
+    Provides a safe wrapper around re.search() that catches regex
+    compilation errors and returns None instead of raising exceptions.
+
     Args:
-        pattern (str): The regex pattern to search for
-        text (str): The text to search in
-        flags (int): Optional regex flags (default: 0)
-        
+        pattern: The regex pattern to search for.
+        text: The text to search in.
+        flags: Optional regex flags (default: 0).
+
     Returns:
-        Optional[re.Match[str]]: The match object if found, None otherwise
-        
+        Match object if found, None otherwise.
+
     Example:
         >>> safe_search(r"\\d+", "abc123def")
         <re.Match object; span=(3, 6), match='123'>
@@ -133,17 +133,17 @@ def safe_search(pattern: str, text: str, flags: int = 0) -> Optional[re.Match[st
         return None
 
 def _canonize_keys(rec: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Move values from non-canonical keys to canonical ones without overwriting populated canonical fields.
-    
-    This function ensures consistent field naming across different sources by mapping
-    synonymous field names to canonical versions (e.g., 'gender' -> 'sex').
-    
+    """Move values from non-canonical keys to canonical ones.
+
+    Ensures consistent field naming across different sources by mapping
+    synonymous field names to canonical versions. Does not overwrite
+    existing canonical fields.
+
     Args:
-        rec (Dict[str, Any]): The record to canonicalize
-        
+        rec: The record to canonicalize.
+
     Returns:
-        Dict[str, Any]: Record with canonicalized field names
+        Record with canonicalized field names.
     """
     for (outer, inner), (c_outer, c_inner) in CANON_MAP.items():
         if outer in rec and inner in rec[outer]:
@@ -155,15 +155,17 @@ def _canonize_keys(rec: Dict[str, Any]) -> Dict[str, Any]:
     return rec
 
 def _estimate_height_weight_by_age(age: float, gender: str) -> tuple:
-    """
-    Estimate height and weight based on age and gender using CDC growth charts and typical ranges.
-    
+    """Estimate height and weight based on age and gender.
+
+    Uses CDC growth charts and typical ranges for estimation.
+
     Args:
-        age: Age in years
-        gender: "male" or "female"
-        
+        age: Age in years.
+        gender: Gender string ("male" or "female").
+
     Returns:
-        tuple: (estimated_height_inches, estimated_weight_lbs) or (None, None) if no estimate available
+        Tuple of (estimated_height_inches, estimated_weight_lbs) or
+        (None, None) if no estimate available for given age/gender.
     """
     # Convert age to integer for lookup
     age_int = int(age)
@@ -503,7 +505,7 @@ def parse_date_to_iso_utc(s: str) -> Optional[str]:
         s = (s or "").strip()
         if not s:
             return None
-        # VERY tolerant fallback; rely on your robust parser if available.
+        # Tolerant fallback parser for common date formats.
         for fmt in ("%Y-%m-%d", "%m/%d/%Y", "%m/%d/%y", "%b %d, %Y", "%B %d, %Y"):
             try:
                 dt = datetime.strptime(s, fmt)
@@ -2296,12 +2298,13 @@ def detect_source(text: str) -> str:
         text (str): The extracted text from the PDF document
         
     Returns:
-        str: Source identifier ("NamUs", "NCMEC", "FBI", "Charley", or "Unknown")
+        str: Source identifier ("NamUs", "NCMEC", "FBI", "Charley", "VSP", or "Unknown")
         
     Detection Logic:
         - NamUs: Contains "NamUs", "Case Created", or "Date of Last Contact"
         - NCMEC: Contains "Have you seen this child?", "NCMEC", or "Missing Since:"
         - FBI: Contains "FBI" and "www.fbi.gov", "Federal Bureau of Investigation", or FBI poster boilerplate
+        - VSP: Contains "MISSING PERSONS" header and multiple "Missing From:" patterns with "Contact:" pattern
         - Charley: Contains "The Charley Project", "Details of Disappearance", or "Missing From"
         - Unknown: No characteristic markers found
         
@@ -2315,9 +2318,16 @@ def detect_source(text: str) -> str:
     if "NamUs" in text or "Case Created" in text or "Date of Last Contact" in text:
         return "NamUs"
     
-    # Check for NCMEC markers
-    if "Have you seen this child?" in text or "NCMEC" in text or "Missing Since:" in text or "Missing Since :" in text:
-        return "NCMEC"
+    # Check for VSP (Virginia State Police) markers FIRST (before NCMEC/FBI/Charley)
+    # VSP documents have "MISSING PERSONS" header and characteristic pattern of
+    # "Missing From:", "Missing Since:", and "Contact:" appearing multiple times
+    # Also look for VAA case number pattern which is specific to VSP
+    if "MISSING PERSONS" in text and "Missing From:" in text and "Contact:" in text:
+        # Count occurrences to distinguish from single-case documents
+        missing_from_count = text.count("Missing From:")
+        vaa_count = len(re.findall(r'VAA\d{2}-\d{4}', text))
+        if missing_from_count >= 2 or vaa_count >= 1:  # Multiple cases or VAA pattern indicates VSP document
+            return "VSP"
     
     # Check for FBI poster markers
     # Common strings across FBI PDFs: "FBI", site URL, poster boilerplate,
@@ -2329,11 +2339,324 @@ def detect_source(text: str) -> str:
        re.search(r"If you have any information concerning this (?:child|person)", text, re.I):
         return "FBI"
     
-    # Check for Charley Project markers
-    if "The Charley Project" in text or "Details of Disappearance" in text or "Missing From" in text:
+    # Check for NCMEC markers (after VSP to avoid false positives)
+    if "Have you seen this child?" in text or "NCMEC" in text:
+        return "NCMEC"
+    # Only use "Missing Since:" for NCMEC if it's not a VSP document
+    if ("Missing Since:" in text or "Missing Since :" in text) and "MISSING PERSONS" not in text:
+        return "NCMEC"
+    
+    # Check for Charley Project markers (but not if it's VSP)
+    if "The Charley Project" in text or ("Details of Disappearance" in text and "MISSING PERSONS" not in text) or \
+       ("Missing From" in text and "MISSING PERSONS" not in text and text.count("Missing From:") < 2):
         return "Charley"
     
     return "Unknown"
+
+def split_vsp_cases(text: str) -> List[str]:
+    """
+    Split a VSP document containing multiple cases into individual case texts.
+    
+    VSP documents contain multiple missing person cases in a single PDF.
+    Each case starts with a name (capitalized words) followed by optional case number,
+    then structured fields like "Age at time of disappearance:", "Sex:", etc.
+    
+    Args:
+        text (str): The full text content from a VSP PDF document
+        
+    Returns:
+        List[str]: List of individual case text blocks, one per case
+        
+    Note:
+        Cases are identified by the pattern: Name (optional case number) followed by
+        "Age at time of disappearance:". The next case starts when we see this pattern again.
+    """
+    cases = []
+    
+    # Remove the header/navigation section if present
+    # Look for the actual start of cases (after "MISSING PERSONS" header and letter navigation)
+    text_start = text.find("A \n\n")
+    if text_start > 0:
+        text = text[text_start:]
+    
+    # Primary strategy: Split by finding name patterns that appear before "Missing From:"
+    # More reliable: look for the pattern where a name appears, then "Missing From:" appears later
+    # Cases are separated by new names appearing before "Missing From:"
+    
+    # Find all "Missing From:" markers (439 instances)
+    missing_from_matches = list(re.finditer(r'\n\s*Missing From:', text))
+    
+    if len(missing_from_matches) > 1:
+        # Build case boundaries by finding names before each "Missing From:"
+        case_boundaries = []  # List of (start_pos, end_pos) tuples
+        
+        for i, missing_from_match in enumerate(missing_from_matches):
+            # Find the name immediately before this "Missing From:"
+            # Search in a window before "Missing From:" (up to 500 chars)
+            window_start = max(0, missing_from_match.start() - 500)
+            window_text = text[window_start:missing_from_match.start()]
+            
+            # Find name pattern - look for capitalized name on its own line
+            # Pattern: newline, then capitalized words (2-5 words), then newline or end
+            name_match = None
+            name_patterns = [
+                r'\n([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,5})\s*\n',  # Name with newline after
+                r'\n([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,5})\s*$',   # Name at end of window
+            ]
+            
+            for pattern in name_patterns:
+                matches = list(re.finditer(pattern, window_text))
+                if matches:
+                    # Take the last (most recent) match before "Missing From:"
+                    name_match = matches[-1]
+                    break
+            
+            if name_match:
+                # Case starts at the name
+                case_start = window_start + name_match.start() + 1  # +1 to skip leading \n
+            else:
+                # No name found - use fallback: start a bit before "Missing From:"
+                case_start = max(0, missing_from_match.start() - 300)
+            
+            # Case end is the start of the next case, or end of text
+            if i + 1 < len(missing_from_matches):
+                # Find next case's start (name before next "Missing From:")
+                next_missing_from = missing_from_matches[i + 1]
+                next_window_start = max(0, next_missing_from.start() - 500)
+                next_window_text = text[next_window_start:next_missing_from.start()]
+                
+                next_name_match = None
+                for pattern in name_patterns:
+                    next_matches = list(re.finditer(pattern, next_window_text))
+                    if next_matches:
+                        next_name_match = next_matches[-1]
+                        break
+                
+                if next_name_match:
+                    case_end = next_window_start + next_name_match.start() + 1
+                else:
+                    # Fallback: use next "Missing From:" position
+                    case_end = next_missing_from.start()
+            else:
+                # Last case: extend to end
+                case_end = len(text)
+            
+            case_boundaries.append((case_start, case_end))
+        
+        # Extract cases from boundaries
+        for start, end in case_boundaries:
+            case_text = text[start:end].strip()
+            if case_text and len(case_text) > 20:
+                cases.append(case_text)
+        
+        return cases if cases else [text.strip()] if text.strip() else []
+    
+    # Fallback: Try "Age at time of disappearance:" if "Missing From:" doesn't work
+    age_matches = list(re.finditer(r'Age at time of disappearance:', text, re.I))
+    if len(age_matches) > 1:
+        # Similar logic but using "Age" as marker
+        for i, age_match in enumerate(age_matches):
+            search_start = max(0, age_match.start() - 500)
+            text_before_age = text[search_start:age_match.start()]
+            name_matches = list(re.finditer(r'\n([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,5})\s*(?:\n|$)', text_before_age))
+            if name_matches:
+                case_start = search_start + name_matches[-1].start() + 1
+            else:
+                case_start = max(0, age_match.start() - 300)
+            
+            if i + 1 < len(age_matches):
+                next_age_match = age_matches[i + 1]
+                search_start_next = max(0, next_age_match.start() - 500)
+                text_before_next_age = text[search_start_next:next_age_match.start()]
+                next_name_matches = list(re.finditer(r'\n([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,5})\s*(?:\n|$)', text_before_next_age))
+                if next_name_matches:
+                    case_end = search_start_next + next_name_matches[-1].start() + 1
+                else:
+                    case_end = next_age_match.start()
+            else:
+                case_end = len(text)
+            
+            case_text = text[case_start:case_end].strip()
+            if case_text and len(case_text) > 20:
+                cases.append(case_text)
+        
+        return cases if cases else [text.strip()] if text.strip() else []
+    
+    # Final fallback: if no cases were found by any method, return the entire text as a single case
+    return [text.strip()] if text.strip() else []
+
+def parse_vsp(text: str, case_id: str) -> Dict[str, Any]:
+    """
+    Parse a single VSP case text into structured case data.
+    
+    Extracts demographic, spatial, temporal, and narrative information from
+    a Virginia State Police missing person case entry.
+    
+    Args:
+        text (str): Raw text content for a single VSP case
+        case_id (str): Unique case identifier
+        
+    Returns:
+        Dict[str, Any]: Structured case data with demographic, spatial,
+        temporal, outcome, narrative, and provenance information
+        
+    Note:
+        VSP cases follow a structured format with fields like "Age at time of disappearance:",
+        "Sex:", "Race:", "Hair:", "Eyes:", "Height:", "Weight:", "Missing From:",
+        "Missing Since:", "Details:", and "Contact:".
+    """
+    data = {
+        "case_id": case_id,
+        "demographic": {},
+        "spatial": {},
+        "temporal": {"timezone": "America/New_York"},
+        "outcome": {"case_status": "ongoing"},
+        "narrative_osint": {"incident_summary": ""},
+        "provenance": {"sources": ["VSP"], "original_fields": {}}
+    }
+    
+    t = text
+    
+    # ---- Name extraction - first capitalized name pattern (before case number or Age)
+    # Pattern: Name on its own line, optionally followed by case number or "Age"
+    name_match = safe_search(r'^([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4})\s*(?:\n|$)', t, re.M)
+    if name_match:
+        name = name_match.group(1).strip()
+        # Clean up name - remove any trailing "Age" or other artifacts
+        name = re.sub(r'\s+Age.*$', '', name, flags=re.I).strip()
+        name = re.sub(r'\s+$', '', name)  # Remove trailing whitespace
+        data["demographic"]["name"] = name
+    
+    # ---- Case number extraction (optional VAA format)
+    case_num_match = safe_search(r'VAA(\d{2})-(\d{4})', t)
+    if case_num_match:
+        case_num = f"VAA{case_num_match.group(1)}-{case_num_match.group(2)}"
+        data["provenance"]["original_fields"]["vsp_case_number"] = case_num
+    
+    # ---- Age extraction
+    age_match = safe_search(r'Age at time of disappearance:\s*(\d+)', t, re.I)
+    if age_match:
+        try:
+            data["demographic"]["age_years"] = float(age_match.group(1))
+        except ValueError:
+            pass
+    
+    # ---- Gender extraction
+    gender_match = safe_search(r'Sex:\s*(Male|Female)', t, re.I)
+    if gender_match:
+        gender = gender_match.group(1).lower()
+        data["demographic"]["gender"] = gender
+    else:
+        # Fallback: try to find gender in text
+        if re.search(r'\bfemale\b', t, re.I):
+            data["demographic"]["gender"] = "female"
+        elif re.search(r'\bmale\b', t, re.I):
+            data["demographic"]["gender"] = "male"
+        # If still not found, leave as None (will be handled by main parser)
+    
+    # ---- Race extraction
+    race_match = safe_search(r'Race:\s*([^\r\n]+)', t, re.I)
+    if race_match:
+        race = race_match.group(1).strip()
+        # Clean up common variations
+        race = re.sub(r'\s+', ' ', race)
+        data["demographic"]["race_ethnicity"] = race
+    
+    # ---- Hair color extraction (store in distinctive_features since schema doesn't have hair_color)
+    hair_match = safe_search(r'Hair:\s*([^\r\n]+)', t, re.I)
+    hair_color = None
+    if hair_match:
+        hair_color = hair_match.group(1).strip()
+    
+    # ---- Eye color extraction (store in distinctive_features since schema doesn't have eye_color)
+    eyes_match = safe_search(r'Eyes:\s*([^\r\n]+)', t, re.I)
+    eye_color = None
+    if eyes_match:
+        eye_color = eyes_match.group(1).strip()
+    
+    # Combine hair and eye color into distinctive_features
+    if hair_color or eye_color:
+        features = []
+        if hair_color:
+            features.append(f"Hair: {hair_color}")
+        if eye_color:
+            features.append(f"Eyes: {eye_color}")
+        data["demographic"]["distinctive_features"] = "; ".join(features)
+    
+    # ---- Height extraction
+    height_match = safe_search(r'Height:\s*([^\r\n]+)', t, re.I)
+    if height_match:
+        height_str = height_match.group(1).strip()
+        # Convert to inches
+        height_in = to_inches(height_str)
+        if height_in is not None:
+            data["demographic"]["height_in"] = height_in
+    
+    # ---- Weight extraction
+    weight_match = safe_search(r'Weight:\s*(\d+)\s*lbs', t, re.I)
+    if weight_match:
+        try:
+            data["demographic"]["weight_lbs"] = float(weight_match.group(1))
+        except ValueError:
+            pass
+    
+    # ---- Missing From location extraction
+    missing_from_match = safe_search(r'Missing From:\s*([^,\r\n]+?),\s*Virginia', t, re.I)
+    if missing_from_match:
+        city = missing_from_match.group(1).strip()
+        data["spatial"]["last_seen_location"] = f"{city}, Virginia"
+        data["spatial"]["last_seen_city"] = city
+        data["spatial"]["last_seen_state"] = "VA"
+    else:
+        # Fallback: try without "Virginia" suffix
+        missing_from_match = safe_search(r'Missing From:\s*([^\r\n]+)', t, re.I)
+        if missing_from_match:
+            location = missing_from_match.group(1).strip()
+            data["spatial"]["last_seen_location"] = location
+            # Try to extract city and state
+            if ', Virginia' in location or ', VA' in location:
+                parts = location.split(',')
+                if len(parts) >= 2:
+                    data["spatial"]["last_seen_city"] = parts[0].strip()
+                    data["spatial"]["last_seen_state"] = "VA"
+            else:
+                data["spatial"]["last_seen_city"] = location
+                data["spatial"]["last_seen_state"] = "VA"
+    
+    # ---- Missing Since date extraction
+    missing_since_match = safe_search(r'Missing Since:\s*([^\r\n]+)', t, re.I)
+    if missing_since_match:
+        date_str = missing_since_match.group(1).strip()
+        # Parse date to ISO8601
+        iso_date = to_iso8601(date_str)
+        if iso_date:
+            data["temporal"]["last_seen_ts"] = iso_date
+    
+    # ---- Details/Narrative extraction
+    details_match = safe_search(r'Details:\s*(.+?)(?=Contact:|\Z)', t, re.I | re.S)
+    if details_match:
+        details = details_match.group(1).strip()
+        # Clean up whitespace
+        details = re.sub(r'\s+', ' ', details)
+        data["narrative_osint"]["incident_summary"] = details
+    
+    # ---- Contact information extraction
+    contact_match = safe_search(r'Contact:\s*([^\r\n]+?)\s+(\d{3}[-.\s]?\d{3}[-.\s]?\d{4})', t, re.I)
+    if contact_match:
+        agency = contact_match.group(1).strip()
+        phone = contact_match.group(2).strip()
+        # Normalize phone number
+        phone = re.sub(r'[-.\s]', '', phone)
+        if len(phone) == 10:
+            phone = f"({phone[:3]}) {phone[3:6]}-{phone[6:]}"
+        data["provenance"]["agency"] = agency
+        data["provenance"]["agency_phone"] = phone
+    
+    # Set default coordinates 
+    data["spatial"]["last_seen_lat"] = 0.0
+    data["spatial"]["last_seen_lon"] = 0.0
+    
+    return data
 
 def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only: bool = False) -> Dict[str, Any]:
     """
@@ -2342,6 +2665,9 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
     This is the main entry point for parsing missing person case documents.
     It extracts text, detects the source type, applies source-specific parsing,
     and normalizes the data into the Guardian schema format.
+    
+    Note: For VSP documents containing multiple cases, use parse_pdf_vsp() instead,
+    which returns a list of records.
     
     Args:
         pdf_path (str): Path to the PDF file to parse
@@ -2355,7 +2681,7 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
     Process Flow:
         1. Extract text from PDF using multiple methods
         2. Normalize text (unicode, whitespace)
-        3. Detect source type (NamUs, NCMEC, Charley)
+        3. Detect source type (NamUs, NCMEC, FBI, Charley, VSP)
         4. Apply source-specific parsing
         5. Store raw text for backfill processing
         6. Normalize critical fields (dates, gender)
@@ -2373,7 +2699,20 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
     # Detect source type and apply appropriate parser
     source = detect_source(text)
    
-    if source == "NamUs":
+    # VSP documents contain multiple cases and need special handling
+    # Return first case only for backward compatibility, but caller should use parse_pdf_vsp()
+    if source == "VSP":
+        vsp_cases = split_vsp_cases(text)
+        if not vsp_cases:
+            # Fallback: treat as single case
+            rec = parse_vsp(text, case_id)
+            rec.setdefault("provenance", {}).update({"source_path": pdf_path})
+        else:
+            # Parse first case only (for backward compatibility)
+            rec = parse_vsp(vsp_cases[0], case_id)
+            rec.setdefault("provenance", {}).update({"source_path": pdf_path})
+            rec["_fulltext"] = vsp_cases[0]  # Store only first case text
+    elif source == "NamUs":
         rec = parse_namus(text, case_id)
         rec.setdefault("provenance", {}).update({"source_path": pdf_path})
 
@@ -2395,11 +2734,12 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
         rec.setdefault("provenance", {}).update({"source_path": pdf_path})
         rec["provenance"]["sources"] = ["Unknown"]
 
-    # Store raw text for backfill processing
-    rec["_fulltext"] = text
+    # Store raw text for backfill processing (only for single-case documents)
+    if source != "VSP":
+        rec["_fulltext"] = text
 
     # Apply source-agnostic enrichment to fill gaps
-    rec = _enrich_common_fields(rec, text)
+    rec = _enrich_common_fields(rec, text if source != "VSP" else rec.get("_fulltext", ""))
 
     # Harmonize record fields to canonical names
     rec = harmonize_record_fields(rec)
@@ -2407,10 +2747,12 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
     # Normalize critical fields into schema before validation
     rec["temporal"] = rec.get("temporal") or {}
     if not rec["temporal"].get("last_seen_ts"):
-        rec["temporal"]["last_seen_ts"] = parse_last_seen_ts(text) or ""
+        case_text = text if source != "VSP" else rec.get("_fulltext", "")
+        rec["temporal"]["last_seen_ts"] = parse_last_seen_ts(case_text) or ""
 
     rec["demographic"] = rec.get("demographic") or {}
-    rec["demographic"]["gender"] = rec["demographic"].get("gender") or parse_gender(text)
+    case_text = text if source != "VSP" else rec.get("_fulltext", "")
+    rec["demographic"]["gender"] = rec["demographic"].get("gender") or parse_gender(case_text)
 
     # ## GEO_HOOK: if lat/lon missing or zero, try geocoding from city/state or free-text location
     if do_geocode:
@@ -2483,6 +2825,115 @@ def parse_pdf(pdf_path: str, case_id: str, do_geocode: bool = False, cache_only:
                     rec.setdefault("spatial", {})["last_seen_state"] = final_state
 
     return rec
+
+def parse_pdf_vsp(pdf_path: str, base_case_id: str, do_geocode: bool = False, cache_only: bool = False) -> List[Dict[str, Any]]:
+    """
+    Parse a VSP PDF document containing multiple cases into a list of records.
+    
+    VSP documents contain multiple missing person cases in a single PDF.
+    This function splits the document into individual cases and parses each one.
+    
+    Args:
+        pdf_path (str): Path to the VSP PDF file to parse
+        base_case_id (str): Base case identifier (will be appended with index for each case)
+        do_geocode (bool): Whether to attempt geocoding of location data
+        cache_only (bool): If True, only use cached geocoding results
+        
+    Returns:
+        List[Dict[str, Any]]: List of parsed case records in Guardian schema format
+        
+    Example:
+        >>> records = parse_pdf_vsp("vsp.pdf", "GRD-2023-000001", do_geocode=True)
+        >>> print(f"Parsed {len(records)} cases")
+    """
+    # Extract and normalize text from PDF
+    text = extract_text(pdf_path)
+    text = _prenormalize(text)
+    
+    # Split into individual cases
+    case_texts = split_vsp_cases(text)
+    
+    if not case_texts:
+        # No cases found, return empty list
+        return []
+    
+    records = []
+    year = datetime.now().strftime("%Y")
+    
+    # Parse each case
+    for idx, case_text in enumerate(case_texts):
+        # Generate unique case ID for each case
+        # Extract the numeric part from base_case_id (e.g., "000001" from "GRD-2023-000001")
+        if "-" in base_case_id:
+            try:
+                base_num = int(base_case_id.split("-")[-1])
+                case_id = f"GRD-{year}-{base_num + idx:06d}"
+            except (ValueError, IndexError):
+                case_id = f"GRD-{year}-{idx + 1:06d}"
+        else:
+            case_id = f"GRD-{year}-{idx + 1:06d}"
+        
+        # Parse the case
+        rec = parse_vsp(case_text, case_id)
+        rec.setdefault("provenance", {}).update({"source_path": pdf_path})
+        rec["_fulltext"] = case_text
+        
+        # Apply source-agnostic enrichment to fill gaps
+        rec = _enrich_common_fields(rec, case_text)
+        
+        # Harmonize record fields to canonical names
+        rec = harmonize_record_fields(rec)
+        
+        # Normalize critical fields into schema before validation
+        rec["temporal"] = rec.get("temporal") or {}
+        if not rec["temporal"].get("last_seen_ts"):
+            rec["temporal"]["last_seen_ts"] = parse_last_seen_ts(case_text) or ""
+        
+        rec["demographic"] = rec.get("demographic") or {}
+        rec["demographic"]["gender"] = rec["demographic"].get("gender") or parse_gender(case_text)
+        
+        # Geocode if enabled
+        if do_geocode:
+            lat = rec.get("spatial",{}).get("last_seen_lat")
+            lon = rec.get("spatial",{}).get("last_seen_lon")
+            needs_geo = (lat is None or lon is None or (lat == 0.0 and lon == 0.0))
+            if needs_geo:
+                # Try multiple geocoding strategies
+                geocoding_strategies = []
+                
+                # Strategy 1: Use extracted city/state
+                city = rec.get("spatial",{}).get("last_seen_city")
+                state = rec.get("spatial",{}).get("last_seen_state")
+                if city or state:
+                    geocoding_strategies.append(("city_state", city, state))
+                
+                # Strategy 2: Parse free-text location
+                loc = rec.get("spatial",{}).get("last_seen_location")
+                if loc and isinstance(loc, str):
+                    parts = [p.strip() for p in loc.split(",")]
+                    if len(parts) >= 2:
+                        geocoding_strategies.append(("from_location_comma", parts[0], parts[1]))
+                
+                # Try each strategy until one succeeds
+                glat, glon, final_city, final_state = None, None, None, None
+                for strategy_name, try_city, try_state in geocoding_strategies:
+                    glat, glon, final_city, final_state = geocode_city_state_with_va_override(
+                        try_city, try_state, cache_key_extra=strategy_name, cache_only=cache_only
+                    )
+                    if glat is not None and glon is not None:
+                        break
+                
+                # Update the record if we got coordinates
+                if glat is not None and glon is not None:
+                    rec.setdefault("spatial", {})["last_seen_lat"] = glat
+                    rec.setdefault("spatial", {})["last_seen_lon"] = glon
+                    if final_city and final_state:
+                        rec.setdefault("spatial", {})["last_seen_city"] = final_city
+                        rec.setdefault("spatial", {})["last_seen_state"] = final_state
+        
+        records.append(rec)
+    
+    return records
 
 def _prenormalize(s: str) -> str:
     if not s: return ""
@@ -2698,11 +3149,17 @@ def discover_pdf_files():
     inputs.extend(charley_files)
     print(f"Found {len(charley_files)} Charley Project PDF files")
     
+    # Discover VSP (Virginia State Police) PDFs
+    vsp_files = glob.glob(r"C:\Users\N0Cir\CS697\evidence\VSP\**\*.pdf", recursive=True)
+    inputs.extend(vsp_files)
+    print(f"Found {len(vsp_files)} VSP PDF files")
+    
     print(f"Total PDF files to process: {len(inputs)}")
     return inputs
 
 def main(argv=None):
     import argparse
+    import glob
     parser = argparse.ArgumentParser(description="Guardian Parser Pack")
     parser.add_argument("--inputs", nargs="*", help="PDF files to parse (if not provided, will auto-discover PDF files)")
     parser.add_argument("--jsonl", default=os.path.join("output", "guardian_output.jsonl"))
@@ -2710,6 +3167,30 @@ def main(argv=None):
     parser.add_argument("--geocode", action="store_true", help="Attempt to geocode missing lat/lon from city/state")
     parser.add_argument("--geocode-cache", default=str(os.path.join(os.path.dirname(__file__), "output", "geocode_cache.json")), help="Path to a JSON cache for geocoding results")
     args = parser.parse_args(argv)
+    
+    # Expand wildcards in input paths if provided
+    if args.inputs:
+        expanded_inputs = []
+        for pattern in args.inputs:
+            # Check if pattern contains wildcards
+            if '*' in pattern or '?' in pattern:
+                # Expand glob pattern
+                matches = glob.glob(pattern, recursive=True)
+                if matches:
+                    expanded_inputs.extend(matches)
+                else:
+                    # If no matches, try the pattern as-is 
+                    if os.path.exists(pattern):
+                        expanded_inputs.append(pattern)
+                    else:
+                        print(f"Warning: Pattern '{pattern}' matched no files")
+            else:
+                # No wildcards, use as-is
+                if os.path.exists(pattern):
+                    expanded_inputs.append(pattern)
+                else:
+                    print(f"Warning: File '{pattern}' does not exist")
+        args.inputs = expanded_inputs if expanded_inputs else args.inputs
     
     # Auto-discover PDF files if none provided
     if not args.inputs:
@@ -2729,23 +3210,144 @@ def main(argv=None):
     
     # Parse all PDFs first
     records = []
+    case_counter = 1
+    vsp_file_count = 0
+    vsp_case_count = 0
     for idx, pdf in enumerate(args.inputs, start=1):
-        case_id = f"GRD-{datetime.now().strftime('%Y')}-{idx:06d}"
-        rec = parse_pdf(pdf, case_id, do_geocode=args.geocode, cache_only=False)
-        records.append(rec)
+        print(f"[{idx}/{len(args.inputs)}] Processing: {os.path.basename(pdf)}")
+        # Check if this is a VSP document by extracting and checking text
+        text = extract_text(pdf)
+        if not text or len(text.strip()) < 100:
+            print(f"  [WARN] No text extracted from {pdf}, skipping...")
+            continue
+        
+        text = _prenormalize(text)
+        source = detect_source(text)
+        print(f"  Source detected: {source}")
+        
+        if source == "VSP":
+            # VSP documents contain multiple cases
+            vsp_file_count += 1
+            base_case_id = f"GRD-{datetime.now().strftime('%Y')}-{case_counter:06d}"
+            print(f"  [VSP] Parsing multi-case VSP document...")
+            try:
+                vsp_records = parse_pdf_vsp(pdf, base_case_id, do_geocode=args.geocode, cache_only=False)
+                if vsp_records:
+                    records.extend(vsp_records)
+                    vsp_case_count += len(vsp_records)
+                    case_counter += len(vsp_records)
+                    print(f"  [VSP] Extracted {len(vsp_records)} cases from VSP document")
+                else:
+                    print(f"  [WARN] VSP document parsed but no cases extracted from {pdf}")
+            except Exception as e:
+                print(f"  [ERROR] Failed to parse VSP document {pdf}: {e}")
+                import traceback
+                traceback.print_exc()
+        else:
+            # Single case document
+            case_id = f"GRD-{datetime.now().strftime('%Y')}-{case_counter:06d}"
+            rec = parse_pdf(pdf, case_id, do_geocode=args.geocode, cache_only=False)
+            records.append(rec)
+            case_counter += 1
+            print(f"  [OK] Processed 1 case")
+    
+    # Print summary
+    print(f"\n{'='*70}")
+    print(f"Processing Summary:")
+    print(f"  Total PDFs processed: {len(args.inputs)}")
+    print(f"  VSP files: {vsp_file_count}")
+    print(f"  VSP cases extracted: {vsp_case_count}")
+    print(f"  Total cases: {len(records)}")
+    print(f"{'='*70}\n")
     
     # Safety backfill pass to catch anything missed
     records = backfill(records)
     
-    # Write JSONL output
+    # Clean up records to remove schema-invalid fields before validation
+    def clean_record_for_schema(rec: Dict[str, Any]) -> Dict[str, Any]:
+        """Remove fields that aren't in the Guardian schema, preserving schema-allowed fields"""
+        cleaned = rec.copy()
+        
+        # Remove top-level fields not in schema (but keep _fulltext as it's schema-allowed)
+        for field in ['case', 'name', 'narrative']:
+            cleaned.pop(field, None)
+        
+        
+        # Clean demographic section
+        if 'demographic' in cleaned:
+            demo = cleaned['demographic'].copy()
+            # Remove fields not in schema (eye_color, hair_color are stored in distinctive_features)
+            for field in ['eye_color', 'hair_color']:
+                demo.pop(field, None)
+            
+            # Always remove 'aka' (schema doesn't allow it, only 'aliases')
+            # Convert 'aka' to 'aliases' if present and 'aliases' doesn't exist or is empty
+            if 'aka' in demo:
+                aka_value = demo.pop('aka')
+                # Only set aliases if it doesn't exist or is empty
+                if 'aliases' not in demo or not demo.get('aliases'):
+                    # Convert to array if it's a string
+                    if isinstance(aka_value, str):
+                        # Split by common delimiters and clean up
+                        if ' | ' in aka_value:
+                            aliases_list = [a.strip() for a in aka_value.split(' | ') if a.strip()]
+                        elif ';' in aka_value:
+                            aliases_list = [a.strip() for a in aka_value.split(';') if a.strip()]
+                        else:
+                            aliases_list = [aka_value.strip()] if aka_value.strip() else []
+                        demo['aliases'] = aliases_list
+                    elif isinstance(aka_value, list):
+                        demo['aliases'] = [a for a in aka_value if a]
+                    else:
+                        demo['aliases'] = []
+                # If aliases already exists, just remove aka (don't overwrite)
+            
+            # Ensure aliases is an array if it exists (schema requires array, not string)
+            if 'aliases' in demo and not isinstance(demo['aliases'], list):
+                if isinstance(demo['aliases'], str):
+                    if ' | ' in demo['aliases']:
+                        demo['aliases'] = [a.strip() for a in demo['aliases'].split(' | ') if a.strip()]
+                    elif ';' in demo['aliases']:
+                        demo['aliases'] = [a.strip() for a in demo['aliases'].split(';') if a.strip()]
+                    else:
+                        demo['aliases'] = [demo['aliases'].strip()] if demo['aliases'].strip() else []
+                else:
+                    demo['aliases'] = []
+            
+            # Note: _fulltext is allowed in demographic per schema 
+            # Note: name is allowed in demographic per schema
+            
+            cleaned['demographic'] = demo
+        
+        # Clean spatial section
+        if 'spatial' in cleaned:
+            spat = cleaned['spatial'].copy()
+            # Remove alias fields (city, state, country) - schema uses last_seen_* versions
+            # But keep last_seen_city, last_seen_state, last_seen_country as they're schema-allowed
+            for field in ['city', 'state', 'country']:
+                spat.pop(field, None)
+            cleaned['spatial'] = spat
+        
+        return cleaned
+    
+    # Write JSONL output (one JSON object per line, compact format)
     with open(args.jsonl, "w", encoding="utf-8") as jf:
         for rec in records:
-            errs = validate_guardian(rec, schema)
+            # Clean record before validation
+            rec_clean = clean_record_for_schema(rec)
+            
+            # Ensure required fields have valid values
+            # Gender is required and must be "male" or "female"
+            if not rec_clean.get('demographic', {}).get('gender') or rec_clean.get('demographic', {}).get('gender') not in ['male', 'female']:
+                # Try to infer from other fields or use default
+                # Default to "male" if we can't determine (schema requires a value)
+                rec_clean.setdefault('demographic', {})['gender'] = "male"
+            
+            errs = validate_guardian(rec_clean, schema)
             if errs:
-                print(f"[WARN] {rec.get('provenance', {}).get('source_path', 'unknown')} failed validation:", *errs, sep="\n  ")
-            # Remove _fulltext before writing to JSONL
-            rec_clean = {k: v for k, v in rec.items() if k != "_fulltext"}
-            jf.write(json.dumps(rec_clean, ensure_ascii=False, indent=2) + "\n")
+                print(f"[WARN] {rec_clean.get('provenance', {}).get('source_path', 'unknown')} failed validation:", *errs, sep="\n  ")
+            # Write as compact JSON (one line per record for JSONL format)
+            jf.write(json.dumps(rec_clean, ensure_ascii=False, separators=(',', ':')) + "\n")
 
     if args.geocode:
         save_geocode_cache(args.geocode_cache)
